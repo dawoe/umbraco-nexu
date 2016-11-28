@@ -1,0 +1,35 @@
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Mac OS X Finder Desktop Services Stores
+.DS_Store
+
+# git merge files
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+
+# User-specific files
+*.suo
+*.user
+*.cache
+*.orig
+*.udt
+
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+[Oo]bj/
+[Bb]in/
+[Dd]ebug/
+[Bb]uild/
+[Rr]elease/
+
+#Project related
+packages/
+App_Data/
+testsites/
+
