@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core", "Our.Umbraco.Nexu.Core\Our.Umbraco.Nexu.Core.csproj", "{EC661867-E5C0-400E-B11E-0272D345C1A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Parsers", "Our.Umbraco.Nexu.Parsers\Our.Umbraco.Nexu.Parsers.csproj", "{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
