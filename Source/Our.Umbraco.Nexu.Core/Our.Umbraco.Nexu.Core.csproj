@@ -270,6 +270,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BootStrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
