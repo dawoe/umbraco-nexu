@@ -6,6 +6,6 @@
     /// Bootstrapper to handle umbraco startup events
     /// </summary>
     internal class BootStrapper : ApplicationEventHandler
-    {        
+    {       
     }
 }
