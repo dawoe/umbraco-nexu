@@ -4,6 +4,7 @@
 
     using Constants;
 
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -15,13 +16,14 @@
         /// <summary>
         /// Internal service instance
         /// </summary>
-        private static NexuService service;      
+        private static NexuService service;                     
 
         /// <summary>
         /// Prevents a default instance of the <see cref="NexuService"/> class from being created.
         /// </summary>
         private NexuService()
         {
+            this.Profiler = global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger;
             this.RelationService = global::Umbraco.Core.ApplicationContext.Current.Services.RelationService;
             service = this;
         }
@@ -37,12 +39,20 @@
         private IRelationService RelationService { get; set; }
 
         /// <summary>
+        /// Gets or sets the profiler.
+        /// </summary>
+        private ProfilingLogger Profiler { get; set; }
+
+        /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
         internal void SetupRelationTypes()
         {
-            this.SetupDocumentToDocumentRelationType();
-            this.SetupDocumentToMediaRelationType();
+            using (this.Profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
+            {
+                this.SetupDocumentToDocumentRelationType();
+                this.SetupDocumentToMediaRelationType();
+            }
         }
 
         /// <summary>
