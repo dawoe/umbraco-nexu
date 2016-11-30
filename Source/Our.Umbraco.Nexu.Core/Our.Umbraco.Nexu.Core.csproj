@@ -275,6 +275,7 @@
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Enums\LinkedEntityType.cs" />
     <Compile Include="Interfaces\ILinkedEntity.cs" />
+    <Compile Include="Interfaces\IPropertyParser.cs" />
     <Compile Include="NexuService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
