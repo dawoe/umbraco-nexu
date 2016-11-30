@@ -277,6 +277,8 @@
     <Compile Include="Interfaces\ILinkedEntity.cs" />
     <Compile Include="Interfaces\IPropertyParser.cs" />
     <Compile Include="NexuService.cs" />
+    <Compile Include="ObjectResolution\PluginManagerExtensions.cs" />
+    <Compile Include="ObjectResolution\PropertyParserResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
