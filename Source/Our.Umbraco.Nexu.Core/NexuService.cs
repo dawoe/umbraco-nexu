@@ -16,39 +16,45 @@
         /// <summary>
         /// Internal service instance
         /// </summary>
-        private static NexuService service;                     
+        private static NexuService service;
+
+        /// <summary>
+        /// The profiler.
+        /// </summary>
+        private ProfilingLogger profiler;
+
+        /// <summary>
+        /// The relation service.
+        /// </summary>
+        private IRelationService relationService;           
 
         /// <summary>
         /// Prevents a default instance of the <see cref="NexuService"/> class from being created.
         /// </summary>
-        private NexuService()
+        /// <param name="profiler">
+        /// The profiler.
+        /// </param>
+        /// <param name="relationService">
+        /// The relation Service.
+        /// </param>
+        private NexuService(ProfilingLogger profiler, IRelationService relationService)
         {
-            this.Profiler = global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger;
-            this.RelationService = global::Umbraco.Core.ApplicationContext.Current.Services.RelationService;
+            this.profiler = profiler;
+            this.relationService = relationService;           
             service = this;
         }
 
         /// <summary>
         /// The current nexu service instance
         /// </summary>
-        public static NexuService Current => service ?? new NexuService();
-
-        /// <summary>
-        /// Gets or sets the relation service.
-        /// </summary>
-        private IRelationService RelationService { get; set; }
-
-        /// <summary>
-        /// Gets or sets the profiler.
-        /// </summary>
-        private ProfilingLogger Profiler { get; set; }
+        public static NexuService Current => service ?? new NexuService(global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger, global::Umbraco.Core.ApplicationContext.Current.Services.RelationService);           
 
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
         internal void SetupRelationTypes()
-        {
-            using (this.Profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
+        {           
+            using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
             {
                 this.SetupDocumentToDocumentRelationType();
                 this.SetupDocumentToMediaRelationType();
@@ -60,7 +66,7 @@
         /// </summary>
         private void SetupDocumentToDocumentRelationType()
         {
-            if (this.RelationService.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias) != null)
+            if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias) != null)
             {
                 return;
             }
@@ -73,7 +79,7 @@
         /// </summary>
         private void SetupDocumentToMediaRelationType()
         {
-            if (this.RelationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias) != null)
+            if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias) != null)
             {
                 return;
             }
@@ -101,7 +107,7 @@
                                    alias,
                                    name);
 
-            this.RelationService.Save(relationType);
+            this.relationService.Save(relationType);
         }
     }
 }
