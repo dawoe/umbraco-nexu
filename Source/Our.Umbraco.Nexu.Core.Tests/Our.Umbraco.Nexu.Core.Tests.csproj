@@ -64,6 +64,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Our.Umbraco.Nexu.Core\Our.Umbraco.Nexu.Core.csproj">
+      <Project>{ec661867-e5c0-400e-b11e-0272d345c1a4}</Project>
+      <Name>Our.Umbraco.Nexu.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
