@@ -8,10 +8,12 @@
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Our.Umbraco.Nexu.Core.Interfaces;
+
     /// <summary>
     /// Nexu service
     /// </summary>
-    public class NexuService
+    public class NexuService : INexuService
     {
         /// <summary>
         /// Internal service instance
@@ -52,7 +54,7 @@
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
-        internal void SetupRelationTypes()
+        public void SetupRelationTypes()
         {           
             using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
             {

@@ -274,6 +274,7 @@
     <Compile Include="BootStrapper.cs" />
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Enums\LinkedEntityType.cs" />
+    <Compile Include="Interfaces\INexuService.cs" />
     <Compile Include="Interfaces\ILinkedEntity.cs" />
     <Compile Include="Interfaces\IPropertyParser.cs" />
     <Compile Include="NexuService.cs" />
