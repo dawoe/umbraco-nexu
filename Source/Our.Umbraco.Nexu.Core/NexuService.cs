@@ -2,13 +2,13 @@
 {
     using System;
 
-    using Constants;
+    using Constants;    
+
+    using Interfaces;
 
     using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
-
-    using Our.Umbraco.Nexu.Core.Interfaces;
 
     /// <summary>
     /// Nexu service
@@ -31,7 +31,7 @@
         private IRelationService relationService;           
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="NexuService"/> class from being created.
+        /// Initializes a new instance of the <see cref="NexuService"/> class. 
         /// </summary>
         /// <param name="profiler">
         /// The profiler.
@@ -39,7 +39,7 @@
         /// <param name="relationService">
         /// The relation Service.
         /// </param>
-        private NexuService(ProfilingLogger profiler, IRelationService relationService)
+        public NexuService(ProfilingLogger profiler, IRelationService relationService)
         {
             this.profiler = profiler;
             this.relationService = relationService;           

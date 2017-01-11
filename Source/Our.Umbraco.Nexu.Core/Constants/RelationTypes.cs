@@ -3,7 +3,7 @@
     /// <summary>
     /// The relation type constants
     /// </summary>
-    internal class RelationTypes
+    public class RelationTypes
     {
         /// <summary>
         /// The document to document relation type alias.
