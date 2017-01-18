@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using Constants;    
 
@@ -61,6 +62,11 @@
                 this.SetupDocumentToDocumentRelationType();
                 this.SetupDocumentToMediaRelationType();
             }
+        }
+
+        public IEnumerable<IPropertyParser> GetAllPropertyParsers()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
