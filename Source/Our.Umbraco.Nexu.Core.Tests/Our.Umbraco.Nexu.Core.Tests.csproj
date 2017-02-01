@@ -304,6 +304,10 @@
       <Project>{ec661867-e5c0-400e-b11e-0272d345c1a4}</Project>
       <Name>Our.Umbraco.Nexu.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Our.Umbraco.Nexu.Parsers\Our.Umbraco.Nexu.Parsers.csproj">
+      <Project>{216bff27-5e0b-4c1f-b54f-553cb4f6ecc9}</Project>
+      <Name>Our.Umbraco.Nexu.Parsers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

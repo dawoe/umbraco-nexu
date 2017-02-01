@@ -57,7 +57,7 @@
         /// </summary>
         protected override void FreezeResolution()
         {
-            var assembly = typeof(Interfaces.IPropertyParser).Assembly;
+            var assembly = Assembly.Load("Our.Umbraco.Nexu.Parsers");
             this.parsers =
                 TypeFinder.FindClassesOfType<Interfaces.IPropertyParser>(new List<Assembly> { assembly }).ToList();
 
