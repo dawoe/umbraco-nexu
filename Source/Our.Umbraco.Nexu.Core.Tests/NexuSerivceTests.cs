@@ -3,47 +3,84 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Profiling;
     using global::Umbraco.Core.Services;
+    using global::Umbraco.Tests.TestHelpers;
 
     using Moq;
 
     using NUnit.Framework;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
     /// The nexu serivce tests.
     /// </summary>
     [TestFixture]
-    public class NexuSerivceTests
+    public class NexuSerivceTests : global::Umbraco.Tests.TestHelpers.BaseDatabaseFactoryTest
     {
+        /// <summary>
+        /// The service.
+        /// </summary>
         private INexuService service;
 
+        /// <summary>
+        /// The relation service mock
+        /// </summary>
         private Mock<IRelationService> relationService;
 
         /// <summary>
-        /// Test setup
+        /// The parsers.
+        /// </summary>
+        private List<Type> parsers;
+
+        /// <summary>
+        /// Override initialize to set up our own test stuff
         /// </summary>
         [SetUp]
-        public void Setup()
+        public override void Initialize()
         {
-            ProfilingLogger logger = new ProfilingLogger(Mock.Of<ILogger>(), Mock.Of<IProfiler>());
+            base.Initialize();
+
             this.relationService = new Mock<IRelationService>();
-            this.service = new NexuService(logger, this.relationService.Object);
+            this.service = new NexuService(this.ProfilingLogger, this.relationService.Object, PropertyParserResolver.Current);
         }
 
         /// <summary>
-        /// Test teardown
+        /// Override freeze resolution, so we can init our resolver
+        /// </summary>
+        protected override void FreezeResolution()
+        {
+            var assembly = typeof(Interfaces.IPropertyParser).Assembly;
+            this.parsers =
+                TypeFinder.FindClassesOfType<Interfaces.IPropertyParser>(new List<Assembly> { assembly }).ToList();
+
+            // set up pattern model resolver
+            PropertyParserResolver.Current = new PropertyParserResolver(
+                Mock.Of<IServiceProvider>(),
+                this.Logger,
+                this.parsers);
+
+            base.FreezeResolution();
+        }
+
+        /// <summary>
+        /// Override teardown so we can clean up our stuff
         /// </summary>
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             this.relationService = null;
             this.service = null;
+            this.parsers = null;
+
+            base.TearDown();
         }
 
         /// <summary>
@@ -54,13 +91,13 @@
         public void TestSetupRelationTypessWithExistingRelationsTypes()
         {
             // arrange        
-            var actualRelationTypes = new List<IRelationType>(); 
-              
-            this.relationService.Setup(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToDocumentAlias));
+            var actualRelationTypes = new List<IRelationType>();
 
             this.relationService.Setup(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToMediaAlias));
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias));
+
+            this.relationService.Setup(
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias));
 
             this.relationService.Setup(x => x.Save(It.IsAny<IRelationType>())).Callback(
                 (IRelationType x) =>
@@ -73,29 +110,29 @@
 
             // verify
             this.relationService.Verify(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToDocumentAlias), Times.Once);
+                x => x.GetRelationTypeByAlias(Nexu.Core.Constants.RelationTypes.DocumentToDocumentAlias), Times.Once);
 
             this.relationService.Verify(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToMediaAlias), Times.Once);
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias), Times.Once);
 
             this.relationService.Verify(x => x.Save(It.IsAny<IRelationType>()), Times.Exactly(2));
 
-            Assert.IsTrue(actualRelationTypes.Any(x => x.Alias.Equals(Constants.RelationTypes.DocumentToDocumentAlias)));
-            Assert.IsTrue(actualRelationTypes.Any(x => x.Alias.Equals(Constants.RelationTypes.DocumentToMediaAlias)));
+            Assert.IsTrue(actualRelationTypes.Any(x => x.Alias.Equals(Core.Constants.RelationTypes.DocumentToDocumentAlias)));
+            Assert.IsTrue(actualRelationTypes.Any(x => x.Alias.Equals(Core.Constants.RelationTypes.DocumentToMediaAlias)));
 
-            var docRelType = actualRelationTypes.First(x => x.Alias.Equals(Constants.RelationTypes.DocumentToDocumentAlias));
+            var docRelType = actualRelationTypes.First(x => x.Alias.Equals(Core.Constants.RelationTypes.DocumentToDocumentAlias));
 
-            Assert.AreEqual(Constants.RelationTypes.DocumentToDocumentName, docRelType.Name);
+            Assert.AreEqual(Core.Constants.RelationTypes.DocumentToDocumentName, docRelType.Name);
             Assert.IsFalse(docRelType.IsBidirectional);
-            Assert.AreEqual(new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document), docRelType.ChildObjectType);
-            Assert.AreEqual(new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document), docRelType.ParentObjectType);
+            Assert.AreEqual(new Guid(Constants.ObjectTypes.Document), docRelType.ChildObjectType);
+            Assert.AreEqual(new Guid(Constants.ObjectTypes.Document), docRelType.ParentObjectType);
 
-            var mediaRelType = actualRelationTypes.First(x => x.Alias.Equals(Constants.RelationTypes.DocumentToMediaAlias));
+            var mediaRelType = actualRelationTypes.First(x => x.Alias.Equals(Core.Constants.RelationTypes.DocumentToMediaAlias));
 
-            Assert.AreEqual(Constants.RelationTypes.DocumentToMediaName, mediaRelType.Name);
+            Assert.AreEqual(Core.Constants.RelationTypes.DocumentToMediaName, mediaRelType.Name);
             Assert.IsFalse(mediaRelType.IsBidirectional);
-            Assert.AreEqual(new Guid(global::Umbraco.Core.Constants.ObjectTypes.Media), mediaRelType.ChildObjectType);
-            Assert.AreEqual(new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document), mediaRelType.ParentObjectType);
+            Assert.AreEqual(new Guid(Constants.ObjectTypes.Media), mediaRelType.ChildObjectType);
+            Assert.AreEqual(new Guid(Constants.ObjectTypes.Document), mediaRelType.ParentObjectType);
 
         }
 
@@ -108,22 +145,36 @@
         {
             // arrange
             this.relationService.Setup(
-                    x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToDocumentAlias))
-                .Returns(new RelationType(Guid.Empty, Guid.Empty, Constants.RelationTypes.DocumentToDocumentAlias));
+                    x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias))
+                .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToDocumentAlias));
 
             this.relationService.Setup(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToMediaAlias))
-                .Returns(new RelationType(Guid.Empty, Guid.Empty, Constants.RelationTypes.DocumentToMediaAlias));
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias))
+                .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToMediaAlias));
 
             // act
             this.service.SetupRelationTypes();
 
             // verify
             this.relationService.Verify(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToDocumentAlias), Times.Once);
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias), Times.Once);
 
             this.relationService.Verify(
-                x => x.GetRelationTypeByAlias(Constants.RelationTypes.DocumentToMediaAlias), Times.Once);
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias), Times.Once);
+        }
+
+        /// <summary>
+        /// Tests retreiving of all property parsers
+        /// </summary>
+        [Test]
+        public void TestGetAllPropertyParsers()
+        {
+            // act
+            var result = this.service.GetAllPropertyParsers();
+
+            // verify
+            Assert.IsNotNull(result);
+            Assert.AreEqual(this.parsers.Count(), result.Count());
         }
     }
 }

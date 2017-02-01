@@ -1,6 +1,9 @@
 ﻿namespace Our.Umbraco.Nexu.Resolvers
 {
+    using System;
     using System.Collections.Generic;
+
+    using global::Umbraco.Core.Logging;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
 
@@ -9,7 +12,7 @@
     /// <summary>
     /// The property parser resolver.
     /// </summary>
-    internal class PropertyParserResolver : ManyObjectsResolverBase<PropertyParserResolver, IPropertyParser>
+    public class PropertyParserResolver : ManyObjectsResolverBase<PropertyParserResolver, IPropertyParser>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyParserResolver"/> class.
@@ -17,9 +20,29 @@
         /// <param name="parsers">
         /// The parsers.
         /// </param>
-        internal PropertyParserResolver(IEnumerable<System.Type> parsers)
+        public PropertyParserResolver(IEnumerable<System.Type> parsers)
             : base(parsers, ObjectLifetimeScope.Application)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyParserResolver"/> class.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// The service provider.
+        /// </param>
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        /// <param name="parsers">
+        /// The parsers.
+        /// </param>
+        public PropertyParserResolver(
+          IServiceProvider serviceProvider,
+          ILogger logger,
+          List<Type> parsers)
+           : base(serviceProvider, logger, parsers, ObjectLifetimeScope.Application)
+        {            
         }
 
         /// <summary>

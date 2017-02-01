@@ -11,6 +11,8 @@
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Our.Umbraco.Nexu.Resolvers;
+
     /// <summary>
     /// Nexu service
     /// </summary>
@@ -29,7 +31,12 @@
         /// <summary>
         /// The relation service.
         /// </summary>
-        private IRelationService relationService;           
+        private IRelationService relationService;
+
+        /// <summary>
+        /// The property parser resolver.
+        /// </summary>
+        private PropertyParserResolver propertyParserResolver;        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NexuService"/> class. 
@@ -40,17 +47,21 @@
         /// <param name="relationService">
         /// The relation Service.
         /// </param>
-        public NexuService(ProfilingLogger profiler, IRelationService relationService)
+        /// <param name="propertyParserResolver">
+        /// The property Parser Resolver.
+        /// </param>
+        public NexuService(ProfilingLogger profiler, IRelationService relationService, PropertyParserResolver propertyParserResolver)
         {
             this.profiler = profiler;
-            this.relationService = relationService;           
+            this.relationService = relationService;
+            this.propertyParserResolver = propertyParserResolver;
             service = this;
         }
 
         /// <summary>
         /// The current nexu service instance
         /// </summary>
-        public static NexuService Current => service ?? new NexuService(global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger, global::Umbraco.Core.ApplicationContext.Current.Services.RelationService);           
+        public static NexuService Current => service ?? new NexuService(global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger, global::Umbraco.Core.ApplicationContext.Current.Services.RelationService, PropertyParserResolver.Current);           
 
         /// <summary>
         /// Sets up the needed the relation types
@@ -64,9 +75,15 @@
             }
         }
 
+        /// <summary>
+        /// Gets all property parsrs
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
         public IEnumerable<IPropertyParser> GetAllPropertyParsers()
         {
-            throw new NotImplementedException();
+            return this.propertyParserResolver.Parsers;
         }
 
         /// <summary>
