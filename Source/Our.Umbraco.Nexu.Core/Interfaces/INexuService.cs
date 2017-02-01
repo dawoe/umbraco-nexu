@@ -23,7 +23,7 @@
         IEnumerable<IPropertyParser> GetAllPropertyParsers();
 
         /// <summary>
-        /// Get all parsers for content item.
+        /// Get all properties of content item we have a parser for
         /// </summary>
         /// <param name="content">
         /// The content.
@@ -31,6 +31,6 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        IEnumerable<IPropertyParser> GetAllParsersForContentItem(IContent content);
+        IEnumerable<PropertyType> GetParsablePropertiesForContent(IContent content);
     }
 }

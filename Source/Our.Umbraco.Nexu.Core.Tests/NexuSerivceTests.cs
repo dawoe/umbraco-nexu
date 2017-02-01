@@ -47,7 +47,7 @@
         public override void Initialize()
         {
             base.Initialize();
-
+            SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
             this.relationService = new Mock<IRelationService>();
             this.service = new NexuService(this.ProfilingLogger, this.relationService.Object, PropertyParserResolver.Current);
         }
@@ -175,6 +175,39 @@
             // verify
             Assert.IsNotNull(result);
             Assert.AreEqual(this.parsers.Count(), result.Count());
+        }
+
+        /// <summary>
+        /// Test get all property parsers for content item.
+        /// </summary>
+        [Test]
+        public void TestGetParsablePropertiesForContent()
+        {
+            // arrange
+            var content = new Mock<IContent>();
+
+            content.SetupGet(x => x.PropertyTypes)
+                .Returns(
+                    new List<PropertyType>()
+                        {
+                            new PropertyType(
+                                Constants.PropertyEditors.ContentPickerAlias,
+                                DataTypeDatabaseType.Nvarchar,
+                                "contentPicker"),
+                            new PropertyType(
+                                Constants.PropertyEditors.TextboxAlias,
+                                DataTypeDatabaseType.Nvarchar,
+                                "textbox")
+                        });
+
+            // act
+            var result = this.service.GetParsablePropertiesForContent(content.Object);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            Assert.AreEqual(1, result.Count());
+
         }
     }
 }

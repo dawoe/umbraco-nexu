@@ -87,7 +87,7 @@
         }
 
         /// <summary>
-        /// Get all parsers for content item.
+        /// Get all properties of content item we have a parser for
         /// </summary>
         /// <param name="content">
         /// The content.
@@ -95,10 +95,10 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public IEnumerable<IPropertyParser> GetAllParsersForContentItem(IContent content)
+        public IEnumerable<PropertyType> GetParsablePropertiesForContent(IContent content)
         {
             throw new NotImplementedException();
-        }
+        }        
 
         /// <summary>
         /// Sets up document to document relation type.
