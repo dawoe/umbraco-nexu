@@ -2,15 +2,23 @@
 {
     using System.Collections.Generic;
 
+    using global::Umbraco.Core.Models;
+
     /// <summary>
     /// Property parser interface
     /// </summary>
     public interface IPropertyParser
     {
         /// <summary>
-        /// Gets the property editor alias for which this parser is for
+        /// Check if it's a parser for this property
         /// </summary>
-        string IsParserFor { get; }
+        /// <param name="property">
+        /// The property.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool IsParserFor(PropertyType property);
 
         /// <summary>
         /// Get the linked entities from the property editor data
