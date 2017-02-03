@@ -198,7 +198,7 @@
                                 Constants.PropertyEditors.TextboxAlias,
                                 DataTypeDatabaseType.Nvarchar,
                                 "textbox")
-                        });
+                        });            
 
             // act
             var result = this.service.GetParsablePropertiesForContent(content.Object);

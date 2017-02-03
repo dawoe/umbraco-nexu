@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1E792D0F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core.Tests", "Our.Umbraco.Nexu.Core.Tests\Our.Umbraco.Nexu.Core.Tests.csproj", "{8DDC6586-1932-442A-BAB8-86408A342A03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Parsers.Tests", "Our.Umbraco.Nexu.Parsers.Tests\Our.Umbraco.Nexu.Parsers.Tests.csproj", "{23304A00-9AD6-4BA2-A990-528FE5A52021}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,11 +31,16 @@ Global
 		{8DDC6586-1932-442A-BAB8-86408A342A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DDC6586-1932-442A-BAB8-86408A342A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DDC6586-1932-442A-BAB8-86408A342A03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8DDC6586-1932-442A-BAB8-86408A342A03} = {1E792D0F-A63E-4657-948F-0302E4E8CDC4}
+		{23304A00-9AD6-4BA2-A990-528FE5A52021} = {1E792D0F-A63E-4657-948F-0302E4E8CDC4}
 	EndGlobalSection
 EndGlobal
