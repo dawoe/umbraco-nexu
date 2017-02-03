@@ -1,12 +1,11 @@
-﻿namespace Our.Umbraco.Nexu.Parsers
+﻿namespace Our.Umbraco.Nexu.Parsers.Core
 {
     using System.Collections.Generic;
-
-    using AutoMapper;
 
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+
     public class ContentPickerParser : IPropertyParser
     {
         public bool IsParserFor(PropertyType property)
