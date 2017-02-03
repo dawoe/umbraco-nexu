@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Constants;    
 
@@ -97,7 +98,20 @@
         /// </returns>
         public IEnumerable<PropertyType> GetParsablePropertiesForContent(IContent content)
         {
-            throw new NotImplementedException();
+            var properties = new List<PropertyType>();
+
+            if (content == null)
+            {
+                return properties;
+            }
+
+            var parsers = PropertyParserResolver.Current.Parsers.ToList();
+            if (parsers.Any())
+            {
+                properties = content.PropertyTypes.ToList().FindAll(x => parsers.Exists(y => y.IsParserFor(x)));
+            }
+
+            return properties;
         }        
 
         /// <summary>

@@ -59,11 +59,11 @@
         {
             var assembly = Assembly.Load("Our.Umbraco.Nexu.Parsers");
             this.parsers =
-                TypeFinder.FindClassesOfType<Interfaces.IPropertyParser>(new List<Assembly> { assembly }).ToList();
+                TypeFinder.FindClassesOfType<Interfaces.IPropertyParser>(new List<Assembly> { assembly }).ToList();            
 
             // set up pattern model resolver
             PropertyParserResolver.Current = new PropertyParserResolver(
-                Mock.Of<IServiceProvider>(),
+                new ActivatorServiceProvider(),
                 this.Logger,
                 this.parsers);
 

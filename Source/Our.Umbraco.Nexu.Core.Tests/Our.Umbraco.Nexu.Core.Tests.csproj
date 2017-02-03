@@ -292,6 +292,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="NexuSerivceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
