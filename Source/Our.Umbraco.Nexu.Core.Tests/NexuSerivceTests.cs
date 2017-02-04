@@ -16,6 +16,7 @@
 
     using NUnit.Framework;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Resolvers;
 
@@ -198,7 +199,7 @@
                         {
                             new PropertyType(
                                 Constants.PropertyEditors.ContentPickerAlias,
-                                DataTypeDatabaseType.Nvarchar,
+                                DataTypeDatabaseType.Integer,
                                 "contentPicker"),
                             new PropertyType(
                                 Constants.PropertyEditors.TextboxAlias,
@@ -214,6 +215,69 @@
 
             Assert.AreEqual(1, result.Count());
 
+        }
+
+        /// <summary>
+        /// Test get linked entities for content
+        /// </summary>
+        [Test]
+        [Category("Service")]
+        [Category("Parsing")]
+        public void TestGetLinkedEntitesForContent()
+        {
+            // arrange
+            var content = new Mock<IContent>();
+
+            var propTypeCp1 = new PropertyType(
+                                   Constants.PropertyEditors.ContentPickerAlias,
+                                   DataTypeDatabaseType.Integer,
+                                   "contentPicker");
+
+            var propTypeCp2 = new PropertyType(
+                                   Constants.PropertyEditors.ContentPickerAlias,
+                                   DataTypeDatabaseType.Integer,
+                                   "contentPicker2");
+
+            var propTypeText = new PropertyType(
+                                   Constants.PropertyEditors.TextboxAlias,
+                                   DataTypeDatabaseType.Nvarchar,
+                                   "textbox");
+
+            content.SetupGet(x => x.PropertyTypes)
+                .Returns(
+                    new List<PropertyType>()
+                        {
+                            propTypeCp1,
+                            propTypeText,
+                            propTypeCp2
+                        });
+
+            content.SetupGet(x => x.Properties)
+                .Returns(
+                    new PropertyCollection(
+                        new List<Property>()
+                            {
+                                new Property(propTypeCp1, 1500),
+                                new Property(propTypeText, "Foo"),
+                                new Property(propTypeCp2, 1500)
+                            }));
+
+            content.SetupGet(x => x.Id).Returns(1234);
+            content.SetupGet(x => x.Name).Returns("Foo content");
+
+            // act
+            var result = this.service.GetLinkedEntitesForContent(content.Object);
+
+            // verify
+            Assert.IsNotNull(result);
+            
+            var linkedEntities = result.ToList();
+            Assert.AreEqual(1, linkedEntities.Count);
+
+            var linkedDoc = linkedEntities.First();
+
+            Assert.AreEqual(1500, linkedDoc.Id);
+            Assert.AreEqual(LinkedEntityType.Document, linkedDoc.LinkedEntityType);
         }
     }
 }
