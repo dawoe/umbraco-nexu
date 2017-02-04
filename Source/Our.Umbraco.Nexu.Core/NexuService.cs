@@ -83,6 +83,20 @@
         }
 
         /// <summary>
+        /// Get the linked entities for a content item
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        public IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Get all properties of content item we have a parser for
         /// </summary>
         /// <param name="content">

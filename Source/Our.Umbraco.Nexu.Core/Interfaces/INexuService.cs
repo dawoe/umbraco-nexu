@@ -18,6 +18,17 @@
         IEnumerable<IPropertyParser> GetAllPropertyParsers();
 
         /// <summary>
+        /// Get the linked entities for a content item
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content);
+
+        /// <summary>
         /// Get all properties of content item we have a parser for
         /// </summary>
         /// <param name="content">
