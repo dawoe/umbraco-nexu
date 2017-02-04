@@ -7,13 +7,8 @@
     /// <summary>
     /// The NexuService interface.
     /// </summary>
-    public interface INexuService
+    internal interface INexuService
     {
-        /// <summary>
-        /// Sets up the needed the relation types
-        /// </summary>
-        void SetupRelationTypes();
-
         /// <summary>
         /// Gets all property parsrs
         /// </summary>
@@ -32,5 +27,10 @@
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         IEnumerable<PropertyType> GetParsablePropertiesForContent(IContent content);
+
+        /// <summary>
+        /// Sets up the needed the relation types
+        /// </summary>
+        void SetupRelationTypes();
     }
 }

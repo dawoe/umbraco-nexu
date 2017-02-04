@@ -4,20 +4,18 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Constants;    
-
-    using Interfaces;
-
     using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Our.Umbraco.Nexu.Core.Constants;
+    using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
     /// Nexu service
     /// </summary>
-    public class NexuService : INexuService
+    internal class NexuService : INexuService
     {
         /// <summary>
         /// Internal service instance
@@ -30,14 +28,14 @@
         private ProfilingLogger profiler;
 
         /// <summary>
+        /// The property parser resolver.
+        /// </summary>
+        private PropertyParserResolver propertyParserResolver;
+
+        /// <summary>
         /// The relation service.
         /// </summary>
         private IRelationService relationService;
-
-        /// <summary>
-        /// The property parser resolver.
-        /// </summary>
-        private PropertyParserResolver propertyParserResolver;        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NexuService"/> class. 
@@ -51,7 +49,10 @@
         /// <param name="propertyParserResolver">
         /// The property Parser Resolver.
         /// </param>
-        public NexuService(ProfilingLogger profiler, IRelationService relationService, PropertyParserResolver propertyParserResolver)
+        public NexuService(
+            ProfilingLogger profiler,
+            IRelationService relationService,
+            PropertyParserResolver propertyParserResolver)
         {
             this.profiler = profiler;
             this.relationService = relationService;
@@ -62,19 +63,13 @@
         /// <summary>
         /// The current nexu service instance
         /// </summary>
-        public static NexuService Current => service ?? new NexuService(global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger, global::Umbraco.Core.ApplicationContext.Current.Services.RelationService, PropertyParserResolver.Current);           
-
-        /// <summary>
-        /// Sets up the needed the relation types
-        /// </summary>
-        public void SetupRelationTypes()
-        {           
-            using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
-            {
-                this.SetupDocumentToDocumentRelationType();
-                this.SetupDocumentToMediaRelationType();
-            }
-        }
+        public static NexuService Current
+            =>
+            service
+            ?? new NexuService(
+                   global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger,
+                   global::Umbraco.Core.ApplicationContext.Current.Services.RelationService,
+                   PropertyParserResolver.Current);
 
         /// <summary>
         /// Gets all property parsrs
@@ -112,32 +107,18 @@
             }
 
             return properties;
-        }        
-
-        /// <summary>
-        /// Sets up document to document relation type.
-        /// </summary>
-        private void SetupDocumentToDocumentRelationType()
-        {
-            if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias) != null)
-            {
-                return;
-            }
-
-            this.CreateRelationType(RelationTypes.DocumentToDocumentAlias, RelationTypes.DocumentToDocumentName, new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document));            
         }
 
         /// <summary>
-        /// Sets up the document to media relation type.
+        /// Sets up the needed the relation types
         /// </summary>
-        private void SetupDocumentToMediaRelationType()
+        public void SetupRelationTypes()
         {
-            if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias) != null)
+            using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
             {
-                return;
+                this.SetupDocumentToDocumentRelationType();
+                this.SetupDocumentToMediaRelationType();
             }
-
-            this.CreateRelationType(RelationTypes.DocumentToMediaAlias, RelationTypes.DocumentToMediaName, new Guid(global::Umbraco.Core.Constants.ObjectTypes.Media));
         }
 
         /// <summary>
@@ -161,6 +142,38 @@
                                    name);
 
             this.relationService.Save(relationType);
+        }
+
+        /// <summary>
+        /// Sets up document to document relation type.
+        /// </summary>
+        private void SetupDocumentToDocumentRelationType()
+        {
+            if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias) != null)
+            {
+                return;
+            }
+
+            this.CreateRelationType(
+                RelationTypes.DocumentToDocumentAlias,
+                RelationTypes.DocumentToDocumentName,
+                new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document));
+        }
+
+        /// <summary>
+        /// Sets up the document to media relation type.
+        /// </summary>
+        private void SetupDocumentToMediaRelationType()
+        {
+            if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias) != null)
+            {
+                return;
+            }
+
+            this.CreateRelationType(
+                RelationTypes.DocumentToMediaAlias,
+                RelationTypes.DocumentToMediaName,
+                new Guid(global::Umbraco.Core.Constants.ObjectTypes.Media));
         }
     }
 }
