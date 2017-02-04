@@ -87,6 +87,7 @@
         /// Test setup of relatoin types when they already exist.
         /// </summary>
         [Test]
+        [Category("Service")]
         [Category("Setup")]
         public void TestSetupRelationTypessWithExistingRelationsTypes()
         {
@@ -140,6 +141,7 @@
         /// Test setup relations with non existing relations.
         /// </summary>
         [Test]
+        [Category("Service")]
         [Category("Setup")]
         public void TestSetupRelationTypessWithNonExistingRelationTypes()
         {
@@ -167,6 +169,8 @@
         /// Tests retreiving of all property parsers
         /// </summary>
         [Test]
+        [Category("Service")]
+        [Category("Parsing")]
         public void TestGetAllPropertyParsers()
         {
             // act
@@ -181,6 +185,8 @@
         /// Test get all property parsers for content item.
         /// </summary>
         [Test]
+        [Category("Service")]
+        [Category("Parsing")]
         public void TestGetParsablePropertiesForContent()
         {
             // arrange
