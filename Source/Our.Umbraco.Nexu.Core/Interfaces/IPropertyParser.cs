@@ -23,10 +23,10 @@
         /// <summary>
         /// Get the linked entities from the property editor data
         /// </summary>
-        /// <param name="value">The property value to parse</param>
+        /// <param name="property">The property to parse</param>
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        IEnumerable<ILinkedEntity> GetLinkedEntities(object value);
+        IEnumerable<ILinkedEntity> GetLinkedEntities(Property property);
     }
 }
