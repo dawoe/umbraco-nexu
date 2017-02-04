@@ -13,8 +13,8 @@
         int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the linked entity type.
+        /// Gets  linked entity type.
         /// </summary>
-        LinkedEntityType LinkedEntityType { get; set; }
+        LinkedEntityType LinkedEntityType { get; }
     }
 }

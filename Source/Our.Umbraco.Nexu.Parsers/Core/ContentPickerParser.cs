@@ -2,9 +2,11 @@
 {
     using System.Collections.Generic;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The content picker parser.
@@ -20,7 +22,24 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(Property property)
         {
-            throw new System.NotImplementedException();
+            var entities = new List<LinkedDocumentEntity>();
+
+            if (property.Value == null)
+            {
+                return entities;
+            }
+
+            var attemptInt = property.Value.TryConvertTo<int>();
+
+            if (attemptInt.Success)
+            {
+                entities.Add(new LinkedDocumentEntity
+                                 {
+                                     Id = attemptInt.Result
+                                 });
+            }
+
+            return entities;
         }
 
         /// <summary>
