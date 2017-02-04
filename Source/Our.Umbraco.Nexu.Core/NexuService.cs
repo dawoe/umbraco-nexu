@@ -93,7 +93,30 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content)
         {
-            throw new NotImplementedException();
+            using (
+                this.profiler.DebugDuration<NexuService>(
+                    $"Started getting linked entities from content item \"{content.Name}\" with id {content.Id}",
+                    $"Completed getting linked entities from content item \"{content.Name}\" with id {content.Id}"))
+            {
+                var linkedEntities = new List<ILinkedEntity>();
+
+                // get all parsers for this content item
+                var parsers = this.GetParsablePropertiesForContent(content).ToList();
+
+                if (!parsers.Any())
+                {
+                    // if no parsers found, exit
+                    return linkedEntities;
+                }
+
+                // get the properties that we found a parsers for
+                var parsableProperties =
+                    content.Properties.Where(x => parsers.Exists(y => y.Alias == x.PropertyType.Alias));
+
+
+
+                return linkedEntities;
+            }
         }
 
         /// <summary>
