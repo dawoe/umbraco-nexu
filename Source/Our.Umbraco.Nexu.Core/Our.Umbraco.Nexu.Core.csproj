@@ -278,6 +278,7 @@
     <Compile Include="Interfaces\ILinkedEntity.cs" />
     <Compile Include="Interfaces\IPropertyParser.cs" />
     <Compile Include="Models\LinkedDocumentEntity.cs" />
+    <Compile Include="Models\PropertyWithParser.cs" />
     <Compile Include="NexuService.cs" />
     <Compile Include="ObjectResolution\PluginManagerExtensions.cs" />
     <Compile Include="ObjectResolution\PropertyParserResolver.cs" />

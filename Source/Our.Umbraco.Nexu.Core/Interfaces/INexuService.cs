@@ -4,6 +4,8 @@
 
     using global::Umbraco.Core.Models;
 
+    using Our.Umbraco.Nexu.Core.Models;
+
     /// <summary>
     /// The NexuService interface.
     /// </summary>
@@ -37,7 +39,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        IEnumerable<PropertyType> GetParsablePropertiesForContent(IContent content);
+        IEnumerable<PropertyWithParser> GetParsablePropertiesForContent(IContent content);
 
         /// <summary>
         /// Sets up the needed the relation types

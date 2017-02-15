@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Core.Constants;
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
     using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
@@ -101,21 +103,22 @@
                 var linkedEntities = new List<ILinkedEntity>();
 
                 // get all parsers for this content item
-                var parsers = this.GetParsablePropertiesForContent(content).ToList();
+                var parsableProperties = this.GetParsablePropertiesForContent(content).ToList();
 
-                if (!parsers.Any())
+                if (!parsableProperties.Any())
                 {
                     // if no parsers found, exit
                     return linkedEntities;
                 }
 
-                // get the properties that we found a parsers for
-                var parsableProperties =
-                    content.Properties.Where(x => parsers.Exists(y => y.Alias == x.PropertyType.Alias));
+                // get linked entities fro the properties that we found a parsers for
+                parsableProperties.ForEach(
+                    pp =>
+                        {
+                            linkedEntities.AddRange(pp.Parser.GetLinkedEntities(pp.Property));
+                        });
 
-
-
-                return linkedEntities;
+                return linkedEntities.DistinctBy(x => x.Id);
             }
         }
 
@@ -128,20 +131,30 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public IEnumerable<PropertyType> GetParsablePropertiesForContent(IContent content)
+        public IEnumerable<PropertyWithParser> GetParsablePropertiesForContent(IContent content)
         {
-            var properties = new List<PropertyType>();
+            var properties = new List<PropertyWithParser>();
 
             if (content == null)
             {
                 return properties;
             }
 
-            var parsers = PropertyParserResolver.Current.Parsers.ToList();
+            var parsers = this.GetAllPropertyParsers().ToList();
+
             if (parsers.Any())
             {
-                properties = content.PropertyTypes.ToList().FindAll(x => parsers.Exists(y => y.IsParserFor(x)));
-            }
+                content.Properties.ForEach(
+                    p =>
+                        {
+                            var parser = parsers.FirstOrDefault(x => x.IsParserFor(p.PropertyType));
+
+                            if (parser != null)
+                            {
+                                properties.Add(new PropertyWithParser(p, parser));
+                            }
+                        });
+            }            
 
             return properties;
         }

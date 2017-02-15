@@ -193,19 +193,39 @@
             // arrange
             var content = new Mock<IContent>();
 
+            var propTypeCp1 = new PropertyType(
+                                  Constants.PropertyEditors.ContentPickerAlias,
+                                  DataTypeDatabaseType.Integer,
+                                  "contentPicker");
+
+            var propTypeCp2 = new PropertyType(
+                                   Constants.PropertyEditors.ContentPickerAlias,
+                                   DataTypeDatabaseType.Integer,
+                                   "contentPicker2");
+
+            var propTypeText = new PropertyType(
+                                   Constants.PropertyEditors.TextboxAlias,
+                                   DataTypeDatabaseType.Nvarchar,
+                                   "textbox");
+
             content.SetupGet(x => x.PropertyTypes)
                 .Returns(
                     new List<PropertyType>()
                         {
-                            new PropertyType(
-                                Constants.PropertyEditors.ContentPickerAlias,
-                                DataTypeDatabaseType.Integer,
-                                "contentPicker"),
-                            new PropertyType(
-                                Constants.PropertyEditors.TextboxAlias,
-                                DataTypeDatabaseType.Nvarchar,
-                                "textbox")
-                        });            
+                            propTypeCp1,
+                            propTypeText,
+                            propTypeCp2
+                        });
+
+            content.SetupGet(x => x.Properties)
+                .Returns(
+                    new PropertyCollection(
+                        new List<Property>()
+                            {
+                                new Property(propTypeCp1, 1500),
+                                new Property(propTypeText, "Foo"),
+                                new Property(propTypeCp2, 1500)
+                            }));
 
             // act
             var result = this.service.GetParsablePropertiesForContent(content.Object);
@@ -213,7 +233,7 @@
             // verify
             Assert.IsNotNull(result);
 
-            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(2, result.Count());
 
         }
 
