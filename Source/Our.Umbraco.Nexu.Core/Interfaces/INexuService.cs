@@ -50,6 +50,17 @@
         void DeleteRelationsForContent(int contentid);
 
         /// <summary>
+        /// Gets all nexu relations for content.
+        /// </summary>
+        /// <param name="contentId">
+        /// The content id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        IEnumerable<IRelation> GetNexuRelationsForContent(int contentId);
+
+        /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
         void SetupRelationTypes();

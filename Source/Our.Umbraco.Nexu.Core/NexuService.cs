@@ -164,6 +164,11 @@
             throw new NotImplementedException();
         }
 
+        public IEnumerable<IRelation> GetNexuRelationsForContent(int contentId)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
