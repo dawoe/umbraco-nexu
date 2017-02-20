@@ -159,6 +159,11 @@
             return properties;
         }
 
+        public void DeleteRelationsForContent(int contentid)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>

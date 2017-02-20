@@ -42,6 +42,14 @@
         IEnumerable<PropertyWithParser> GetParsablePropertiesForContent(IContent content);
 
         /// <summary>
+        /// Delete all relations for content.
+        /// </summary>
+        /// <param name="contentid">
+        /// The contentid.
+        /// </param>
+        void DeleteRelationsForContent(int contentid);
+
+        /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
         void SetupRelationTypes();
