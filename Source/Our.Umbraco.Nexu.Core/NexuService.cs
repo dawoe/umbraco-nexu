@@ -164,9 +164,29 @@
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets all nexu relations for content.
+        /// </summary>
+        /// <param name="contentId">
+        /// The content id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
         public IEnumerable<IRelation> GetNexuRelationsForContent(int contentId)
         {
-            throw new NotImplementedException();
+            var relations = this.relationService.GetByParentId(contentId).ToList();
+
+            if (!relations.Any())
+            {
+                return relations;
+            }
+
+            return
+                relations.Where(
+                    x =>
+                        x.RelationType.Alias == RelationTypes.DocumentToDocumentAlias
+                        || x.RelationType.Alias == RelationTypes.DocumentToMediaAlias);
         }
 
         /// <summary>
