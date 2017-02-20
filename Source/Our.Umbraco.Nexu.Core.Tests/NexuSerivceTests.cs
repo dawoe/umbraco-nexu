@@ -299,5 +299,47 @@
             Assert.AreEqual(1500, linkedDoc.Id);
             Assert.AreEqual(LinkedEntityType.Document, linkedDoc.LinkedEntityType);
         }
+
+        /// <summary>
+        /// Tests getting nexu relations for content.
+        /// </summary>
+        [Test]
+        [Category("Service")]
+        [Category("Parsing")]
+        public void TestGetNexuRelationsForContent()
+        {
+            // arrange
+            var contentId = 1;
+
+            this.relationService.Setup(x => x.GetByParentId(contentId))
+                .Returns(
+                    new List<IRelation>
+                        {
+                            new Relation(
+                                contentId,
+                                123,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToDocumentAlias)),
+                            new Relation(
+                                contentId,
+                                456,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToMediaAlias)),
+                            new Relation(contentId, 789, new RelationType(Guid.NewGuid(), Guid.NewGuid(), "foo"))
+                        });
+
+            // act
+            var result = this.service.GetNexuRelationsForContent(contentId);
+
+            // verify
+            this.relationService.Verify(x => x.GetByParentId(contentId), Times.Once);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count());
+        }
     }
 }
