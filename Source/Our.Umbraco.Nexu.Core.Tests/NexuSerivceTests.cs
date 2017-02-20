@@ -6,9 +6,7 @@
     using System.Reflection;
 
     using global::Umbraco.Core;
-    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
-    using global::Umbraco.Core.Profiling;
     using global::Umbraco.Core.Services;
     using global::Umbraco.Tests.TestHelpers;
 
@@ -32,6 +30,11 @@
         private INexuService service;
 
         /// <summary>
+        /// The service mock.
+        /// </summary>
+        private Mock<NexuService> serviceMock;
+
+        /// <summary>
         /// The relation service mock
         /// </summary>
         private Mock<IRelationService> relationService;
@@ -49,12 +52,13 @@
         {
             base.Initialize();
             SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
-            this.relationService = new Mock<IRelationService>();
-            this.service = new NexuService(this.ProfilingLogger, this.relationService.Object, PropertyParserResolver.Current);
+            this.relationService = new Mock<IRelationService>();            
+            this.serviceMock = new Mock<NexuService>(this.ProfilingLogger, this.relationService.Object, PropertyParserResolver.Current) { CallBase = true };
+            this.service = this.serviceMock.Object;
         }
 
         /// <summary>
-        /// Override freeze resolution, so we can init our resolver
+        /// Override freeze resolution, so we can init our resolverC:\Users\des\Documents\My Projects\umbraco-nexu\Source\Our.Umbraco.Nexu.Core\app.config
         /// </summary>
         protected override void FreezeResolution()
         {
@@ -340,6 +344,48 @@
 
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count());
+        }
+
+        /// <summary>
+        /// Test deleting of nexu relations for content.
+        /// </summary>
+        [Test]
+        [Category("Service")]
+        [Category("Parsing")]
+        public void TestDeleteRelationsForContent()
+        {
+            // arrange   
+            var contentId = 1;
+
+            this.serviceMock.Setup(x => x.GetNexuRelationsForContent(contentId))
+                .Returns(
+                    new List<IRelation>()
+                        {
+                            new Relation(
+                                contentId,
+                                123,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToDocumentAlias)),
+                            new Relation(
+                                contentId,
+                                456,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToMediaAlias))
+                        });
+
+            this.relationService.Setup(x => x.Delete(It.IsAny<IRelation>()));
+
+            // act
+            this.service.DeleteRelationsForContent(contentId);
+
+            // verify
+            this.serviceMock.Verify(x => x.GetNexuRelationsForContent(contentId), Times.Once);
+
+            this.relationService.Verify(x => x.Delete(It.IsAny<IRelation>()), Times.Exactly(2));
         }
     }
 }
