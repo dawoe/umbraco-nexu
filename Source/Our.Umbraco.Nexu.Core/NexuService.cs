@@ -159,9 +159,20 @@
             return properties;
         }
 
+        /// <summary>
+        /// Delete all relations for content.
+        /// </summary>
+        /// <param name="contentid">
+        /// The contentid.
+        /// </param>
         public void DeleteRelationsForContent(int contentid)
         {
-            throw new NotImplementedException();
+            var relations = this.GetNexuRelationsForContent(contentid).ToList();
+
+            foreach (var relation in relations)
+            {
+                this.relationService.Delete(relation);
+            }
         }
 
         /// <summary>
@@ -173,7 +184,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public IEnumerable<IRelation> GetNexuRelationsForContent(int contentId)
+        public virtual IEnumerable<IRelation> GetNexuRelationsForContent(int contentId)
         {
             var relations = this.relationService.GetByParentId(contentId).ToList();
 
