@@ -61,6 +61,14 @@
         IEnumerable<IRelation> GetNexuRelationsForContent(int contentId);
 
         /// <summary>
+        /// Saves linked entities as relations
+        /// </summary>
+        /// <param name="linkedEntities">
+        /// The linked entities.
+        /// </param>
+        void SaveLinkedEntitiesAsRelations(IEnumerable<ILinkedEntity> linkedEntities);
+
+        /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
         void SetupRelationTypes();

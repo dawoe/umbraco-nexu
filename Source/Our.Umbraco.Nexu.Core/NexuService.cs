@@ -200,6 +200,11 @@
                         || x.RelationType.Alias == RelationTypes.DocumentToMediaAlias);
         }
 
+        public void SaveLinkedEntitiesAsRelations(IEnumerable<ILinkedEntity> linkedEntities)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
