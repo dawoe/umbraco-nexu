@@ -63,10 +63,13 @@
         /// <summary>
         /// Saves linked entities as relations
         /// </summary>
+        /// <param name="contentid">
+        /// The contentid.
+        /// </param>
         /// <param name="linkedEntities">
         /// The linked entities.
         /// </param>
-        void SaveLinkedEntitiesAsRelations(IEnumerable<ILinkedEntity> linkedEntities);
+        void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities);
 
         /// <summary>
         /// Sets up the needed the relation types

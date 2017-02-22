@@ -200,7 +200,7 @@
                         || x.RelationType.Alias == RelationTypes.DocumentToMediaAlias);
         }
 
-        public void SaveLinkedEntitiesAsRelations(IEnumerable<ILinkedEntity> linkedEntities)
+        public void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities)
         {
             throw new NotImplementedException();
         }

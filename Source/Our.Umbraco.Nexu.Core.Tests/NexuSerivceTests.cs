@@ -14,6 +14,7 @@
 
     using NUnit.Framework;
 
+    using Our.Umbraco.Nexu.Core.Constants;
     using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
@@ -53,7 +54,7 @@
         {
             base.Initialize();
             SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
-            this.relationService = new Mock<IRelationService>();            
+            this.relationService = new Mock<IRelationService>();
             this.serviceMock = new Mock<NexuService>(this.ProfilingLogger, this.relationService.Object, PropertyParserResolver.Current) { CallBase = true };
             this.service = this.serviceMock.Object;
         }
@@ -65,7 +66,7 @@
         {
             var assembly = Assembly.Load("Our.Umbraco.Nexu.Parsers");
             this.parsers =
-                TypeFinder.FindClassesOfType<Interfaces.IPropertyParser>(new List<Assembly> { assembly }).ToList();            
+                TypeFinder.FindClassesOfType<Interfaces.IPropertyParser>(new List<Assembly> { assembly }).ToList();
 
             // set up pattern model resolver
             PropertyParserResolver.Current = new PropertyParserResolver(
@@ -323,7 +324,7 @@
             // verify
             this.serviceMock.Verify(x => x.GetParsablePropertiesForContent(content.Object), Times.Once);
             Assert.IsNotNull(result);
-            
+
             var linkedEntities = result.ToList();
             Assert.AreEqual(1, linkedEntities.Count);
 
@@ -415,6 +416,65 @@
             this.serviceMock.Verify(x => x.GetNexuRelationsForContent(contentId), Times.Once);
 
             this.relationService.Verify(x => x.Delete(It.IsAny<IRelation>()), Times.Exactly(2));
+        }
+
+        /// <summary>
+        /// Test saving of linked entities as relations.
+        /// </summary>
+        [Test]
+        [Category("Service")]
+        [Category("Parsing")]
+        public void TestSaveLinkedEntitiesAsRelations()
+        {
+            // arrange
+            var contentId = 1;
+            var entities = new List<ILinkedEntity>
+                               {
+                                   new LinkedDocumentEntity { Id = 1500 },
+                                   new LinkedMediaEntity { Id = 2500 }
+                               };
+
+            var docToDocRelationType = new RelationType(
+                                   new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document),
+                                   new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document),
+                                   RelationTypes.DocumentToDocumentAlias,
+                                   RelationTypes.DocumentToDocumentName)
+                                   {
+                                       IsBidirectional = false,
+                                   };
+            this.relationService.Setup(x => x.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias))
+                .Returns(
+                    docToDocRelationType);
+
+            var docToMediaRelationType = new RelationType(
+                                   new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document),
+                                   new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document),
+                                   RelationTypes.DocumentToMediaAlias,
+                                   RelationTypes.DocumentToMediaName)
+                                   {
+                                       IsBidirectional = false,
+                                   };
+            this.relationService.Setup(x => x.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias))
+                .Returns(
+                    docToMediaRelationType);
+
+
+            var docToDocRelation = new Relation(contentId,1500, docToDocRelationType);
+
+            this.relationService.Setup(x => x.Save(docToDocRelation));
+
+            var docToMediaRelation = new Relation(contentId, 2500, docToMediaRelationType);
+
+            this.relationService.Setup(x => x.Save(docToMediaRelation));
+
+
+            // act
+            this.service.SaveLinkedEntitiesAsRelations(contentId, entities);
+
+            // verify
+            this.relationService.Verify(x => x.GetRelationTypeByAlias(It.IsAny<string>()), Times.Exactly(2));
+            this.relationService.Verify(x => x.Save(docToDocRelation), Times.Once);
+            this.relationService.Verify(x => x.Save(docToMediaRelation), Times.Once);
         }
     }
 }
