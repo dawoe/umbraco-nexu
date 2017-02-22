@@ -79,7 +79,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public IEnumerable<IPropertyParser> GetAllPropertyParsers()
+        public virtual IEnumerable<IPropertyParser> GetAllPropertyParsers()
         {
             return this.propertyParserResolver.Parsers;
         }
@@ -131,7 +131,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public IEnumerable<PropertyWithParser> GetParsablePropertiesForContent(IContent content)
+        public virtual IEnumerable<PropertyWithParser> GetParsablePropertiesForContent(IContent content)
         {
             var properties = new List<PropertyWithParser>();
 

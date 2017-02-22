@@ -16,6 +16,7 @@
 
     using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
     using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
@@ -231,10 +232,20 @@
                                 new Property(propTypeCp2, 1500)
                             }));
 
+            var contetPickerParser = new Mock<IPropertyParser>();
+            contetPickerParser.Setup(x => x.IsParserFor(propTypeCp1)).Returns(true);
+            contetPickerParser.Setup(x => x.IsParserFor(propTypeCp2)).Returns(true);
+            contetPickerParser.Setup(x => x.IsParserFor(propTypeText)).Returns(false);
+
+            this.serviceMock.Setup(x => x.GetAllPropertyParsers())
+                .Returns(new List<IPropertyParser> { contetPickerParser.Object });
+
             // act
             var result = this.service.GetParsablePropertiesForContent(content.Object);
 
             // verify
+            this.serviceMock.Verify(x => x.GetAllPropertyParsers(), Times.Once);
+
             Assert.IsNotNull(result);
 
             Assert.AreEqual(2, result.Count());
@@ -276,23 +287,41 @@
                             propTypeCp2
                         });
 
+            var prop1 = new Property(propTypeCp1, 1500);
+            var prop2 = new Property(propTypeCp2, 1500);
             content.SetupGet(x => x.Properties)
                 .Returns(
                     new PropertyCollection(
                         new List<Property>()
                             {
-                                new Property(propTypeCp1, 1500),
+                                prop1,
                                 new Property(propTypeText, "Foo"),
-                                new Property(propTypeCp2, 1500)
+                                prop2
                             }));
 
             content.SetupGet(x => x.Id).Returns(1234);
             content.SetupGet(x => x.Name).Returns("Foo content");
 
+            var parser = new Mock<IPropertyParser>();
+            parser.Setup(x => x.GetLinkedEntities(prop1))
+                .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity { Id = 1500 }, });
+
+            parser.Setup(x => x.GetLinkedEntities(prop2))
+               .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity { Id = 1500 }, });
+
+            this.serviceMock.Setup(x => x.GetParsablePropertiesForContent(content.Object))
+                .Returns(
+                    new List<PropertyWithParser>
+                        {
+                            new PropertyWithParser(prop1, parser.Object),
+                            new PropertyWithParser(prop2, parser.Object)
+                        });
+
             // act
             var result = this.service.GetLinkedEntitesForContent(content.Object);
 
             // verify
+            this.serviceMock.Verify(x => x.GetParsablePropertiesForContent(content.Object), Times.Once);
             Assert.IsNotNull(result);
             
             var linkedEntities = result.ToList();
