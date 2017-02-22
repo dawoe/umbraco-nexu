@@ -10,6 +10,7 @@
     using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Core.Constants;
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
     using Our.Umbraco.Nexu.Resolvers;
@@ -154,7 +155,7 @@
                                 properties.Add(new PropertyWithParser(p, parser));
                             }
                         });
-            }            
+            }
 
             return properties;
         }
@@ -200,9 +201,39 @@
                         || x.RelationType.Alias == RelationTypes.DocumentToMediaAlias);
         }
 
+        /// <summary>
+        /// Saves linked entities as relations
+        /// </summary>
+        /// <param name="contentid">
+        /// The contentid.
+        /// </param>
+        /// <param name="linkedEntities">
+        /// The linked entities.
+        /// </param>
         public void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities)
         {
-            throw new NotImplementedException();
+            var docToDocRelationType = this.relationService.GetRelationTypeByAlias(
+                RelationTypes.DocumentToDocumentAlias);
+
+            var docToMediaRelationType = this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias);
+
+            foreach (var entity in linkedEntities)
+            {
+                try
+                {
+                    this.relationService.Save(
+                        new Relation(
+                            contentid,
+                            entity.Id,
+                            entity.LinkedEntityType == LinkedEntityType.Document
+                                ? docToDocRelationType
+                                : docToMediaRelationType));
+                }
+                catch
+                {
+                    // ignore errors, can occure when try to create relation for non existing content
+                }
+            }
         }
 
         /// <summary>
