@@ -89,7 +89,7 @@
 
             var entity = entities.First();
 
-            Assert.AreEqual(LinkedEntityType.Document, entity.LinkedEntityType);
+            Assert.AreEqual(LinkedEntityType.Media, entity.LinkedEntityType);
             Assert.AreEqual(1500, entity.Id);
         }
 

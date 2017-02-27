@@ -2,23 +2,58 @@
 {
     using System.Collections.Generic;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The legacy media picker parser.
     /// </summary>
     public class LegacyMediaPickerParser : IPropertyParser
     {
+        /// <summary>
+        /// Check if it's a parser for this property
+        /// </summary>
+        /// <param name="property">
+        /// The property.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsParserFor(PropertyType property)
         {
-            throw new System.NotImplementedException();
+            return property.PropertyEditorAlias.Equals(global::Umbraco.Core.Constants.PropertyEditors.MediaPickerAlias);
         }
 
+        /// <summary>
+        /// Get the linked entities from the property editor data
+        /// </summary>
+        /// <param name="property">The property to parse</param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(Property property)
         {
-            throw new System.NotImplementedException();
+            var entities = new List<LinkedMediaEntity>();
+
+            if (property.Value == null)
+            {
+                return entities;
+            }
+
+            var attemptInt = property.Value.TryConvertTo<int>();
+
+            if (attemptInt.Success)
+            {
+                entities.Add(new LinkedMediaEntity
+                {
+                    Id = attemptInt.Result
+                });
+            }
+
+            return entities;
         }
     }
 }
