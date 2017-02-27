@@ -94,7 +94,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content)
+        public virtual IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content)
         {
             using (
                 this.profiler.DebugDuration<NexuService>(
@@ -210,7 +210,7 @@
         /// <param name="linkedEntities">
         /// The linked entities.
         /// </param>
-        public void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities)
+        public virtual void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities)
         {
             var docToDocRelationType = this.relationService.GetRelationTypeByAlias(
                 RelationTypes.DocumentToDocumentAlias);
@@ -236,9 +236,30 @@
             }
         }
 
+        /// <summary>
+        /// Parses content and saves linked entitites
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
         public void ParseContent(IContent content)
         {
-            throw new NotImplementedException();
+            if (content == null)
+            {
+                return;
+            }
+
+            using (
+              this.profiler.DebugDuration<NexuService>(
+                  $"Started parse content for content item \"{content.Name}\" with id {content.Id}",
+                  $"Completed parse content for  content item \"{content.Name}\" with id {content.Id}"))
+            {
+                // get all linked entities
+                var linkedEntities = this.GetLinkedEntitesForContent(content);
+
+                // save all linked entities
+                this.SaveLinkedEntitiesAsRelations(content.Id, linkedEntities);
+            }
         }
 
         /// <summary>
