@@ -294,6 +294,7 @@
   <ItemGroup>
     <Compile Include="BaseParserTest.cs" />
     <Compile Include="Core\ContentPickerParserTests.cs" />
+    <Compile Include="Core\LegacyMediaPickerParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
