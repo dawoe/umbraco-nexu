@@ -72,6 +72,14 @@
         void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities);
 
         /// <summary>
+        /// Parses content and saves linked entitites
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        void ParseContent(IContent content);
+
+        /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
         void SetupRelationTypes();

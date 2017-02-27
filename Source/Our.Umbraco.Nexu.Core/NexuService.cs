@@ -236,6 +236,11 @@
             }
         }
 
+        public void ParseContent(IContent content)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
