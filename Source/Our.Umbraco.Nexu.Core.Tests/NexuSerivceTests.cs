@@ -476,5 +476,43 @@
             this.relationService.Verify(x => x.Save(It.IsAny<Relation>()), Times.Exactly(2));
             //this.relationService.Verify(x => x.Save(docToMediaRelation), Times.Once);
         }
+
+        /// <summary>
+        /// Test parsing content
+        /// </summary>
+        [Test]
+        [Category("Service")]
+        [Category("Parsing")]
+        public void TestParseContent()
+        {
+            // arrange
+            var content = new Mock<IContent>();
+            content.SetupGet(x => x.Id).Returns(1234);
+            content.SetupGet(x => x.Name).Returns("Test content");
+
+            var linkedEntities = new List<ILinkedEntity>
+                                     {
+                                         new LinkedDocumentEntity
+                                             {
+                                                 Id = 456
+                                             },
+                                         new LinkedMediaEntity
+                                             {
+                                                 Id = 123
+                                             }
+                                     };
+
+            this.serviceMock.Setup(x => x.GetLinkedEntitesForContent(content.Object))
+                .Returns(linkedEntities);
+
+            this.serviceMock.Setup(x => x.SaveLinkedEntitiesAsRelations(content.Object.Id, linkedEntities));
+
+            // act
+            this.service.ParseContent(content.Object);
+
+            // verify            
+            this.serviceMock.Verify(x => x.GetLinkedEntitesForContent(content.Object), Times.Once);
+            this.serviceMock.Verify(x => x.SaveLinkedEntitiesAsRelations(content.Object.Id, linkedEntities), Times.Once);
+        }
     }
 }
