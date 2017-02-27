@@ -271,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ContentPickerParser.cs" />
+    <Compile Include="Core\LegacyMediaPickerParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
