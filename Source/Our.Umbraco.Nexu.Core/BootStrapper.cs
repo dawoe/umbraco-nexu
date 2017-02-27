@@ -1,9 +1,14 @@
 ﻿namespace Our.Umbraco.Nexu.Core
 {
+    using System;
+
     using ObjectResolution;
     using Resolvers;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Events;
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     /// <summary>
     /// Bootstrapper to handle umbraco startup events
@@ -17,9 +22,12 @@
             {
                 // setup needed relation types
                 NexuService.Current.SetupRelationTypes();
+
+                // setup content service events
+                ContentService.Saved += ContentServiceOnSaved;
             }
         }
-
+        
         /// <inheritdoc />
         protected override void ApplicationInitialized(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
@@ -30,6 +38,23 @@
             {
                 PropertyParserResolver.Current =
                     new PropertyParserResolver(PluginManager.Current.ResolvePropertyParsers());
+            }
+        }
+
+        /// <summary>
+        /// Content service saved event handler
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="saveEventArgs">
+        /// The save event args.
+        /// </param>
+        private void ContentServiceOnSaved(IContentService sender, SaveEventArgs<IContent> saveEventArgs)
+        {
+            foreach (var content in saveEventArgs.SavedEntities)
+            {
+                NexuService.Current.ParseContent(content);
             }
         }
     }
