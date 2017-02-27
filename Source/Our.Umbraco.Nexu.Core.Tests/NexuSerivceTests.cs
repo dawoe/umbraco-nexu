@@ -505,6 +505,8 @@
             this.serviceMock.Setup(x => x.GetLinkedEntitesForContent(content.Object))
                 .Returns(linkedEntities);
 
+            this.serviceMock.Setup(x => x.DeleteRelationsForContent(content.Object.Id));
+
             this.serviceMock.Setup(x => x.SaveLinkedEntitiesAsRelations(content.Object.Id, linkedEntities));
 
             // act
@@ -512,6 +514,7 @@
 
             // verify            
             this.serviceMock.Verify(x => x.GetLinkedEntitesForContent(content.Object), Times.Once);
+            this.serviceMock.Verify(x => x.DeleteRelationsForContent(content.Object.Id), Times.Once);
             this.serviceMock.Verify(x => x.SaveLinkedEntitiesAsRelations(content.Object.Id, linkedEntities), Times.Once);
         }
     }

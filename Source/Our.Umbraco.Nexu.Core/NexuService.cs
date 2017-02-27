@@ -257,6 +257,9 @@
                 // get all linked entities
                 var linkedEntities = this.GetLinkedEntitesForContent(content);
 
+                // delete all existing relations
+                this.DeleteRelationsForContent(content.Id);
+
                 // save all linked entities
                 this.SaveLinkedEntitiesAsRelations(content.Id, linkedEntities);
             }
