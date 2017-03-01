@@ -404,14 +404,7 @@
                                 new RelationType(
                                     Guid.NewGuid(),
                                     Guid.NewGuid(),
-                                    Core.Constants.RelationTypes.DocumentToMediaAlias)),
-                            new Relation(
-                                contentId,
-                                1234,
-                                new RelationType(
-                                    Guid.NewGuid(),
-                                    Guid.NewGuid(),
-                                    Core.Constants.RelationTypes.DocumentToMediaAlias)),
+                                    Core.Constants.RelationTypes.DocumentToMediaAlias)),                           
                             new Relation(789, contentId, new RelationType(Guid.NewGuid(), Guid.NewGuid(), "foo"))
                         });
 

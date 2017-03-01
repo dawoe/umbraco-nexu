@@ -190,8 +190,10 @@
         /// </returns>
         public virtual IEnumerable<IRelation> GetNexuRelationsForContent(int contentId, bool isParent = true)
         {
-            var relations = this.relationService.GetByParentId(contentId).ToList();
+            var relations = Enumerable.Empty<IRelation>().ToList();
 
+            relations = isParent ? this.relationService.GetByParentId(contentId).ToList() : this.relationService.GetByChildId(contentId).ToList();                
+            
             if (!relations.Any())
             {
                 return relations;
