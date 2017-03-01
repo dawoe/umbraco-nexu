@@ -166,7 +166,7 @@
         /// <param name="contentid">
         /// The contentid.
         /// </param>
-        public void DeleteRelationsForContent(int contentid)
+        public virtual void DeleteRelationsForContent(int contentid)
         {
             var relations = this.GetNexuRelationsForContent(contentid).ToList();
 
@@ -182,10 +182,13 @@
         /// <param name="contentId">
         /// The content id.
         /// </param>
+        /// <param name="isParent">
+        /// The is Parent.
+        /// </param>
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        public virtual IEnumerable<IRelation> GetNexuRelationsForContent(int contentId)
+        public virtual IEnumerable<IRelation> GetNexuRelationsForContent(int contentId, bool isParent = true)
         {
             var relations = this.relationService.GetByParentId(contentId).ToList();
 

@@ -55,10 +55,13 @@
         /// <param name="contentId">
         /// The content id.
         /// </param>
+        /// <param name="isParent">
+        /// The is Parent.
+        /// </param>
         /// <returns>
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
-        IEnumerable<IRelation> GetNexuRelationsForContent(int contentId);
+        IEnumerable<IRelation> GetNexuRelationsForContent(int contentId, bool isParent = true);
 
         /// <summary>
         /// Saves linked entities as relations

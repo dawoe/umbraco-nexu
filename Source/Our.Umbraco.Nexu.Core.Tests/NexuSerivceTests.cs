@@ -387,7 +387,7 @@
             // arrange   
             var contentId = 1;
 
-            this.serviceMock.Setup(x => x.GetNexuRelationsForContent(contentId))
+            this.serviceMock.Setup(x => x.GetNexuRelationsForContent(contentId, true))
                 .Returns(
                     new List<IRelation>()
                         {
@@ -413,7 +413,7 @@
             this.service.DeleteRelationsForContent(contentId);
 
             // verify
-            this.serviceMock.Verify(x => x.GetNexuRelationsForContent(contentId), Times.Once);
+            this.serviceMock.Verify(x => x.GetNexuRelationsForContent(contentId, true), Times.Once);
 
             this.relationService.Verify(x => x.Delete(It.IsAny<IRelation>()), Times.Exactly(2));
         }
