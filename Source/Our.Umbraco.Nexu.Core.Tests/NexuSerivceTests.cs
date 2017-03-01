@@ -335,12 +335,12 @@
         }
 
         /// <summary>
-        /// Tests getting nexu relations for content.
+        /// Tests getting nexu relations for content when content is parent
         /// </summary>
         [Test]
         [Category("Service")]
         [Category("Parsing")]
-        public void TestGetNexuRelationsForContent()
+        public void TestGetNexuRelationsForContentIsParent()
         {
             // arrange
             var contentId = 1;
@@ -371,6 +371,55 @@
 
             // verify
             this.relationService.Verify(x => x.GetByParentId(contentId), Times.Once);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count());
+        }
+
+        /// <summary>
+        /// Test get nexu relations for content when content is child.
+        /// </summary>
+        [Test]
+        [Category("Service")]
+        [Category("Parsing")]
+        public void TestGetNexuRelationsForContentIsChild()
+        {
+            // arrange
+            var contentId = 1;
+
+            this.relationService.Setup(x => x.GetByChildId(contentId))
+                .Returns(
+                    new List<IRelation>
+                        {
+                            new Relation(
+                                1213,
+                                contentId,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToDocumentAlias)),
+                            new Relation(
+                                456,
+                                contentId,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToMediaAlias)),
+                            new Relation(
+                                contentId,
+                                1234,
+                                new RelationType(
+                                    Guid.NewGuid(),
+                                    Guid.NewGuid(),
+                                    Core.Constants.RelationTypes.DocumentToMediaAlias)),
+                            new Relation(789, contentId, new RelationType(Guid.NewGuid(), Guid.NewGuid(), "foo"))
+                        });
+
+            // act
+            var result = this.service.GetNexuRelationsForContent(contentId, false);
+
+            // verify
+            this.relationService.Verify(x => x.GetByChildId(contentId), Times.Once);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count());
