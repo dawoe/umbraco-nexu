@@ -5,7 +5,6 @@
 
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
-    using global::Umbraco.Web.WebApi;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
 
@@ -43,7 +42,7 @@
 
         public HttpResponseMessage GetIncomingLinks(int contentId)
         {
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError);            
         }        
     }
 }

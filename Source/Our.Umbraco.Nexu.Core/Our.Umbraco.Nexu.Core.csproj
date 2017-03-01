@@ -277,6 +277,8 @@
     <Compile Include="Interfaces\INexuService.cs" />
     <Compile Include="Interfaces\ILinkedEntity.cs" />
     <Compile Include="Interfaces\IPropertyParser.cs" />
+    <Compile Include="Mapping\Profiles\NexuMappingProfile.cs" />
+    <Compile Include="Mapping\TypeConverters\RelationToRelatedDocumentConverter.cs" />
     <Compile Include="Models\LinkedDocumentEntity.cs" />
     <Compile Include="Models\LinkedMediaEntity.cs" />
     <Compile Include="Models\PropertyWithParser.cs" />
@@ -291,6 +293,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
