@@ -1,5 +1,8 @@
 ﻿namespace Our.Umbraco.Nexu.Core.WebApi
 {
+    using System.Net;
+    using System.Net.Http;
+
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
     using global::Umbraco.Web.WebApi;
@@ -30,9 +33,17 @@
         /// <param name="nexuService">
         /// The nexu service.
         /// </param>
-        internal NexuApiController(INexuService nexuService)
+        /// <param name="umbracoContext">
+        /// The umbraco Context.
+        /// </param>
+        internal NexuApiController(INexuService nexuService, UmbracoContext umbracoContext) : base(umbracoContext)
         {
             this.nexuService = nexuService;
+        }
+
+        public HttpResponseMessage GetIncomingLinks(int contentId)
+        {
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
         }        
     }
 }
