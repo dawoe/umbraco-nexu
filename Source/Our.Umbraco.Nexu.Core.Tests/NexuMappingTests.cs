@@ -139,5 +139,35 @@
             Assert.IsNotNull(destination);
             Assert.AreEqual(input.Count, destination.Count());
         }
+
+        /// <summary>
+        /// The test mapping from content to related document.
+        /// </summary>
+        [Test]
+        public void TestMappingFromContentToRelatedDocument()
+        {
+            // arrange
+            var contentTypeMock = new Mock<IContentType>();
+            contentTypeMock.SetupGet(x => x.Icon).Returns("page");
+
+            var contentMock = new Mock<IContent>();
+            contentMock.SetupGet(x => x.Id).Returns(123);
+            contentMock.SetupGet(x => x.Name).Returns("Content 123");
+            contentMock.SetupGet(x => x.Published).Returns(true);
+            contentMock.SetupGet(x => x.Trashed).Returns(false);
+            contentMock.SetupGet(x => x.ContentType).Returns(contentTypeMock.Object);
+
+            // act
+            var result = Mapper.Map<RelatedDocument>(contentMock.Object);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            Assert.AreEqual(contentMock.Object.Id, result.Id);
+            Assert.AreEqual(contentMock.Object.Name, result.Name);
+            Assert.AreEqual(contentMock.Object.Published, result.Published);
+            Assert.AreEqual(contentMock.Object.Trashed, result.Trashed);
+            Assert.AreEqual(contentTypeMock.Object.Icon, result.Icon);
+        }
     }
 }
