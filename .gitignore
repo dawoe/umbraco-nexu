@@ -33,3 +33,4 @@ packages/
 App_Data/
 testsites/
 
+Source/.vs/config/applicationhost.config
