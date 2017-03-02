@@ -142,6 +142,8 @@
 
             Assert.IsNotNull(objectContent.Value);
             var model = (IEnumerable<RelatedDocument>)objectContent.Value;
+
+            Assert.IsNotNull(model);
         }
     }
 }
