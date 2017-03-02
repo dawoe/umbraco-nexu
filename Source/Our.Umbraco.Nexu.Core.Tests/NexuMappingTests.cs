@@ -143,7 +143,7 @@
             // verify
             this.contentServiceMock.Verify(x => x.GetByIds(It.IsAny<IEnumerable<int>>()), Times.Once);
 
-            Assert.AreEqual(input.Select(x => x.Id), actualContentIds);
+            Assert.AreEqual(input.Select(x => x.ParentId), actualContentIds);
 
             Assert.IsNotNull(destination);
             Assert.AreEqual(input.Count, destination.Count());

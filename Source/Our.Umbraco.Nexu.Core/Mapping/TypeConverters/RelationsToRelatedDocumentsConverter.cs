@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using AutoMapper;
 
@@ -51,6 +52,24 @@
         public IEnumerable<RelatedDocument> Convert(ResolutionContext context)
         {
             var destination = new List<RelatedDocument>();
+
+            if (context.IsSourceValueNull)
+            {
+                return destination;
+            }
+
+            var source = context.SourceValue as List<IRelation>;
+
+            if (source == null)
+            {
+                return destination;
+            }
+
+            var ids = source.Select(x => x.ParentId);
+
+            var contentItems = this.contentService.GetByIds(ids).ToList();
+
+            destination = Mapper.Map<IEnumerable<RelatedDocument>>(contentItems).ToList();
 
             return destination;
         }
