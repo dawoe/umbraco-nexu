@@ -1,5 +1,6 @@
 ﻿namespace Our.Umbraco.Nexu.Core.WebApi
 {
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
 
@@ -7,8 +8,10 @@
 
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
+    using global::Umbraco.Web.WebApi;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The nexu api controller.
@@ -52,9 +55,27 @@
             this.mappingEngine = mappingEngine;
         }
 
+        /// <summary>
+        /// Gets incoming links for a document
+        /// </summary>
+        /// <param name="contentId">
+        /// The content id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
         public HttpResponseMessage GetIncomingLinks(int contentId)
         {
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);            
+            var relations = this.nexuService.GetNexuRelationsForContent(contentId, false);
+
+            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations);
+
+            //var response = new HttpResponseMessage(HttpStatusCode.OK);
+            //response.Content = new ObjectContent(typeof(IEnumerable<RelatedDocument>),relatedDocs, new AngularJsonMediaTypeFormatter());
+
+            //return response;
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, relatedDocs);
         }        
     }
 }

@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Web.Http;
+    using System.Web.Http.Hosting;
     using System.Web.Routing;
 
     using AutoMapper;
@@ -80,7 +82,19 @@
             this.controller = new NexuApiController(
                                   this.UmbracoContext,
                                   this.nexuServiceMock.Object,
-                                  this.mappingEngineMock.Object);
+                                  this.mappingEngineMock.Object)
+                                  {
+                                      Request = new HttpRequestMessage
+                                      {
+                                          Properties =
+                                                      {
+                                                              {
+                                                                  HttpPropertyKeys.HttpConfigurationKey,
+                                                                  new HttpConfiguration()
+                                                              }
+                                                      }
+                                      }
+            };
         }
 
         /// <summary>
