@@ -65,7 +65,12 @@
                 return destination;
             }
 
-            var ids = source.Select(x => x.ParentId);
+            if (!source.Any())
+            {
+                return destination;
+            }
+
+            var ids = source.Select(x => x.ParentId).ToList();            
 
             var contentItems = this.contentService.GetByIds(ids).ToList();
 

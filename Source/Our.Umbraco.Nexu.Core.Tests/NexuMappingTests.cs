@@ -153,6 +153,7 @@
         /// The test mapping from content to related document.
         /// </summary>
         [Test]
+        [Category("Mappings")]
         public void TestMappingFromContentToRelatedDocument()
         {
             // arrange
