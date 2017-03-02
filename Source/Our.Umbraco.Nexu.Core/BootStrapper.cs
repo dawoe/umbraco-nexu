@@ -2,6 +2,8 @@
 {
     using System;
 
+    using AutoMapper;
+
     using ObjectResolution;
     using Resolvers;
 
@@ -9,6 +11,8 @@
     using global::Umbraco.Core.Events;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
+
+    using Our.Umbraco.Nexu.Core.Mapping.Profiles;
 
     /// <summary>
     /// Bootstrapper to handle umbraco startup events
@@ -23,8 +27,11 @@
                 // setup needed relation types
                 NexuService.Current.SetupRelationTypes();
 
+                // set up mappings
+                Mapper.AddProfile<NexuMappingProfile>();
+
                 // setup content service events
-                ContentService.Saved += ContentServiceOnSaved;
+                ContentService.Saved += this.ContentServiceOnSaved;
             }
         }
         
