@@ -82,44 +82,53 @@
         public void TestMapRelationsToRelatedDocuments()
         {
             // arrange
-            var input = new List<Relation>
+            var relation123Mock = new Mock<IRelation>();
+            relation123Mock.SetupGet(x => x.ParentId).Returns(123);
+
+            var relation456Mock = new Mock<IRelation>();
+            relation456Mock.SetupGet(x => x.ParentId).Returns(123);
+
+            var relation789Mock = new Mock<IRelation>();
+            relation789Mock.SetupGet(x => x.ParentId).Returns(123);
+
+            var input = new List<IRelation>
                             {
-                                new Relation(123, 1, Mock.Of<IRelationType>()),
-                                new Relation(456, 1, Mock.Of<IRelationType>()),
-                                new Relation(789, 1, Mock.Of<IRelationType>())
+                               relation123Mock.Object,
+                               relation456Mock.Object,
+                               relation789Mock.Object
                             };
 
             IEnumerable<int> actualContentIds = new List<int>();
 
-            var contentType = new Mock<IContentType>();
-            contentType.SetupGet(x => x.Icon).Returns("page");
+            var contentTypeMock = new Mock<IContentType>();
+            contentTypeMock.SetupGet(x => x.Icon).Returns("page");
 
             var contentItems = new List<IContent>();
 
-            var content123 = new Mock<IContent>();
-            content123.SetupGet(x => x.Id).Returns(123);
-            content123.SetupGet(x => x.Name).Returns("Content 123");
-            content123.SetupGet(x => x.Published).Returns(true);
-            content123.SetupGet(x => x.Trashed).Returns(false);
-            content123.SetupGet(x => x.ContentType).Returns(contentType.Object);
+            var content123Mock = new Mock<IContent>();
+            content123Mock.SetupGet(x => x.Id).Returns(123);
+            content123Mock.SetupGet(x => x.Name).Returns("Content 123");
+            content123Mock.SetupGet(x => x.Published).Returns(true);
+            content123Mock.SetupGet(x => x.Trashed).Returns(false);
+            content123Mock.SetupGet(x => x.ContentType).Returns(contentTypeMock.Object);
 
-            var content456 = new Mock<IContent>();
-            content456.SetupGet(x => x.Id).Returns(456);
-            content456.SetupGet(x => x.Name).Returns("Content 456");
-            content456.SetupGet(x => x.Published).Returns(false);
-            content456.SetupGet(x => x.Trashed).Returns(false);
-            content456.SetupGet(x => x.ContentType).Returns(contentType.Object);
+            var content456Mock = new Mock<IContent>();
+            content456Mock.SetupGet(x => x.Id).Returns(456);
+            content456Mock.SetupGet(x => x.Name).Returns("Content 456");
+            content456Mock.SetupGet(x => x.Published).Returns(false);
+            content456Mock.SetupGet(x => x.Trashed).Returns(false);
+            content456Mock.SetupGet(x => x.ContentType).Returns(contentTypeMock.Object);
 
-            var content789 = new Mock<IContent>();
-            content789.SetupGet(x => x.Id).Returns(789);
-            content789.SetupGet(x => x.Name).Returns("Content 789");
-            content789.SetupGet(x => x.Published).Returns(false);
-            content789.SetupGet(x => x.Trashed).Returns(true);
-            content789.SetupGet(x => x.ContentType).Returns(contentType.Object);
+            var content789MOck = new Mock<IContent>();
+            content789MOck.SetupGet(x => x.Id).Returns(789);
+            content789MOck.SetupGet(x => x.Name).Returns("Content 789");
+            content789MOck.SetupGet(x => x.Published).Returns(false);
+            content789MOck.SetupGet(x => x.Trashed).Returns(true);
+            content789MOck.SetupGet(x => x.ContentType).Returns(contentTypeMock.Object);
 
-            contentItems.Add(content123.Object);
-            contentItems.Add(content456.Object);
-            contentItems.Add(content789.Object);
+            contentItems.Add(content123Mock.Object);
+            contentItems.Add(content456Mock.Object);
+            contentItems.Add(content789MOck.Object);
 
             this.contentServiceMock.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>()))
                 .Callback(
