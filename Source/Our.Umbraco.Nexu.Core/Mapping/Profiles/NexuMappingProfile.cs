@@ -19,7 +19,7 @@
         /// </summary>
         protected override void Configure()
         {
-            Mapper.CreateMap<IEnumerable<IRelation>, IEnumerable<RelatedDocument>>().ConvertUsing<RelationToRelatedDocumentConverter>();
+            Mapper.CreateMap<IEnumerable<Relation>, IEnumerable<RelatedDocument>>().ConvertUsing<RelationsToRelatedDocumentsConverter>();
         }
     }
 }

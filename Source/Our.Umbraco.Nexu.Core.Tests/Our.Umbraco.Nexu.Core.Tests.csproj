@@ -295,6 +295,7 @@
   <ItemGroup>
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="NexuApiControllerTests.cs" />
+    <Compile Include="NexuMappingTests.cs" />
     <Compile Include="NexuSerivceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
