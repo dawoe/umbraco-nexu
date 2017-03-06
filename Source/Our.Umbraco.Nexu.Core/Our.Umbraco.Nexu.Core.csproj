@@ -297,6 +297,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Client\interceptor.js" />
+    <Content Include="Client\resource.js" />
     <Content Include="Client\views\content-delete.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

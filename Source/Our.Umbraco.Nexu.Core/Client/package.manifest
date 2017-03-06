@@ -1,5 +1,6 @@
 ﻿{           
     javascript: [
-		'~/App_Plugins/Nexu/interceptor.js'    
+		'~/App_Plugins/Nexu/interceptor.js',
+		'~/App_Plugins/Nexu/resource.js'    
     ]	
 }
