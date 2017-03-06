@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Core.WebApi
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
 
@@ -68,7 +69,7 @@
         {
             var relations = this.nexuService.GetNexuRelationsForContent(contentId, false);
 
-            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations);
+            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations.ToList());
 
             //var response = new HttpResponseMessage(HttpStatusCode.OK);
             //response.Content = new ObjectContent(typeof(IEnumerable<RelatedDocument>),relatedDocs, new AngularJsonMediaTypeFormatter());
