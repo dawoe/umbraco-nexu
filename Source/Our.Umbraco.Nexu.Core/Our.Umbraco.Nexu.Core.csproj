@@ -296,6 +296,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Client\controllers\content-delete-controller.js" />
     <Content Include="Client\interceptor.js" />
     <Content Include="Client\resource.js" />
     <Content Include="Client\views\content-delete.html" />
