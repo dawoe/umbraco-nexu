@@ -96,7 +96,8 @@
 
             var urlDictionairy = new Dictionary<string, object>();
 
-            urlDictionairy.Add("NexuApi", urlHelper.GetUmbracoApiServiceBaseUrl<NexuApiController>(c => c.GetIncomingLinks(-1)));
+            urlDictionairy.Add("BaseApi", urlHelper.GetUmbracoApiServiceBaseUrl<NexuApiController>(c => c.GetIncomingLinks(-1)));
+            urlDictionairy.Add("GetIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("GetIncomingLinks", null));
 
             if (!e.Keys.Contains("Nexu"))
             {
