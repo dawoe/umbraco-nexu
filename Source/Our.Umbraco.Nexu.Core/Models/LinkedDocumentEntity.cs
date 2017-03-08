@@ -9,9 +9,20 @@
     public class LinkedDocumentEntity : ILinkedEntity
     {
         /// <summary>
-        /// Gets or sets the id of the entity
+        /// Initializes a new instance of the <see cref="LinkedDocumentEntity"/> class.
         /// </summary>
-        public int Id { get; set; }
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public LinkedDocumentEntity(int id)
+        {
+            this.Id = id;
+        }
+
+        /// <summary>
+        /// Gets the id of the entity
+        /// </summary>
+        public int Id { get; private set; }
 
         /// <summary>
         /// Gets  linked entity type.

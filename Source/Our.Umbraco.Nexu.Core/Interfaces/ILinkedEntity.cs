@@ -8,9 +8,9 @@
     public interface ILinkedEntity
     {
         /// <summary>
-        /// Gets or sets the id of the entity
+        /// Gets the id of the entity
         /// </summary>
-        int Id { get; set; }
+        int Id { get; }
 
         /// <summary>
         /// Gets  linked entity type.

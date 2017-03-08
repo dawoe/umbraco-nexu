@@ -47,10 +47,7 @@
 
             if (attemptInt.Success)
             {
-                entities.Add(new LinkedMediaEntity
-                {
-                    Id = attemptInt.Result
-                });
+                entities.Add(new LinkedMediaEntity(attemptInt.Result));
             }
 
             return entities;

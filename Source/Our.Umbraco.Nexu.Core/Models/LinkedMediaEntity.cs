@@ -9,9 +9,20 @@
     public class LinkedMediaEntity : ILinkedEntity
     {
         /// <summary>
-        /// Gets or sets the id.
+        /// Initializes a new instance of the <see cref="LinkedMediaEntity"/> class.
         /// </summary>
-        public int Id { get; set; }
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public LinkedMediaEntity(int id)
+        {
+            this.Id = id;
+        }
+
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        public int Id { get; private set; }
 
         /// <summary>
         /// Gets the linked entity type.

@@ -305,10 +305,10 @@
 
             var parser = new Mock<IPropertyParser>();
             parser.Setup(x => x.GetLinkedEntities(prop1))
-                .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity { Id = 1500 }, });
+                .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity(1500) });
 
             parser.Setup(x => x.GetLinkedEntities(prop2))
-               .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity { Id = 1500 }, });
+               .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity(1500) });
 
             this.serviceMock.Setup(x => x.GetParsablePropertiesForContent(content.Object))
                 .Returns(
@@ -472,8 +472,8 @@
             var contentId = 1;
             var entities = new List<ILinkedEntity>
                                {
-                                   new LinkedDocumentEntity { Id = 1500 },
-                                   new LinkedMediaEntity { Id = 2500 }
+                                   new LinkedDocumentEntity(1500),
+                                   new LinkedMediaEntity(2500)
                                };
 
             var docToDocRelationType = new RelationType(
@@ -534,14 +534,8 @@
 
             var linkedEntities = new List<ILinkedEntity>
                                      {
-                                         new LinkedDocumentEntity
-                                             {
-                                                 Id = 456
-                                             },
-                                         new LinkedMediaEntity
-                                             {
-                                                 Id = 123
-                                             }
+                                         new LinkedDocumentEntity(456),
+                                         new LinkedMediaEntity(123)
                                      };
 
             this.serviceMock.Setup(x => x.GetLinkedEntitesForContent(content.Object))

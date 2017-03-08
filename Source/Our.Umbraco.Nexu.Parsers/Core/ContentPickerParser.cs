@@ -33,10 +33,7 @@
 
             if (attemptInt.Success)
             {
-                entities.Add(new LinkedDocumentEntity
-                                 {
-                                     Id = attemptInt.Result
-                                 });
+                entities.Add(new LinkedDocumentEntity(attemptInt.Result));
             }
 
             return entities;
