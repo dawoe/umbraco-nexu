@@ -62,6 +62,46 @@
         }
 
         /// <summary>
+        /// The test is parser for valid data type.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CoreParsers")]
+        public void TestIsParserForValidDataType()
+        {
+            // arrange
+            var dataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias);
+
+            var parser = new ContentPickerParser();
+
+            // act
+            var result = parser.IsParserFor(dataTypeDefinition);
+
+            // verify
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// The test is parser for in valid data type.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CoreParsers")]
+        public void TestIsParserForInValidDataType()
+        {
+            // arrange
+            var dataTypeDefinition = new DataTypeDefinition("foo");
+
+            var parser = new ContentPickerParser();
+
+            // act
+            var result = parser.IsParserFor(dataTypeDefinition);
+
+            // verify
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
         /// Test getting linked entities with a value
         /// </summary>
         [Test]
