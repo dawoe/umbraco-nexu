@@ -27,9 +27,18 @@
             return property.PropertyEditorAlias.Equals(global::Umbraco.Core.Constants.PropertyEditors.MediaPickerAlias);
         }
 
+        /// <summary>
+        /// Check if it's a parser for a data type definition
+        /// </summary>
+        /// <param name="dataTypeDefinition">
+        /// The data type definition.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            throw new System.NotImplementedException();
+            return dataTypeDefinition.PropertyEditorAlias.Equals(global::Umbraco.Core.Constants.PropertyEditors.MediaPickerAlias);
         }
 
         /// <summary>
