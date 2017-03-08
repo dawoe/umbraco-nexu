@@ -29,10 +29,19 @@
                            .then(function(result) {
                                // if incoming links are found, cancel unpublish
                                if (result.data.length > 0) {
-                                   notificationsService.error('Intercepted unpublish');
+                                   notificationsService.add({
+                                       // the path of our custom notification view
+                                       view: "/App_Plugins/Nexu/views/unpublish-confirmation.html",
+                                       // arguments object we want to pass to our custom notification
+                                       args: {
+                                           links: result.data,
+                                           deferredPromise: deferred,
+                                           originalRequest : request
+                                       }
+                                   });
 
                                    // cancel request
-                                   deferred.reject(request);
+                                   //deferred.reject(request);
                                } else {
                                    // execute request as normal
                                    deferred.resolve(request);
