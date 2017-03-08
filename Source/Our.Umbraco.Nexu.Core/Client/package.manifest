@@ -3,6 +3,7 @@
 		'~/App_Plugins/Nexu/interceptor.js',
 		'~/App_Plugins/Nexu/resource.js',
 		'~/App_Plugins/Nexu/controllers/content-delete-controller.js',
+		'~/App_Plugins/Nexu/controllers/media-delete-controller.js',
 		'~/App_Plugins/Nexu/controllers/unpublish-confirmation-controller.js',
 		'~/App_Plugins/Nexu/directives/nexuLinks.js'
     ]	
