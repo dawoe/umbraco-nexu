@@ -4,9 +4,10 @@
 
         $scope.links = $scope.notification.args.links;
 
-        $scope.publish = function (notification) {
-            // resolve the deferred request
+        $scope.publish = function (notification) {            
             notificationsService.remove(notification);
+
+            // execute the deferred unpublish request
             notification.args.deferredPromise.resolve(notification.args.originalRequest);            
         };
 

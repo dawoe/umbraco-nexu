@@ -6,9 +6,14 @@
            return {
                'request': function (request) {
 
-                   // Redirect any requests the built in content delete to our custom delete
+                   // Redirect any requests to built in content delete to our custom delete
                    if (request.url === "views/content/delete.html") {
                        request.url = '/App_Plugins/Nexu/views/content-delete.html';                      
+                   }
+
+                   // Redirect any requests to built in media delete to our custom delete
+                   if (request.url === "views/media/delete.html") {
+                       request.url = '/App_Plugins/Nexu/views/media-delete.html';
                    }
 
                    var unpublishUrlRegex = /^\/umbraco\/backoffice\/UmbracoApi\/Content\/PostUnPublish\?id=(\d*)$/i;
@@ -27,7 +32,7 @@
                        // get incoming links
                        nexuService.getIncomingLinks(id)
                            .then(function(result) {
-                               // if incoming links are found, cancel unpublish
+                               // if incoming links are found, intercept unpublish and show custom notification
                                if (result.data.length > 0) {
                                    notificationsService.add({
                                        // the path of our custom notification view
@@ -38,10 +43,7 @@
                                            deferredPromise: deferred,
                                            originalRequest : request
                                        }
-                                   });
-
-                                   // cancel request
-                                   //deferred.reject(request);
+                                   });                                  
                                } else {
                                    // execute request as normal
                                    deferred.resolve(request);
