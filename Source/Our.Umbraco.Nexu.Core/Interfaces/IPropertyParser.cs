@@ -21,6 +21,17 @@
         bool IsParserFor(PropertyType property);
 
         /// <summary>
+        /// Check if it's a parser for a data type definition
+        /// </summary>
+        /// <param name="dataTypeDefinition">
+        /// The data type definition.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool IsParserFor(IDataTypeDefinition dataTypeDefinition);
+
+        /// <summary>
         /// Get the linked entities from the property editor data
         /// </summary>
         /// <param name="property">The property to parse</param>

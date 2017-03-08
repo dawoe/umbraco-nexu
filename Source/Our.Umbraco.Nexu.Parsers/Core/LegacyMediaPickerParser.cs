@@ -27,6 +27,11 @@
             return property.PropertyEditorAlias.Equals(global::Umbraco.Core.Constants.PropertyEditors.MediaPickerAlias);
         }
 
+        public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Get the linked entities from the property editor data
         /// </summary>

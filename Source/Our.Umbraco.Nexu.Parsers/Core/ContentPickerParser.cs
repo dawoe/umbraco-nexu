@@ -13,6 +13,11 @@
     /// </summary>
     public class ContentPickerParser : IPropertyParser
     {
+        public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Get the linked entities from the property editor data
         /// </summary>
