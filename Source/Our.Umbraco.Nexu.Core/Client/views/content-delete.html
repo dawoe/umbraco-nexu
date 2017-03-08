@@ -1,14 +1,7 @@
 ﻿<div class="umb-dialog umb-pane" ng-controller="Our.Umbraco.Nexu.ContentDeleteController">
     <div class="umb-dialog-body" auto-scale="90">
         
-        <div ng-hide="links.length == 0">
-            <p>This page is linked to from following items :</p>
-            <ul style="list-style: none">
-                <li ng-repeat="link in links">
-                    <i class="icon umb-tree-icon {{link.Icon}}"></i> {{link.Name}}
-                </li>
-            </ul>
-        </div>
+        <nexu-links links="links" title="This page is linked to from following items "></nexu-links>
 
         <p class="umb-abstract">
             <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?

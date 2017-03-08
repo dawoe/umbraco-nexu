@@ -297,9 +297,11 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Client\controllers\content-delete-controller.js" />
+    <Content Include="Client\directives\nexuLinks.js" />
     <Content Include="Client\interceptor.js" />
     <Content Include="Client\resource.js" />
     <Content Include="Client\views\content-delete.html" />
+    <Content Include="Client\views\nexu-links.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
