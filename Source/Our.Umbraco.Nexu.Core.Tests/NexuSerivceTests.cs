@@ -213,20 +213,21 @@
             // arrange
             var content = new Mock<IContent>();
 
-            var propTypeCp1 = new PropertyType(
-                                  Constants.PropertyEditors.ContentPickerAlias,
-                                  DataTypeDatabaseType.Integer,
-                                  "contentPicker");
+            var dataTypeContentPicker = new DataTypeDefinition(Constants.PropertyEditors.ContentPickerAlias) { Id = 15 };
+            var dataTypeTextBox = new DataTypeDefinition(Constants.PropertyEditors.TextboxAlias) { Id = 16 };
 
-            var propTypeCp2 = new PropertyType(
-                                   Constants.PropertyEditors.ContentPickerAlias,
-                                   DataTypeDatabaseType.Integer,
-                                   "contentPicker2");
+            var propTypeCp1 =
+                new PropertyType(
+                    dataTypeContentPicker,
+                    "contentPicker");
 
-            var propTypeText = new PropertyType(
-                                   Constants.PropertyEditors.TextboxAlias,
-                                   DataTypeDatabaseType.Nvarchar,
-                                   "textbox");
+            var propTypeCp2 =
+                new PropertyType(
+                    dataTypeContentPicker,
+                    "contentPicker2");
+
+            var propTypeText =
+                new PropertyType(dataTypeTextBox, "textbox");
 
             content.SetupGet(x => x.PropertyTypes)
                 .Returns(
@@ -245,12 +246,14 @@
                                 new Property(propTypeCp1, 1500),
                                 new Property(propTypeText, "Foo"),
                                 new Property(propTypeCp2, 1500)
-                            }));
+                            }));           
+
+            this.dataTypeService.Setup(x => x.GetDataTypeDefinitionById(15)).Returns(dataTypeContentPicker);
+            this.dataTypeService.Setup(x => x.GetDataTypeDefinitionById(16)).Returns(dataTypeTextBox);
 
             var contetPickerParser = new Mock<IPropertyParser>();
-            contetPickerParser.Setup(x => x.IsParserFor(propTypeCp1)).Returns(true);
-            contetPickerParser.Setup(x => x.IsParserFor(propTypeCp2)).Returns(true);
-            contetPickerParser.Setup(x => x.IsParserFor(propTypeText)).Returns(false);
+            contetPickerParser.Setup(x => x.IsParserFor(dataTypeContentPicker)).Returns(true);
+            contetPickerParser.Setup(x => x.IsParserFor(dataTypeTextBox)).Returns(false);
 
             this.serviceMock.Setup(x => x.GetAllPropertyParsers())
                 .Returns(new List<IPropertyParser> { contetPickerParser.Object });
@@ -260,6 +263,7 @@
 
             // verify
             this.serviceMock.Verify(x => x.GetAllPropertyParsers(), Times.Once);
+            this.dataTypeService.Verify(x => x.GetDataTypeDefinitionById(It.IsAny<int>()), Times.Exactly(3));
 
             Assert.IsNotNull(result);
 
