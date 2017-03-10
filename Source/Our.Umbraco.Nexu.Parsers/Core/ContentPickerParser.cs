@@ -26,33 +26,7 @@
         {
             return dataTypeDefinition.PropertyEditorAlias.Equals(
                  global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias);
-        }
-
-        /// <summary>
-        /// Get the linked entities from the property editor data
-        /// </summary>
-        /// <param name="property">The property to parse</param>
-        /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
-        /// </returns>
-        public IEnumerable<ILinkedEntity> GetLinkedEntities(Property property)
-        {
-            var entities = new List<LinkedDocumentEntity>();
-
-            if (property.Value == null)
-            {
-                return entities;
-            }
-
-            var attemptInt = property.Value.TryConvertTo<int>();
-
-            if (attemptInt.Success)
-            {
-                entities.Add(new LinkedDocumentEntity(attemptInt.Result));
-            }
-
-            return entities;
-        }
+        }        
 
         /// <summary>
         /// Gets the linked entites from the property value

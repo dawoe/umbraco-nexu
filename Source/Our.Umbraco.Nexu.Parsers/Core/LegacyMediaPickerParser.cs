@@ -25,33 +25,7 @@
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
             return dataTypeDefinition.PropertyEditorAlias.Equals(global::Umbraco.Core.Constants.PropertyEditors.MediaPickerAlias);
-        }
-
-        /// <summary>
-        /// Get the linked entities from the property editor data
-        /// </summary>
-        /// <param name="property">The property to parse</param>
-        /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
-        /// </returns>
-        public IEnumerable<ILinkedEntity> GetLinkedEntities(Property property)
-        {
-            var entities = new List<LinkedMediaEntity>();
-
-            if (property.Value == null)
-            {
-                return entities;
-            }
-
-            var attemptInt = property.Value.TryConvertTo<int>();
-
-            if (attemptInt.Success)
-            {
-                entities.Add(new LinkedMediaEntity(attemptInt.Result));
-            }
-
-            return entities;
-        }
+        }        
 
         /// <summary>
         /// Gets the linked entites from the property value

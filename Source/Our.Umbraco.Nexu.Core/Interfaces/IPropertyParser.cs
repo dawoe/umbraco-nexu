@@ -18,16 +18,7 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool IsParserFor(IDataTypeDefinition dataTypeDefinition);
-
-        /// <summary>
-        /// Get the linked entities from the property editor data
-        /// </summary>
-        /// <param name="property">The property to parse</param>
-        /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
-        /// </returns>
-        IEnumerable<ILinkedEntity> GetLinkedEntities(Property property);
+        bool IsParserFor(IDataTypeDefinition dataTypeDefinition);        
 
         /// <summary>
         /// Gets the linked entites from the property value
