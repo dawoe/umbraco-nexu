@@ -16,52 +16,6 @@
     public class ContentPickerParserTests : BaseParserTest
     {        
         /// <summary>
-        /// Test IsParserFor of parser with correct proptype
-        /// </summary>       
-        [Test]   
-        [Category("Parsers")]    
-        [Category("CoreParsers")]
-        public void TestIsParserForValidProptype()
-        {
-            // arrange
-            var property = new PropertyType(
-                               global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias,
-                               DataTypeDatabaseType.Integer,
-                               "cp1");
-
-            var parser = new ContentPickerParser();
-
-            // act
-            var result = parser.IsParserFor(property);
-
-            // verify
-            Assert.IsTrue(result);
-        }
-
-        /// <summary>
-        /// Test IsParserFor of parser with incorrect proptype
-        /// </summary>
-        [Test]
-        [Category("Parsers")]
-        [Category("CoreParsers")]
-        public void TestIsParserForInValidProptype()
-        {
-            // arrange
-            var property = new PropertyType(
-                               "foo",
-                               DataTypeDatabaseType.Integer,
-                               "cp1");
-
-            var parser = new ContentPickerParser();
-
-            // act
-            var result = parser.IsParserFor(property);
-
-            // verify
-            Assert.IsFalse(result);
-        }
-
-        /// <summary>
         /// The test is parser for valid data type.
         /// </summary>
         [Test]

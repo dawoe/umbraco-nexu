@@ -10,17 +10,6 @@
     public interface IPropertyParser
     {
         /// <summary>
-        /// Check if it's a parser for this property
-        /// </summary>
-        /// <param name="property">
-        /// The property.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool IsParserFor(PropertyType property);
-
-        /// <summary>
         /// Check if it's a parser for a data type definition
         /// </summary>
         /// <param name="dataTypeDefinition">
