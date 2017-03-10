@@ -293,6 +293,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseParserTest.cs" />
+    <Compile Include="Community\NestedContentParserTests.cs" />
     <Compile Include="Core\ContentPickerParserTests.cs" />
     <Compile Include="Core\LegacyMediaPickerParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
