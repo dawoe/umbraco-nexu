@@ -127,7 +127,7 @@
                 parsableProperties.ForEach(
                     pp =>
                         {
-                            linkedEntities.AddRange(pp.Parser.GetLinkedEntities(pp.Property));
+                            linkedEntities.AddRange(pp.Parser.GetLinkedEntities(pp.Property.Value));
                         });
 
                 return linkedEntities.DistinctBy(x => x.Id);
