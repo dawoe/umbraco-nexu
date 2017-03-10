@@ -159,7 +159,9 @@
                 content.Properties.ForEach(
                     p =>
                         {
-                            var parser = parsers.FirstOrDefault(x => x.IsParserFor(p.PropertyType));
+                            var dtd = this.dataTypeService.GetDataTypeDefinitionById(
+                                p.PropertyType.DataTypeDefinitionId);
+                            var parser = parsers.FirstOrDefault(x => x.IsParserFor(dtd));
 
                             if (parser != null)
                             {
