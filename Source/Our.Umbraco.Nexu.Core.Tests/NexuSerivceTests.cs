@@ -322,10 +322,10 @@
             content.SetupGet(x => x.Name).Returns("Foo content");
 
             var parser = new Mock<IPropertyParser>();
-            parser.Setup(x => x.GetLinkedEntities(prop1))
+            parser.Setup(x => x.GetLinkedEntities(prop1.Value))
                 .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity(1500) });
 
-            parser.Setup(x => x.GetLinkedEntities(prop2))
+            parser.Setup(x => x.GetLinkedEntities(prop2.Value))
                .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity(1500) });
 
             this.serviceMock.Setup(x => x.GetParsablePropertiesForContent(content.Object))
