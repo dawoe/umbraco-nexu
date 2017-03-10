@@ -74,7 +74,7 @@
             var property = new Property(propertyType, 1500);
 
             // act
-            var result = parser.GetLinkedEntities(property);
+            var result = parser.GetLinkedEntities(property.Value);
 
             // verify
             Assert.IsNotNull(result);
@@ -106,7 +106,7 @@
             var property = new Property(propertyType, null);
 
             // act
-            var result = parser.GetLinkedEntities(property);
+            var result = parser.GetLinkedEntities(property.Value);
 
             // verify
             Assert.IsNotNull(result);
