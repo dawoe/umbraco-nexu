@@ -28,5 +28,16 @@
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         IEnumerable<ILinkedEntity> GetLinkedEntities(Property property);
+
+        /// <summary>
+        /// Gets the linked entites from the property value
+        /// </summary>
+        /// <param name="propertyValue">
+        /// The property value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue);
     }
 }

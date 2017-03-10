@@ -52,6 +52,11 @@
             }
 
             return entities;
-        }        
+        }
+
+        public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
