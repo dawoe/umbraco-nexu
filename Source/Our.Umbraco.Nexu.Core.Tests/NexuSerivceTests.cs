@@ -42,6 +42,11 @@
         private Mock<IRelationService> relationService;
 
         /// <summary>
+        /// The data type service.
+        /// </summary>
+        private Mock<IDataTypeService> dataTypeService;
+
+        /// <summary>
         /// The parsers.
         /// </summary>
         private List<Type> parsers;
@@ -55,7 +60,15 @@
             base.Initialize();
             SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
             this.relationService = new Mock<IRelationService>();
-            this.serviceMock = new Mock<NexuService>(this.ProfilingLogger, this.relationService.Object, PropertyParserResolver.Current) { CallBase = true };
+            this.dataTypeService = new Mock<IDataTypeService>();
+
+            this.serviceMock = new Mock<NexuService>(
+                                   this.ProfilingLogger,
+                                   this.relationService.Object,
+                                   PropertyParserResolver.Current,
+                                   this.dataTypeService.Object) {
+                                                                    CallBase = true 
+                                                                };
             this.service = this.serviceMock.Object;
         }
 
@@ -84,6 +97,7 @@
         public override void TearDown()
         {
             this.relationService = null;
+            this.dataTypeService = null;
             this.service = null;
             this.parsers = null;
 

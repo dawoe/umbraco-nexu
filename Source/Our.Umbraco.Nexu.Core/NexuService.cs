@@ -41,6 +41,11 @@
         private IRelationService relationService;
 
         /// <summary>
+        /// The data type service.
+        /// </summary>
+        private IDataTypeService dataTypeService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NexuService"/> class. 
         /// </summary>
         /// <param name="profiler">
@@ -52,14 +57,19 @@
         /// <param name="propertyParserResolver">
         /// The property Parser Resolver.
         /// </param>
+        /// <param name="dataTypeService">
+        /// The data Type Service.
+        /// </param>
         public NexuService(
             ProfilingLogger profiler,
             IRelationService relationService,
-            PropertyParserResolver propertyParserResolver)
+            PropertyParserResolver propertyParserResolver,
+            IDataTypeService dataTypeService)
         {
             this.profiler = profiler;
             this.relationService = relationService;
             this.propertyParserResolver = propertyParserResolver;
+            this.dataTypeService = dataTypeService;
             service = this;
         }
 
@@ -72,7 +82,8 @@
             ?? new NexuService(
                    global::Umbraco.Core.ApplicationContext.Current.ProfilingLogger,
                    global::Umbraco.Core.ApplicationContext.Current.Services.RelationService,
-                   PropertyParserResolver.Current);
+                   PropertyParserResolver.Current,
+                   global::Umbraco.Core.ApplicationContext.Current.Services.DataTypeService);
 
         /// <summary>
         /// Gets all property parsrs
