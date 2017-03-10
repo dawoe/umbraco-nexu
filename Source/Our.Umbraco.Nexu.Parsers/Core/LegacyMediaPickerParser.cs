@@ -53,9 +53,32 @@
             return entities;
         }
 
+        /// <summary>
+        /// Gets the linked entites from the property value
+        /// </summary>
+        /// <param name="propertyValue">
+        /// The property value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            throw new System.NotImplementedException();
+            var entities = new List<LinkedMediaEntity>();
+
+            if (propertyValue == null)
+            {
+                return entities;
+            }
+
+            var attemptInt = propertyValue.TryConvertTo<int>();
+
+            if (attemptInt.Success)
+            {
+                entities.Add(new LinkedMediaEntity(attemptInt.Result));
+            }
+
+            return entities;
         }
     }
 }
