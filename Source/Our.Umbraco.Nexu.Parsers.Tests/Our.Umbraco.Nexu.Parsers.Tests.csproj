@@ -297,6 +297,7 @@
     <Compile Include="Community\NestedContentParserTests.cs" />
     <Compile Include="Core\ContentPickerParserTests.cs" />
     <Compile Include="Core\LegacyMediaPickerParserTests.cs" />
+    <Compile Include="Core\MultipleMediaPickerParserTests.cs" />
     <Compile Include="Core\RichTextEditorParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
