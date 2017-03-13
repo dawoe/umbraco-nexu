@@ -13,7 +13,9 @@
     {
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            throw new System.NotImplementedException();
+            return
+                dataTypeDefinition.PropertyEditorAlias.Equals(
+                    global::Umbraco.Core.Constants.PropertyEditors.MultipleMediaPickerAlias);
         }
 
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
