@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Core.ObjectResolution
 {
-    using System.Collections.Generic;    
+    using System.Collections.Generic;
+    using System.Reflection;
 
     using Interfaces;
 
@@ -21,8 +22,9 @@
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         internal static IEnumerable<System.Type> ResolvePropertyParsers(this PluginManager pluginmanager)
-        {                        
-            return pluginmanager.ResolveTypes<IPropertyParser>();
+        {
+            var assembly = Assembly.Load("Our.Umbraco.Nexu.Parsers");
+            return pluginmanager.ResolveTypes<IPropertyParser>(specificAssemblies: new List<Assembly> { assembly });
         }
     }
 }
