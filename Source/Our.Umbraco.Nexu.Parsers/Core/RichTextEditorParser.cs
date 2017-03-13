@@ -1,10 +1,19 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Core
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
 
+    using Examine.LuceneEngine.SearchCriteria;
+
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
+    using HtmlAgilityPack;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The rich text editor parser.
@@ -29,7 +38,108 @@
 
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            throw new System.NotImplementedException();
+            var linkedEntities = new List<ILinkedEntity>();
+
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return linkedEntities;
+            }
+
+            try
+            {
+                var html = new HtmlDocument();
+                html.LoadHtml(propertyValue.ToString());
+
+                // get all image tags
+                var images = html.DocumentNode.SelectNodes("//img");
+
+                if (images != null)
+                {
+                    foreach (var img in images)
+                    {
+                        // umbraco sets the id of the image in the rel tag, so we check if that is present
+                        if (!img.Attributes.Contains("rel"))
+                        {
+                            continue;
+                        }
+
+                        var relId = img.Attributes["rel"].Value;
+
+                        // if no id go to next image
+                        if (string.IsNullOrEmpty(relId))
+                        {
+                            continue;
+                        }
+
+                        var attemptId = relId.TryConvertTo<int>();
+
+                        if (attemptId.Success)
+                        {
+                            linkedEntities.Add(new LinkedMediaEntity(attemptId.Result));
+                        }
+                    }
+                }
+
+                // get all links
+                var anchors = html.DocumentNode.SelectNodes("//a");
+
+                var localLinkRegex = new Regex("/{localLink:(?<id>\\d*)}", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+
+                if (anchors != null)
+                {
+                    foreach (var anchor in anchors)
+                    {
+                        // check if we have source attribute
+                        if (!anchor.Attributes.Contains("href"))
+                        {
+                            continue;
+                        }
+
+                        var href = anchor.Attributes["href"].Value;
+
+                        if (string.IsNullOrEmpty(href))
+                        {
+                            continue;
+                        }
+
+                        // test if the source is a local link
+                        if (localLinkRegex.IsMatch(href))
+                        {
+                            var match = localLinkRegex.Match(href);
+
+                            var attemptId = match.Groups["id"].Value.TryConvertTo<int>();
+
+                            if (attemptId.Success)
+                            {
+                                linkedEntities.Add(new LinkedDocumentEntity(attemptId.Result));
+                            }
+                        }
+                        else if (href.StartsWith("/media"))
+                        {
+                            // possible link to media item, umbraco sets data-id
+                            if (!anchor.Attributes.Contains("data-id"))
+                            {
+                                continue;
+                            }
+
+                            var dataId = anchor.Attributes["data-id"].Value;
+
+                            var attemptId = dataId.TryConvertTo<int>();
+
+                            if (attemptId.Success)
+                            {
+                                linkedEntities.Add(new LinkedMediaEntity(attemptId.Result));
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // TODO implement logging
+            }
+
+            return linkedEntities;
         }
     }
 }
