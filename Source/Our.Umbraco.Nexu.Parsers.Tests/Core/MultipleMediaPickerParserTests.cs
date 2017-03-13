@@ -1,9 +1,12 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Tests.Core
 {
+    using System.Linq;
+
     using global::Umbraco.Core.Models;
 
     using NUnit.Framework;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Parsers.Core;
 
     /// <summary>
@@ -50,6 +53,64 @@
 
             // verify
             Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// The test get linked entities with empty value.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CoreParsers")]
+        public void TestGetLinkedEntitiesWithEmptyValue()
+        {
+            // arrange
+            var parser = new MultipleMediaPickerParser();
+
+            var propertyType = new PropertyType(
+                              global::Umbraco.Core.Constants.PropertyEditors.MultipleMediaPickerAlias,
+                              DataTypeDatabaseType.Nvarchar,
+                              "cp1");
+
+            var property = new Property(propertyType, null);
+
+            // act
+            var result = parser.GetLinkedEntities(property.Value);
+
+            // verify
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(0, entities.Count());
+        }
+
+        /// <summary>
+        /// The test get linked entities with value.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CoreParsers")]
+        public void TestGetLinkedEntitiesWithValue()
+        {
+            // arrange
+            var parser = new MultipleMediaPickerParser();
+
+            var propertyType = new PropertyType(
+                              global::Umbraco.Core.Constants.PropertyEditors.MultipleMediaPickerAlias,
+                              DataTypeDatabaseType.Nvarchar,
+                              "cp1");
+
+            var property = new Property(propertyType, "100,101,104");
+
+            // act
+            var result = parser.GetLinkedEntities(property.Value);
+
+            // verify
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(3, entities.Count());
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == 100));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == 101));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == 104));
         }
     }
 }
