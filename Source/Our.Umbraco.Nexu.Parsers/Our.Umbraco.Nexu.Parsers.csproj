@@ -273,6 +273,7 @@
     <Compile Include="Community\NestedContentParser.cs" />
     <Compile Include="Core\ContentPickerParser.cs" />
     <Compile Include="Core\LegacyMediaPickerParser.cs" />
+    <Compile Include="Core\RichTextEditorParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
