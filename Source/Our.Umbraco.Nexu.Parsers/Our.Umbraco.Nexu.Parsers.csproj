@@ -274,6 +274,7 @@
     <Compile Include="Core\ContentPickerParser.cs" />
     <Compile Include="Core\LegacyMediaPickerParser.cs" />
     <Compile Include="Core\MultipleMediaPickerParser.cs" />
+    <Compile Include="Core\RelatedLinksParser.cs" />
     <Compile Include="Core\RichTextEditorParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
