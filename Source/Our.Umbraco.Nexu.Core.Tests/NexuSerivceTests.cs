@@ -285,17 +285,26 @@
             var propTypeCp1 = new PropertyType(
                                    Constants.PropertyEditors.ContentPickerAlias,
                                    DataTypeDatabaseType.Integer,
-                                   "contentPicker");
+                                   "contentPicker")
+                                  {
+                                      Name = "Content picker"
+                                  };
 
             var propTypeCp2 = new PropertyType(
                                    Constants.PropertyEditors.ContentPickerAlias,
                                    DataTypeDatabaseType.Integer,
-                                   "contentPicker2");
+                                   "contentPicker2")
+                                    {
+                                        Name = "Content picker 2"
+                                    }; 
 
             var propTypeText = new PropertyType(
                                    Constants.PropertyEditors.TextboxAlias,
                                    DataTypeDatabaseType.Nvarchar,
-                                   "textbox");
+                                   "textbox")
+                                   {
+                                       Name = "Text box"
+                                   };
 
             content.SetupGet(x => x.PropertyTypes)
                 .Returns(
@@ -343,13 +352,15 @@
             this.serviceMock.Verify(x => x.GetParsablePropertiesForContent(content.Object), Times.Once);
             Assert.IsNotNull(result);
 
-            var linkedEntities = result.ToList();
-            Assert.AreEqual(1, linkedEntities.Count);
+            var linkedEntities = result;
+            Assert.AreEqual(2, linkedEntities.Count);
 
-            var linkedDoc = linkedEntities.First();
-
-            Assert.AreEqual(1500, linkedDoc.Id);
-            Assert.AreEqual(LinkedEntityType.Document, linkedDoc.LinkedEntityType);
+            Assert.IsTrue(result.ContainsKey("Content picker"));
+            Assert.IsTrue(result.ContainsKey("Content picker 2"));
+            Assert.IsTrue(
+                result["Content picker"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
+            Assert.IsTrue(
+               result["Content picker 2"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
         }
 
         /// <summary>
@@ -488,11 +499,26 @@
         {
             // arrange
             var contentId = 1;
-            var entities = new List<ILinkedEntity>
+            //var entities = new List<ILinkedEntity>
+            //                   {
+            //                       new LinkedDocumentEntity(1500),
+            //                       new LinkedMediaEntity(2500)
+            //                   };
+
+            var entities = new Dictionary<string, IEnumerable<ILinkedEntity>>
                                {
-                                   new LinkedDocumentEntity(1500),
-                                   new LinkedMediaEntity(2500)
+                                       {
+                                           "prop1",
+                                           new List<ILinkedEntity>
+                                               {
+                                                   new LinkedDocumentEntity(1500),
+                                                   new LinkedMediaEntity(2500)
+                                               }
+                                       },
+                                       { "prop2", new List<ILinkedEntity> { new LinkedDocumentEntity(1500) } }
                                };
+
+
 
             var docToDocRelationType = new RelationType(
                                    new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document),
@@ -549,12 +575,24 @@
             var content = new Mock<IContent>();
             content.SetupGet(x => x.Id).Returns(1234);
             content.SetupGet(x => x.Name).Returns("Test content");
+           
+            var linkedEntities = new Dictionary<string, IEnumerable<ILinkedEntity>>();
 
-            var linkedEntities = new List<ILinkedEntity>
-                                     {
-                                         new LinkedDocumentEntity(456),
-                                         new LinkedMediaEntity(123)
-                                     };
+            linkedEntities.Add(
+                "prop1",
+                new List<ILinkedEntity>
+                    {
+                        new LinkedDocumentEntity(456),
+                        new LinkedMediaEntity(123)
+                                     });
+
+            linkedEntities.Add(
+                "prop2",
+                new List<ILinkedEntity>
+                    {
+                        new LinkedDocumentEntity(456),
+                        new LinkedMediaEntity(678)
+                                     });
 
             this.serviceMock.Setup(x => x.GetLinkedEntitesForContent(content.Object))
                 .Returns(linkedEntities);

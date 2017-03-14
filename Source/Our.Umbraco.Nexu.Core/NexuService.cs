@@ -103,16 +103,16 @@
         /// The content.
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
+        /// The <see cref="Dictionary{S,T}"/>.
         /// </returns>
-        public virtual IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content)
+        public virtual Dictionary<string, IEnumerable<ILinkedEntity>> GetLinkedEntitesForContent(IContent content)
         {
             using (
                 this.profiler.DebugDuration<NexuService>(
                     $"Started getting linked entities from content item \"{content.Name}\" with id {content.Id}",
                     $"Completed getting linked entities from content item \"{content.Name}\" with id {content.Id}"))
             {
-                var linkedEntities = new List<ILinkedEntity>();
+               var linkedEntities = new Dictionary<string, IEnumerable<ILinkedEntity>>();
 
                 // get all parsers for this content item
                 var parsableProperties = this.GetParsablePropertiesForContent(content).ToList();
@@ -127,10 +127,10 @@
                 parsableProperties.ForEach(
                     pp =>
                         {
-                            linkedEntities.AddRange(pp.Parser.GetLinkedEntities(pp.Property.Value));
+                            linkedEntities.Add(pp.Property.PropertyType.Name, pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());                            
                         });
 
-                return linkedEntities.DistinctBy(x => x.Id);
+                return linkedEntities;
             }
         }
 
@@ -228,24 +228,46 @@
         /// <param name="linkedEntities">
         /// The linked entities.
         /// </param>
-        public virtual void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities)
+        public virtual void SaveLinkedEntitiesAsRelations(int contentid, Dictionary<string, IEnumerable<ILinkedEntity>> linkedEntities)
         {
             var docToDocRelationType = this.relationService.GetRelationTypeByAlias(
                 RelationTypes.DocumentToDocumentAlias);
 
             var docToMediaRelationType = this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias);
 
-            foreach (var entity in linkedEntities)
+            var entitiesToSave = new Dictionary<int, Relation>();
+
+
+            // loop trough entities, we only need to create one relation per linked item, but we store propery names in comments
+            foreach (var item in linkedEntities)
+            {
+                var property = item.Key;
+
+                foreach (var entity in item.Value)
+                {
+                    if (!entitiesToSave.ContainsKey(entity.Id))
+                    {
+                        entitiesToSave.Add(
+                            entity.Id,
+                            new Relation(
+                                contentid,
+                                entity.Id,
+                                entity.LinkedEntityType == LinkedEntityType.Document
+                                    ? docToDocRelationType
+                                    : docToMediaRelationType) { Comment = property });
+                    }
+                    else
+                    {
+                        entitiesToSave[entity.Id].Comment += $" ,{property}";
+                    }
+                }
+            }
+
+            foreach (var item in entitiesToSave)
             {
                 try
                 {
-                    this.relationService.Save(
-                        new Relation(
-                            contentid,
-                            entity.Id,
-                            entity.LinkedEntityType == LinkedEntityType.Document
-                                ? docToDocRelationType
-                                : docToMediaRelationType));
+                    this.relationService.Save(item.Value);
                 }
                 catch
                 {

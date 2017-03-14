@@ -26,9 +26,9 @@
         /// The content.
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
+        /// The <see cref="Dictionary{S,T}"/>.
         /// </returns>
-        IEnumerable<ILinkedEntity> GetLinkedEntitesForContent(IContent content);
+        Dictionary<string, IEnumerable<ILinkedEntity>> GetLinkedEntitesForContent(IContent content);
 
         /// <summary>
         /// Get all properties of content item we have a parser for
@@ -72,7 +72,7 @@
         /// <param name="linkedEntities">
         /// The linked entities.
         /// </param>
-        void SaveLinkedEntitiesAsRelations(int contentid, IEnumerable<ILinkedEntity> linkedEntities);
+        void SaveLinkedEntitiesAsRelations(int contentid, Dictionary<string, IEnumerable<ILinkedEntity>> linkedEntities);
 
         /// <summary>
         /// Parses content and saves linked entitites
