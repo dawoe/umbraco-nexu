@@ -76,6 +76,18 @@
 
             destination = Mapper.Map<IEnumerable<RelatedDocument>>(contentItems).ToList();
 
+            // set the comments from the relation
+            foreach (var item in destination)
+            {
+                var relation = source.FirstOrDefault(src => src.ParentId == item.Id);
+
+                if (relation != null)
+                {
+                    item.Properties = relation.Comment;
+                }
+                
+            }
+
             return destination;
         }
     }

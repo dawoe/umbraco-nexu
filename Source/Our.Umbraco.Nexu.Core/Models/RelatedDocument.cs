@@ -29,5 +29,10 @@
         /// Gets or sets a value indicating whether trashed.
         /// </summary>
         public bool Trashed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the properties.
+        /// </summary>
+        public string Properties { get; set; }
     }
 }
