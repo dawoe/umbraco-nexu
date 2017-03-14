@@ -63,6 +63,8 @@
         /// The test get linked entities with empty value.
         /// </summary>
         [Test]
+        [Category("Parsers")]
+        [Category("CommunityParsers")]
         public void TestGetLinkedEntitiesWithEmptyValue()
         {
             // arrange
@@ -83,6 +85,8 @@
         /// The test get linked entities with value.
         /// </summary>
         [Test]
+        [Category("Parsers")]
+        [Category("CommunityParsers")]
         public void TestGetLinkedEntitiesWithValue()
         {
             // arrange
