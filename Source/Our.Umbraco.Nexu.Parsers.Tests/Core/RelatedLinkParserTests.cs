@@ -130,7 +130,7 @@
                         ""type"": ""external"",
                         ""title"": ""Empty external""
                       }
-                    ]]";
+                    ]";
 
             // act
             var result = parser.GetLinkedEntities(propValue);
