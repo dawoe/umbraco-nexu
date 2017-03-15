@@ -98,6 +98,7 @@
 
             urlDictionairy.Add("BaseApi", urlHelper.GetUmbracoApiServiceBaseUrl<NexuApiController>(c => c.GetIncomingLinks(-1)));
             urlDictionairy.Add("GetIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("GetIncomingLinks", null));
+            urlDictionairy.Add("GetRebuildStatus", urlHelper.GetUmbracoApiService<NexuApiController>("GetRebuildStatus"));
 
             if (!e.Keys.Contains("Nexu"))
             {
