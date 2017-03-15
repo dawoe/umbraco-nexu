@@ -17,6 +17,7 @@
         {
             this.IsProcessing = false;
             this.ItemInProgress = string.Empty;
+            this.ItemsProcessed = 0;
             instance = this;
         }
 
@@ -34,5 +35,10 @@
         /// Gets or sets the item in progress.
         /// </summary>
         public string ItemInProgress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the items processed.
+        /// </summary>
+        public int ItemsProcessed { get; set; }
     }
 }
