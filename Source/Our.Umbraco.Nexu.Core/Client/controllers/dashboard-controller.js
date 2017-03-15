@@ -6,7 +6,7 @@
         nexuResource.getRebuildStatus()
             .then(function(result) {
                 $scope.isLoading = false;
-                $scope.isProcessing = result.data;
+                $scope.isProcessing = result.data.IsProcessing;
             });
 
     }]);
