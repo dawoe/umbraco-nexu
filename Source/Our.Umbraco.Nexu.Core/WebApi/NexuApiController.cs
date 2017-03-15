@@ -69,14 +69,14 @@
         {
             var relations = this.nexuService.GetNexuRelationsForContent(contentId, false);
 
-            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations.ToList());
-
-            //var response = new HttpResponseMessage(HttpStatusCode.OK);
-            //response.Content = new ObjectContent(typeof(IEnumerable<RelatedDocument>),relatedDocs, new AngularJsonMediaTypeFormatter());
-
-            //return response;
+            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations.ToList());           
 
             return this.Request.CreateResponse(HttpStatusCode.OK, relatedDocs);
-        }        
+        }
+
+        public HttpResponseMessage GetRebuildStatus()
+        {
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+        }
     }
 }
