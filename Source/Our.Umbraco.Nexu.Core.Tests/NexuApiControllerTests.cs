@@ -28,6 +28,8 @@
     [TestFixture]
     public class NexuApiControllerTests : BaseRoutingTest
     {
+        #region Private variables
+
         /// <summary>
         /// The nexu service mock.
         /// </summary>
@@ -47,11 +49,31 @@
         /// Gets or sets the umbraco context.
         /// </summary>
         protected UmbracoContext UmbracoContext { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the route data.
         /// </summary>
         protected RouteData RouteData { get; set; }
+
+        #endregion
+
+        #region Test cases
+
+        /// <summary>
+        /// Gets the rebuild status cases.
+        /// </summary>
+        public IEnumerable<TestCaseData> RebuildStatusCases
+        {
+            get
+            {
+                yield return new TestCaseData(true).SetName("TestGetRebuildStatus - Running");
+                yield return new TestCaseData(false).SetName("TestGetRebuildStatus - Not running");
+            }
+        }
+
+        #endregion
+
+        #region Setup & Teardown
 
         /// <summary>
         /// Initialize the test
@@ -83,17 +105,17 @@
                                   this.UmbracoContext,
                                   this.nexuServiceMock.Object,
                                   this.mappingEngineMock.Object)
-                                  {
-                                      Request = new HttpRequestMessage
-                                      {
-                                          Properties =
-                                                      {
-                                                              {
-                                                                  HttpPropertyKeys.HttpConfigurationKey,
-                                                                  new HttpConfiguration()
-                                                              }
-                                                      }
-                                      }
+            {
+                Request = new HttpRequestMessage
+                {
+                    Properties =
+                                                            {
+                                                                    {
+                                                                        HttpPropertyKeys.HttpConfigurationKey,
+                                                                        new HttpConfiguration()
+                                                                    }
+                                                            }
+                }
             };
         }
 
@@ -109,13 +131,17 @@
             base.TearDown();
         }
 
+        #endregion
+
+        #region Tests
+
         /// <summary>
         /// The test get incoming links.
         /// </summary>
         [Test]
         [Category("Api")]
         public void TestGetIncomingLinks()
-        {          
+        {
             // arrange 
             var contentId = 123;
 
@@ -145,5 +171,31 @@
 
             Assert.IsNotNull(model);
         }
+
+        [Test]
+        [Category("Api")]
+        [TestCaseSource(nameof(RebuildStatusCases))]
+        public void TestGetRebuildStatus(bool running)
+        {
+            // arrange
+            NexuContext.Current.IsProcessing = running;
+
+            // act
+            var result = this.controller.GetRebuildStatus();
+
+            // verify
+            Assert.IsNotNull(result);
+            Assert.AreEqual(HttpStatusCode.OK, result);
+
+            Assert.IsNotNull(result.Content);
+            var objectContent = (ObjectContent)result.Content;
+
+            Assert.IsNotNull(objectContent.Value);
+            var model = (bool)objectContent.Value;
+
+            Assert.AreEqual(running, model);
+        }
+
+        #endregion
     }
 }
