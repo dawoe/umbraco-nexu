@@ -5,6 +5,7 @@
 		'~/App_Plugins/Nexu/controllers/content-delete-controller.js',
 		'~/App_Plugins/Nexu/controllers/media-delete-controller.js',
 		'~/App_Plugins/Nexu/controllers/unpublish-confirmation-controller.js',
+		'~/App_Plugins/Nexu/controllers/dashboard-controller.js',
 		'~/App_Plugins/Nexu/directives/nexuLinks.js'
     ]	
 }

@@ -298,6 +298,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Client\controllers\content-delete-controller.js" />
+    <Content Include="Client\controllers\dash-boardcontroller.js" />
+    <Content Include="Client\views\dashboard.html" />
     <Content Include="Client\controllers\media-delete-controller.js" />
     <Content Include="Client\controllers\unpublish-confirmation-controller.js" />
     <Content Include="Client\directives\nexuLinks.js" />
