@@ -16,6 +16,7 @@
         private NexuContext()
         {
             this.IsProcessing = false;
+            this.ItemInProgress = string.Empty;
             instance = this;
         }
 
@@ -28,5 +29,10 @@
         /// Gets or sets a value indicating whether is processing.
         /// </summary>
         public bool IsProcessing { get; set; }
+
+        /// <summary>
+        /// Gets or sets the item in progress.
+        /// </summary>
+        public string ItemInProgress { get; set; }
     }
 }
