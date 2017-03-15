@@ -283,6 +283,7 @@
     <Compile Include="Models\LinkedMediaEntity.cs" />
     <Compile Include="Models\PropertyWithParser.cs" />
     <Compile Include="Models\RelatedDocument.cs" />
+    <Compile Include="NexuContext.cs" />
     <Compile Include="NexuService.cs" />
     <Compile Include="ObjectResolution\PluginManagerExtensions.cs" />
     <Compile Include="ObjectResolution\PropertyParserResolver.cs" />
