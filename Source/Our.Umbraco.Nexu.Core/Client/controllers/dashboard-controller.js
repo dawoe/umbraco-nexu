@@ -5,7 +5,7 @@
             IsProcessing: true,
             ItemName: '',
             ItemsProcessed : 0
-        };
+        };       
 
         nexuResource.getRebuildStatus()
             .then(function(result) {

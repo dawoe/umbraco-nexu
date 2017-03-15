@@ -8,7 +8,8 @@
             </div>
         </div>
         <div ng-show="RebuildStatus.IsProcessing">
-            <p>Rebuilding nexu relations in progress</p>
+            <p>Rebuilding nexu relations in progress ({{RebuildStatus.ItemsProcessed}} items processed)</p>
+            <p>Currently processing item {{RebuildStatus.ItemName}}</p>
         </div>
     </div>
 </div>
