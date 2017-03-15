@@ -82,7 +82,14 @@
         /// </returns>
         public HttpResponseMessage GetRebuildStatus()
         {
-            return this.Request.CreateResponse(HttpStatusCode.OK, NexuContext.Current.IsProcessing);
+            var model = new RebuildStatus
+                            {
+                                IsProcessing = NexuContext.Current.IsProcessing,
+                                ItemsProcessed = NexuContext.Current.ItemsProcessed,
+                                ItemName = NexuContext.Current.ItemInProgress
+                            };
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
     }
 }
