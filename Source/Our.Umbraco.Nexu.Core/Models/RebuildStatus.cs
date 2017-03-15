@@ -6,9 +6,9 @@
     internal class RebuildStatus
     {
         /// <summary>
-        /// Gets or sets the is processing.
+        /// Gets or sets a value indicating whether is processing.
         /// </summary>
-        public string IsProcessing { get; set; }
+        public bool IsProcessing { get; set; }
 
         /// <summary>
         /// Gets or sets the item name.

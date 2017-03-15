@@ -66,8 +66,8 @@
         {
             get
             {
-                yield return new TestCaseData(true).SetName("TestGetRebuildStatus - Running");
-                yield return new TestCaseData(false).SetName("TestGetRebuildStatus - Not running");
+                yield return new TestCaseData(true, "Foo", 123).SetName("TestGetRebuildStatus - Running");
+                yield return new TestCaseData(false, string.Empty, 0).SetName("TestGetRebuildStatus - Not running");
             }
         }
 
@@ -172,13 +172,27 @@
             Assert.IsNotNull(model);
         }
 
+        /// <summary>
+        /// Test getting rebuild status.
+        /// </summary>
+        /// <param name="running">
+        /// The running.
+        /// </param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <param name="processed">
+        /// The processed.
+        /// </param>
         [Test]
         [Category("Api")]
         [TestCaseSource(nameof(RebuildStatusCases))]
-        public void TestGetRebuildStatus(bool running)
+        public void TestGetRebuildStatus(bool running, string item, int processed)
         {
             // arrange
             NexuContext.Current.IsProcessing = running;
+            NexuContext.Current.ItemInProgress = item;
+            NexuContext.Current.ItemsProcessed = processed;
 
             // act
             var result = this.controller.GetRebuildStatus();
@@ -191,9 +205,11 @@
             var objectContent = (ObjectContent)result.Content;
 
             Assert.IsNotNull(objectContent.Value);
-            var model = (bool)objectContent.Value;
+            var model = (RebuildStatus)objectContent.Value;
 
-            Assert.AreEqual(running, model);
+            Assert.AreEqual(running, model.IsProcessing);
+            Assert.AreEqual(item, model.ItemName);
+            Assert.AreEqual(processed, model.ItemsProcessed);
         }
 
         #endregion
