@@ -14,4 +14,8 @@
         $scope.cancel = function (notification) {            
             notificationsService.remove(notification);
         };
+
+        $scope.hide = function() {
+            notificationsService.remove($scope.notification);
+        }
     }]);

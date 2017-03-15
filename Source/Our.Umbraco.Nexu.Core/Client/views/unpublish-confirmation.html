@@ -1,5 +1,5 @@
 ﻿<div ng-controller="Our.Umbraco.Nexu.UnPublishConfirmationController">
-    <nexu-links links="links" title="This page is linked to from following items"></nexu-links> 
+    <nexu-links links="links" link-clicked="hide" title="This page is linked to from following items"></nexu-links> 
     <p>Are you sure you want to unpublish</p>
     <button class="btn btn-warning" ng-click="cancel(notification)">No</button>
     <button class="btn" ng-click="publish(notification)">Yes</button>

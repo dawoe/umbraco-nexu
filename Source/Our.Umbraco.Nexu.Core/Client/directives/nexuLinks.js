@@ -7,10 +7,17 @@
             templateUrl: '/App_Plugins/Nexu/views/nexu-links.html',
             scope: {
                 links: '=',
+                linkClicked : '=',
                 title : '@'
             },
             link: function (scope, element, attrs, ctrl) {
-                
+                scope.getEditLink = function(id) {
+                    return '#/content/content/edit/' + id;
+                },
+
+                scope.handleLinkClick = function(id) {
+                        scope.linkClicked();
+                    }
             }
         };
     });
