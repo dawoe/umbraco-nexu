@@ -91,5 +91,19 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
+
+        /// <summary>
+        /// Rebuilds relations 
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        public HttpResponseMessage Rebuild(int id = -1)
+        {
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+        }
     }
 }
