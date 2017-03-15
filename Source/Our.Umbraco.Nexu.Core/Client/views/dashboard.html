@@ -1,3 +1,14 @@
-﻿<div>
-    
+﻿<div ng-controller="Our.Umbraco.Nexu.DashboardController">
+    <div ng-hide="isLoading">
+        <div ng-hide="isProcessing">            
+            <div class="btn-group">
+                <a class="btn" href="#" prevent-default>
+                    Rebuild nexu relations
+                </a>
+            </div>
+        </div>
+        <div ng-show="isProcessing">
+            <p>Rebuilding nexu relations in progress</p>
+        </div>
+    </div>
 </div>
