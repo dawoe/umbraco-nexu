@@ -11,6 +11,7 @@
 
     using global::Umbraco.Core.Configuration;
     using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
     using global::Umbraco.Tests.TestHelpers;
     using global::Umbraco.Web;
 
@@ -39,6 +40,11 @@
         /// The mapping engine mock.
         /// </summary>
         private Mock<IMappingEngine> mappingEngineMock;
+
+        /// <summary>
+        /// The content service mock.
+        /// </summary>
+        private Mock<IContentService> contentServiceMock;
 
         /// <summary>
         /// The controller.
@@ -85,6 +91,7 @@
 
             this.nexuServiceMock = new Mock<INexuService>();
             this.mappingEngineMock = new Mock<IMappingEngine>();
+            this.contentServiceMock = new Mock<IContentService>();
 
             // Mocked settings are now necessary
             SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
@@ -104,7 +111,8 @@
             this.controller = new NexuApiController(
                                   this.UmbracoContext,
                                   this.nexuServiceMock.Object,
-                                  this.mappingEngineMock.Object)
+                                  this.mappingEngineMock.Object,
+                                  this.contentServiceMock.Object)
             {
                 Request = new HttpRequestMessage
                 {
@@ -128,6 +136,7 @@
             this.controller = null;
             this.nexuServiceMock = null;
             this.mappingEngineMock = null;
+            this.contentServiceMock = null;
             base.TearDown();
         }
 

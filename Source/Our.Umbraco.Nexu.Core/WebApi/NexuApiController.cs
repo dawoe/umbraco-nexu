@@ -7,6 +7,7 @@
 
     using AutoMapper;
 
+    using global::Umbraco.Core.Services;
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
     using global::Umbraco.Web.WebApi;
@@ -30,10 +31,16 @@
         private readonly IMappingEngine mappingEngine;
 
         /// <summary>
+        /// The content service.
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NexuApiController"/> class.
         /// </summary>
         public NexuApiController()
         {
+            this.contentService = this.Services.ContentService;
             this.mappingEngine = AutoMapper.Mapper.Engine;
             this.nexuService = NexuService.Current;
         }
@@ -50,10 +57,14 @@
         /// <param name="mappingEngine">
         /// The mapping Engine.
         /// </param>
-        internal NexuApiController(UmbracoContext umbracoContext, INexuService nexuService,  IMappingEngine mappingEngine) : base(umbracoContext)
+        /// <param name="contentService">
+        /// The content Service.
+        /// </param>
+        internal NexuApiController(UmbracoContext umbracoContext, INexuService nexuService,  IMappingEngine mappingEngine, IContentService contentService) : base(umbracoContext)
         {
             this.nexuService = nexuService;
             this.mappingEngine = mappingEngine;
+            this.contentService = contentService;
         }
 
         /// <summary>
