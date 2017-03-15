@@ -74,9 +74,15 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, relatedDocs);
         }
 
+        /// <summary>
+        /// Gets the rebuild status.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
         public HttpResponseMessage GetRebuildStatus()
         {
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            return this.Request.CreateResponse(HttpStatusCode.OK, NexuContext.Current.IsProcessing);
         }
     }
 }

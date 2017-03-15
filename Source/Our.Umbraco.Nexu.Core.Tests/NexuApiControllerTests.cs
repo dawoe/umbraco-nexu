@@ -185,7 +185,7 @@
 
             // verify
             Assert.IsNotNull(result);
-            Assert.AreEqual(HttpStatusCode.OK, result);
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
 
             Assert.IsNotNull(result.Content);
             var objectContent = (ObjectContent)result.Content;
