@@ -21,7 +21,7 @@
     /// <summary>
     /// The nexu mapping tests.
     /// </summary>
-    [TestFixture]
+    //[TestFixture]
     public class NexuMappingTests
     {
         /// <summary>
