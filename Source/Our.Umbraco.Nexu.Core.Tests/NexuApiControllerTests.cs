@@ -241,8 +241,8 @@
         {
             // arrange
             var startContent = new Mock<IContent>();
-            startContent.Object.Name = "Start content";
-            startContent.Object.Id = 1234;
+            startContent.SetupGet(x => x.Name).Returns("Start content");
+            startContent.SetupGet(x => x.Id).Returns(1234);
 
             if (startnode == -1)
             {
@@ -255,12 +255,12 @@
             }
 
             var child1 = new Mock<IContent>();
-            child1.Object.Name = "Child 1";
-            child1.Object.Id = 456;
+            child1.SetupGet(x => x.Name).Returns("Child 1");
+            child1.SetupGet(x => x.Id).Returns(456);
 
             var child2 = new Mock<IContent>();
-            child1.Object.Name = "Child 1";
-            child1.Object.Id = 789;
+            child2.SetupGet(x => x.Name).Returns("Child 2");
+            child2.SetupGet(x => x.Id).Returns(789);
 
             var childList = new List<IContent>()
                                 {
@@ -273,6 +273,8 @@
             this.contentServiceMock.Setup(x => x.GetChildren(child1.Object.Id)).Returns(new List<IContent>());
 
             this.contentServiceMock.Setup(x => x.GetChildren(child2.Object.Id)).Returns(new List<IContent>());
+
+            this.nexuServiceMock.Setup(x => x.ParseContent(It.IsAny<IContent>()));
 
             // act
             var result = this.controller.Rebuild(startnode);

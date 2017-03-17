@@ -1,5 +1,6 @@
 ﻿namespace Our.Umbraco.Nexu.Core.WebApi
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -7,6 +8,7 @@
 
     using AutoMapper;
 
+    using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
@@ -114,7 +116,66 @@
         /// </returns>
         public HttpResponseMessage Rebuild(int id = -1)
         {
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            var rootLevelItems = new List<IContent>();
+
+            // mark rebuild in progress
+            NexuContext.Current.IsProcessing = true;
+
+            if (id == -1)
+            {
+                // get the root level content items
+                rootLevelItems = this.contentService.GetRootContent().ToList();
+            }
+            else
+            {
+                // get the indicated start item
+                var startItem = this.contentService.GetById(id);
+
+                if (startItem != null)
+                {
+                    rootLevelItems.Add(startItem);
+                }
+            }
+
+            // parse content tree
+            foreach (var item in rootLevelItems)
+            {
+                this.ParseContent(item);
+            }
+
+            // reset context variables after processing
+            NexuContext.Current.IsProcessing = false;
+            NexuContext.Current.ItemsProcessed = 0;
+            NexuContext.Current.ItemInProgress = string.Empty;
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        /// <summary>
+        /// Parses content item recursively
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        private void ParseContent(IContent item)
+        {
+            // set the name of the current processed item
+            NexuContext.Current.ItemInProgress = item.Name;
+
+            // parse for links
+            this.nexuService.ParseContent(item);
+
+            // update items processed counter
+            NexuContext.Current.ItemsProcessed++;
+
+            // get the children of current item
+            var children = this.contentService.GetChildren(item.Id).ToList();
+
+            foreach (var child in children)
+            {
+                // parse the content
+                this.ParseContent(child);
+            }
         }
     }
 }
