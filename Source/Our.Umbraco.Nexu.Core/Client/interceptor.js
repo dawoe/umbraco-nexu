@@ -7,12 +7,12 @@
                'request': function (request) {
 
                    // Redirect any requests to built in content delete to our custom delete
-                   if (request.url === "views/content/delete.html") {
+                   if (request.url.indexOf("views/content/delete.html") === 0) {
                        request.url = '/App_Plugins/Nexu/views/content-delete.html';                      
                    }
 
                    // Redirect any requests to built in media delete to our custom delete
-                   if (request.url === "views/media/delete.html") {
+                   if (request.url.indexOf("views/media/delete.html") === 0) {
                        request.url = '/App_Plugins/Nexu/views/media-delete.html';
                    }
 
