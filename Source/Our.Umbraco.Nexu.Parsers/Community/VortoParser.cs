@@ -23,8 +23,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            // Our.Umbraco.Vorto
-            return false;
+            return dataTypeDefinition.PropertyEditorAlias.Equals("Our.Umbraco.Vorto");
         }
 
         /// <summary>
