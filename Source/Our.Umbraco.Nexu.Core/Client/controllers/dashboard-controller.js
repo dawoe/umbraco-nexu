@@ -5,12 +5,26 @@
             IsProcessing: true,
             ItemName: '',
             ItemsProcessed : 0
-        };       
+        };
 
-        nexuResource.getRebuildStatus()
-            .then(function(result) {
-                $scope.isLoading = false;
-                $scope.RebuildStatus = result.data;               
-            });
+        $scope.getRebuildStatus = function() {
+            nexuResource.getRebuildStatus()
+                .then(function(result) {
+                    $scope.isLoading = false;
+                    $scope.RebuildStatus = result.data;
+                });
+        };
+
+        $scope.rebuild = function() {
+            $scope.RebuildStatus.IsProcessing = true;
+
+
+            nexuResource.rebuild(-1)
+                .then(function(result) {
+                    $scope.getRebuildStatus();
+                });
+        };
+
+        $scope.getRebuildStatus();
 
     }]);

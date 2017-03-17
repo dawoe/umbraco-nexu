@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Web.Http;
 
     using AutoMapper;
 
@@ -114,6 +115,7 @@
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
+        [HttpGet]
         public HttpResponseMessage Rebuild(int id = -1)
         {
             var rootLevelItems = new List<IContent>();
