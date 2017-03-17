@@ -295,6 +295,7 @@
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="BaseParserTest.cs" />
     <Compile Include="Community\NestedContentParserTests.cs" />
+    <Compile Include="Community\VortoParserTests.cs" />
     <Compile Include="Core\ContentPickerParserTests.cs" />
     <Compile Include="Core\LegacyMediaPickerParserTests.cs" />
     <Compile Include="Core\MultipleMediaPickerParserTests.cs" />
