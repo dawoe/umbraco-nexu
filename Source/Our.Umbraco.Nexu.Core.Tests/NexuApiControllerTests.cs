@@ -9,6 +9,7 @@
 
     using AutoMapper;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Configuration;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
@@ -74,6 +75,18 @@
             {
                 yield return new TestCaseData(true, "Foo", 123).SetName("TestGetRebuildStatus - Running");
                 yield return new TestCaseData(false, string.Empty, 0).SetName("TestGetRebuildStatus - Not running");
+            }
+        }
+
+        /// <summary>
+        /// Gets the rebuild test cases.
+        /// </summary>
+        public IEnumerable<TestCaseData> RebuildTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(-1).SetName("TestRebuild - Root node");
+                yield return new TestCaseData(123).SetName("TestRebuild - Specific start node");
             }
         }
 
@@ -219,6 +232,73 @@
             Assert.AreEqual(running, model.IsProcessing);
             Assert.AreEqual(item, model.ItemName);
             Assert.AreEqual(processed, model.ItemsProcessed);
+        }
+
+        [Test]
+        [Category("Api")]
+        [TestCaseSource(nameof(RebuildTestCases))]
+        public void TestRebuild(int startnode)
+        {
+            // arrange
+            var startContent = new Mock<IContent>();
+            startContent.Object.Name = "Start content";
+            startContent.Object.Id = 1234;
+
+            if (startnode == -1)
+            {
+                this.contentServiceMock.Setup(x => x.GetRootContent())
+                    .Returns(new List<IContent> { startContent.Object });
+            }
+            else
+            {
+                this.contentServiceMock.Setup(x => x.GetById(startnode)).Returns(startContent.Object);
+            }
+
+            var child1 = new Mock<IContent>();
+            child1.Object.Name = "Child 1";
+            child1.Object.Id = 456;
+
+            var child2 = new Mock<IContent>();
+            child1.Object.Name = "Child 1";
+            child1.Object.Id = 789;
+
+            var childList = new List<IContent>()
+                                {
+                                   child1.Object,
+                                   child2.Object
+                                };
+
+            this.contentServiceMock.Setup(x => x.GetChildren(startContent.Object.Id)).Returns(childList);
+
+            this.contentServiceMock.Setup(x => x.GetChildren(child1.Object.Id)).Returns(new List<IContent>());
+
+            this.contentServiceMock.Setup(x => x.GetChildren(child2.Object.Id)).Returns(new List<IContent>());
+
+            // act
+            var result = this.controller.Rebuild(startnode);
+
+            // verify
+            if (startnode == -1)
+            {
+                this.contentServiceMock.Verify(x => x.GetRootContent(), Times.Once);
+            }
+            else
+            {
+                this.contentServiceMock.Verify(x => x.GetById(startnode), Times.Once);
+            }
+
+            this.nexuServiceMock.Verify(x => x.ParseContent(startContent.Object), Times.Once);
+
+            this.contentServiceMock.Verify(x => x.GetChildren(startContent.Object.Id), Times.Once);
+
+            this.nexuServiceMock.Verify(x => x.ParseContent(child1.Object), Times.Once);
+            this.contentServiceMock.Verify(x => x.GetChildren(child1.Object.Id), Times.Once);
+
+            this.nexuServiceMock.Verify(x => x.ParseContent(child2.Object), Times.Once);
+            this.contentServiceMock.Verify(x => x.GetChildren(child2.Object.Id), Times.Once);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
 
         #endregion
