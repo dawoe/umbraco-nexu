@@ -355,12 +355,12 @@
             var linkedEntities = result;
             Assert.AreEqual(2, linkedEntities.Count);
 
-            Assert.IsTrue(result.ContainsKey("Content picker"));
-            Assert.IsTrue(result.ContainsKey("Content picker 2"));
+            Assert.IsTrue(result.ContainsKey("Content picker-contentPicker"));
+            Assert.IsTrue(result.ContainsKey("Content picker 2-contentPicker2"));
             Assert.IsTrue(
-                result["Content picker"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
+                result["Content picker-contentPicker"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
             Assert.IsTrue(
-               result["Content picker 2"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
+               result["Content picker 2-contentPicker2"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
         }
 
         /// <summary>

@@ -126,8 +126,8 @@
                 // get linked entities fro the properties that we found a parsers for
                 parsableProperties.ForEach(
                     pp =>
-                        {
-                            linkedEntities.Add(pp.Property.PropertyType.Name, pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());                            
+                        {                           
+                            linkedEntities.Add(pp.Property.PropertyType.Name + "-" + pp.Property.PropertyType.Alias , pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());                            
                         });
 
                 return linkedEntities;
