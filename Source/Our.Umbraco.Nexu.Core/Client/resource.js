@@ -6,6 +6,9 @@
                 },
                 getRebuildStatus : function() {
                     return $http.get(Umbraco.Sys.ServerVariables.Nexu.GetRebuildStatus);
+                },
+                rebuild : function(id) {
+                    return $http.get(Umbraco.Sys.ServerVariables.Nexu.Rebuild + "?id=" + id);
                 }
             };
         });
