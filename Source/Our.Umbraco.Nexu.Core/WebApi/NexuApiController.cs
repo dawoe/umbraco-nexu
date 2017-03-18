@@ -134,7 +134,7 @@
         /// <param name="id">
         /// The id.
         /// </param>
-        private void RebuildJob(object id)
+        internal void RebuildJob(object id)
         {
             var rootLevelItems = new List<IContent>();
 

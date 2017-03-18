@@ -85,8 +85,8 @@
         {
             get
             {
-                yield return new TestCaseData(-1).SetName("TestRebuild - Root node");
-                yield return new TestCaseData(123).SetName("TestRebuild - Specific start node");
+                yield return new TestCaseData(-1).SetName("TestRebuildJob - Root node");
+                yield return new TestCaseData(123).SetName("TestRebuildJob - Specific start node");
             }
         }
 
@@ -237,7 +237,7 @@
         [Test]
         [Category("Api")]
         [TestCaseSource(nameof(RebuildTestCases))]
-        public void TestRebuild(int startnode)
+        public void TestRebuildJob(int startnode)
         {
             // arrange
             var startContent = new Mock<IContent>();
@@ -277,7 +277,7 @@
             this.nexuServiceMock.Setup(x => x.ParseContent(It.IsAny<IContent>()));
 
             // act
-            var result = this.controller.Rebuild(startnode);
+            this.controller.RebuildJob(startnode);
 
             // verify
             if (startnode == -1)
@@ -297,10 +297,7 @@
             this.contentServiceMock.Verify(x => x.GetChildren(child1.Object.Id), Times.Once);
 
             this.nexuServiceMock.Verify(x => x.ParseContent(child2.Object), Times.Once);
-            this.contentServiceMock.Verify(x => x.GetChildren(child2.Object.Id), Times.Once);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+            this.contentServiceMock.Verify(x => x.GetChildren(child2.Object.Id), Times.Once);           
         }
 
         #endregion
