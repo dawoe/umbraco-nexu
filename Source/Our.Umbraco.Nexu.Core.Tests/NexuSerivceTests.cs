@@ -229,6 +229,22 @@
             var propTypeText =
                 new PropertyType(dataTypeTextBox, "textbox");
 
+
+            var contentType = new Mock<IContentType>();
+
+            contentType.SetupGet(x => x.CompositionPropertyGroups)
+                .Returns(
+                    new List<PropertyGroup>
+                        {
+                            new PropertyGroup
+                                {
+                                    Name = "Content",
+                                    PropertyTypes =
+                                        new PropertyTypeCollection(
+                                            new List<PropertyType> { propTypeCp1, propTypeCp2, propTypeText })
+                                },
+                        });
+
             content.SetupGet(x => x.PropertyTypes)
                 .Returns(
                     new List<PropertyType>()
@@ -237,6 +253,7 @@
                             propTypeText,
                             propTypeCp2
                         });
+            
 
             content.SetupGet(x => x.Properties)
                 .Returns(
@@ -246,7 +263,9 @@
                                 new Property(propTypeCp1, 1500),
                                 new Property(propTypeText, "Foo"),
                                 new Property(propTypeCp2, 1500)
-                            }));           
+                            }));
+
+            content.SetupGet(x => x.ContentType).Returns(contentType.Object);       
 
             this.dataTypeService.Setup(x => x.GetDataTypeDefinitionById(15)).Returns(dataTypeContentPicker);
             this.dataTypeService.Setup(x => x.GetDataTypeDefinitionById(16)).Returns(dataTypeTextBox);
@@ -341,8 +360,8 @@
                 .Returns(
                     new List<PropertyWithParser>
                         {
-                            new PropertyWithParser(prop1, parser.Object),
-                            new PropertyWithParser(prop2, parser.Object)
+                            new PropertyWithParser(prop1, parser.Object, "Content"),
+                            new PropertyWithParser(prop2, parser.Object, "Meta")
                         });
 
             // act
@@ -355,12 +374,12 @@
             var linkedEntities = result;
             Assert.AreEqual(2, linkedEntities.Count);
 
-            Assert.IsTrue(result.ContainsKey("Content picker-contentPicker"));
-            Assert.IsTrue(result.ContainsKey("Content picker 2-contentPicker2"));
+            Assert.IsTrue(result.ContainsKey("Content picker [[Content]]"));
+            Assert.IsTrue(result.ContainsKey("Content picker 2 [[Meta]]"));
             Assert.IsTrue(
-                result["Content picker-contentPicker"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
+                result["Content picker [[Content]]"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
             Assert.IsTrue(
-               result["Content picker 2-contentPicker2"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
+               result["Content picker 2 [[Meta]]"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
         }
 
         /// <summary>

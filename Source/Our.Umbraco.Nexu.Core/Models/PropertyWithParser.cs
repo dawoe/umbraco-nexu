@@ -18,10 +18,14 @@
         /// <param name="parser">
         /// The parser.
         /// </param>
-        public PropertyWithParser(Property property, IPropertyParser parser)
+        /// <param name="tabname">
+        /// The tabname.
+        /// </param>
+        public PropertyWithParser(Property property, IPropertyParser parser, string tabname)
         {
             this.Property = property;
             this.Parser = parser;
+            this.TabName = tabname;
         }
 
         /// <summary>
@@ -33,5 +37,10 @@
         /// Gets  the parser.
         /// </summary>
         public IPropertyParser Parser { get;  }
+
+        /// <summary>
+        /// Gets or sets the tab name.
+        /// </summary>
+        public string TabName { get; set; }
     }
 }
