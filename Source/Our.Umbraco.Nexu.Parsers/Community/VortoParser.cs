@@ -1,5 +1,6 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Community
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -7,7 +8,11 @@
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
     /// The vorto parser.
@@ -63,7 +68,94 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            return Enumerable.Empty<ILinkedEntity>();
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+            
+            var entities = new List<ILinkedEntity>();
+
+            var item = JsonConvert.DeserializeObject<JObject>(propertyValue.ToString());
+
+            var vortoDataTypeGuid = this.GetDatatypeGuidFromItem(item);
+
+            var vortoDataType = this.dataTypeService.GetDataTypeDefinitionById(new Guid(vortoDataTypeGuid));
+
+            var preValues =
+                this.dataTypeService.GetPreValuesCollectionByDataTypeId(vortoDataType.Id).PreValuesAsDictionary;
+
+            var editorDataTypeGuid = JsonConvert.DeserializeObject<JObject>(preValues["dataType"].Value).Value<string>("guid");
+
+            if (!string.IsNullOrEmpty(editorDataTypeGuid))
+            {
+                var editorDataype = this.dataTypeService.GetDataTypeDefinitionById(new Guid(editorDataTypeGuid));
+
+                if (editorDataype != null)
+                {
+                    var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(editorDataype));
+
+                    if (parser != null)
+                    {
+                        var values = this.GetValuesForLanguages(item);
+
+                        foreach (var value in values)
+                        {
+                            entities.AddRange(parser.GetLinkedEntities(value));
+                        }
+                    }
+                }
+            }
+           
+
+            return entities;
+        }
+
+        /// <summary>
+        /// Gets the datatype guid from the item
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private string GetDatatypeGuidFromItem(JObject item)
+        {
+            var dtdGuid = item["dtdGuid"];
+
+            return dtdGuid?.ToObject<string>();
+        }
+
+        /// <summary>
+        /// Gets property values for all languages
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        private List<object> GetValuesForLanguages(JObject item)
+        {
+            var propertyValues = new List<object>();
+
+            var values = item["values"];
+
+            if (values != null)
+            {
+                foreach (var lang in values)
+                {
+                    var langValue = lang.Values().First();
+
+                    if (langValue != null)
+                    {
+                        propertyValues.Add(langValue.ToObject<string>());
+                    }
+                }
+            }
+
+
+            return propertyValues;
         }
     }
 }

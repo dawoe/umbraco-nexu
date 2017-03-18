@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Tests.Community
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using global::Umbraco.Core.Models;
@@ -94,10 +95,24 @@
             // arrange
             var dataTypeServiceMock = new Mock<IDataTypeService>();
 
-            var guid = new Guid("a49b995e-6ef7-4d2a-beab-0d545b42aaf0");
+            var vortoGuid = new Guid("a49b995e-6ef7-4d2a-beab-0d545b42aaf0");
 
-            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(guid)).Returns(new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias));
-           
+            var rteGuid = new Guid("ca90c950-0aff-4e72-b976-a30b1ac57dad");
+
+            var vortoDataType = new DataTypeDefinition("Our.Umbraco.Vorto") { Id = 1 };
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(vortoGuid)).Returns(vortoDataType);
+
+            var prevalue = new JObject(new JProperty("guid", rteGuid.ToString("D")));
+
+            dataTypeServiceMock.Setup(x => x.GetPreValuesCollectionByDataTypeId(vortoDataType.Id))
+                .Returns(
+                    new PreValueCollection(new Dictionary<string, PreValue>
+                                               {
+                        { "dataType", new PreValue(prevalue.ToString()) }
+                                               }));
+
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(rteGuid)).Returns(new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias));
+
             var parser = new VortoParser(dataTypeServiceMock.Object);
 
             string propValue =
@@ -111,20 +126,23 @@
                             new JProperty(
                                 "nl-NL",
                                 @"<p>Dutch content <a data-id=\""1076\"" href=\""/{localLink:1076}\"" title=\""Explore\"">hier</a></p>"))),
-                    new JProperty("dtdGuid", guid.ToString("D"))).ToString();
+                    new JProperty("dtdGuid", vortoGuid.ToString("D"))).ToString();
 
             // act
             var result = parser.GetLinkedEntities(propValue);
 
             // verify           
-            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(guid), Times.Once);
-           
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(vortoGuid), Times.Once);
+            dataTypeServiceMock.Verify(x => x.GetPreValuesCollectionByDataTypeId(vortoDataType.Id), Times.Once);
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(rteGuid), Times.Once);
+
+
 
             Assert.IsNotNull(result);
             var entities = result.ToList();
             Assert.AreEqual(2, entities.Count());
 
-            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1068));            
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1068));
             Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1076));
         }
     }
