@@ -22,7 +22,9 @@
             Mapper.CreateMap<IEnumerable<IRelation>, IEnumerable<RelatedDocument>>().ConvertUsing(new RelationsToRelatedDocumentsConverter());
 
             Mapper.CreateMap<IContent, RelatedDocument>()
+                .ForMember(x => x.Properties, opt => opt.Ignore())
                 .ForMember(x => x.Icon, opt => opt.MapFrom(src => src.ContentType.Icon));
+
         }
     }
 }

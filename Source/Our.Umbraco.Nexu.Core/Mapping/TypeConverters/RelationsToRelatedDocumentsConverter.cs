@@ -1,7 +1,9 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     using AutoMapper;
 
@@ -83,7 +85,33 @@
 
                 if (relation != null)
                 {
-                    item.Properties = relation.Comment;
+                    if (!string.IsNullOrEmpty(relation.Comment))
+                    {
+                        var commentItems = relation.Comment.Split(
+                            new string[] { "||" },
+                            StringSplitOptions.RemoveEmptyEntries);
+
+                        foreach (var prop in commentItems)
+                        {
+                            var matches = Regex.Matches(prop, "(.*)(?:\\[\\[)([^\\]\\]]*)(?:\\]\\])");
+                            
+                            var tabname = matches[0].Groups[2].Value;
+
+                            if (string.IsNullOrEmpty(tabname))
+                            {
+                                tabname = "Generic";
+                            }
+
+                            if (item.Properties.ContainsKey(tabname))
+                            {
+                                item.Properties[tabname].Add(matches[0].Groups[1].Value);
+                            }
+                            else
+                            {
+                                item.Properties.Add(tabname, new List<string> { matches[0].Groups[1].Value});
+                            }
+                        }
+                    }
                 }
                 
             }

@@ -1,10 +1,22 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Models
 {
+    using System.Collections.Generic;
+
+    using global::Umbraco.Web.Media.EmbedProviders.Settings;
+
     /// <summary>
     /// The related document.
     /// </summary>
     internal class RelatedDocument
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RelatedDocument"/> class.
+        /// </summary>
+        public RelatedDocument()
+        {
+            this.Properties = new Dictionary<string, List<string>>();
+        }
+
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
@@ -33,6 +45,6 @@
         /// <summary>
         /// Gets or sets the properties.
         /// </summary>
-        public string Properties { get; set; }
+        public Dictionary<string, List<string>> Properties { get; set; }
     }
 }
