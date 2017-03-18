@@ -281,7 +281,7 @@
                     }
                     else
                     {
-                        entitiesToSave[entity.Id].Comment += $" ,{property}";
+                        entitiesToSave[entity.Id].Comment += $" ||{property}";
                     }
                 }
             }
