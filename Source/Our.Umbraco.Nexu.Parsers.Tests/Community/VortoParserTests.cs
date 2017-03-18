@@ -1,9 +1,18 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Tests.Community
 {
+    using System;
+    using System.Linq;
+
     using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
+
+    using Moq;
+
+    using Newtonsoft.Json.Linq;
 
     using NUnit.Framework;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Parsers.Community;
 
     /// <summary>
@@ -50,6 +59,73 @@
 
             // verify
             Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// The test get linked entities with empty value.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CommunityParsers")]
+        public void TestGetLinkedEntitiesWithEmptyValue()
+        {
+            // arrange
+            var parser = new VortoParser();
+
+            object propValue = null;
+
+            // act
+            var result = parser.GetLinkedEntities(propValue);
+
+            // verify
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(0, entities.Count());
+        }
+
+        /// <summary>
+        /// The test get linked entities with value.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CommunityParsers")]
+        public void TestGetLinkedEntitiesWithValue()
+        {
+            // arrange
+            var dataTypeServiceMock = new Mock<IDataTypeService>();
+
+            var guid = new Guid("a49b995e-6ef7-4d2a-beab-0d545b42aaf0");
+
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(guid)).Returns(new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias));
+           
+            var parser = new VortoParser(dataTypeServiceMock.Object);
+
+            string propValue =
+                new JObject(
+                    new JProperty(
+                        "values",
+                        new JObject(
+                            new JProperty(
+                                "en-US",
+                                @"<p>English content <a data-id=\""1068\"" href=\""/{localLink:1068}\"" title=\""Explore\"">here</a></p>"),
+                            new JProperty(
+                                "nl-NL",
+                                @"<p>Dutch content <a data-id=\""1076\"" href=\""/{localLink:1076}\"" title=\""Explore\"">hier</a></p>"))),
+                    new JProperty("dtdGuid", guid.ToString("D"))).ToString();
+
+            // act
+            var result = parser.GetLinkedEntities(propValue);
+
+            // verify           
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(guid), Times.Once);
+           
+
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(2, entities.Count());
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1068));            
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1076));
         }
     }
 }
