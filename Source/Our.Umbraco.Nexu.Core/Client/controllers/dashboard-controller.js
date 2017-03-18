@@ -5,7 +5,9 @@
             IsProcessing: true,
             ItemName: '',
             ItemsProcessed : 0
-        };        
+        };
+
+        $scope.autoRefresh = true;
 
         $scope.getRebuildStatus = function() {
             nexuResource.getRebuildStatus()
@@ -13,8 +15,8 @@
                     $scope.isLoading = false;
                     $scope.RebuildStatus = result.data;
 
-                    if ($scope.RebuildStatus.IsProcessing) {
-                        $timeout(function() { $scope.getRebuildStatus() }, 1000, true);
+                    if ($scope.RebuildStatus.IsProcessing && $scope.autoRefresh) {
+                        $timeout(function() { $scope.getRebuildStatus() }, 5000, true);
                     } 
                 });
         };
@@ -27,6 +29,12 @@
 
             $timeout(function () { $scope.getRebuildStatus() }, 500, true);
         };
+
+        $scope.$watch('autoRefresh', function () {
+            if ($scope.autoRefresh === true) {
+                $scope.getRebuildStatus();
+            }
+        }, true);
 
         $scope.getRebuildStatus();
 

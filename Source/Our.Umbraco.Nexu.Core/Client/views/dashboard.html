@@ -9,7 +9,14 @@
         </div>
         <div ng-show="RebuildStatus.IsProcessing">
             <p>Rebuilding nexu relations in progress ({{RebuildStatus.ItemsProcessed}} items processed)</p>
-            <p>Currently processing item {{RebuildStatus.ItemName}}</p>
+            <p><input type="checkbox" ng-model="autoRefresh" ng-checked="autoRefresh"/> Auto-refresh every 5 seconds
+            </p>
+            <p ng-hide="autoRefresh">
+                <a class="btn" ng-click="getRebuildStatus()" prevent-default>
+                    Refresh status
+                </a>
+            </p>
+
         </div>
     </div>
 </div>
