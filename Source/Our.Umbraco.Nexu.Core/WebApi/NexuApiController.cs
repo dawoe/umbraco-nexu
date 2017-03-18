@@ -5,10 +5,12 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Web.Http;
 
     using AutoMapper;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
     using global::Umbraco.Web;
@@ -117,13 +119,37 @@
         /// </returns>
         [HttpGet]
         public HttpResponseMessage Rebuild(int id = -1)
+        {            
+            Thread backgroundRebuild = new Thread(new ParameterizedThreadStart(this.RebuildJob));
+            backgroundRebuild.IsBackground = true;
+            backgroundRebuild.Name = "NexuRebuildJob";
+            backgroundRebuild.Start(id);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        /// <summary>
+        /// Rebuild job
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        private void RebuildJob(object id)
         {
             var rootLevelItems = new List<IContent>();
+
+
+            var attempInt = id.TryConvertTo<int>();
+
+            if (!attempInt.Success)
+            {
+                return;
+            }
 
             // mark rebuild in progress
             NexuContext.Current.IsProcessing = true;
 
-            if (id == -1)
+            if (attempInt.Result == -1)
             {
                 // get the root level content items
                 rootLevelItems = this.contentService.GetRootContent().ToList();
@@ -131,7 +157,7 @@
             else
             {
                 // get the indicated start item
-                var startItem = this.contentService.GetById(id);
+                var startItem = this.contentService.GetById(attempInt.Result);
 
                 if (startItem != null)
                 {
@@ -149,8 +175,6 @@
             NexuContext.Current.IsProcessing = false;
             NexuContext.Current.ItemsProcessed = 0;
             NexuContext.Current.ItemInProgress = string.Empty;
-
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         /// <summary>
