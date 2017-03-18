@@ -75,35 +75,42 @@
             
             var entities = new List<ILinkedEntity>();
 
-            var item = JsonConvert.DeserializeObject<JObject>(propertyValue.ToString());
-
-            var vortoDataTypeGuid = this.GetDatatypeGuidFromItem(item);
-
-            var vortoDataType = this.dataTypeService.GetDataTypeDefinitionById(new Guid(vortoDataTypeGuid));
-
-            var preValues =
-                this.dataTypeService.GetPreValuesCollectionByDataTypeId(vortoDataType.Id).PreValuesAsDictionary;
-
-            var editorDataTypeGuid = JsonConvert.DeserializeObject<JObject>(preValues["dataType"].Value).Value<string>("guid");
-
-            if (!string.IsNullOrEmpty(editorDataTypeGuid))
+            try
             {
-                var editorDataype = this.dataTypeService.GetDataTypeDefinitionById(new Guid(editorDataTypeGuid));
+                var item = JsonConvert.DeserializeObject<JObject>(propertyValue.ToString());
 
-                if (editorDataype != null)
+                var vortoDataTypeGuid = this.GetDatatypeGuidFromItem(item);
+
+                var vortoDataType = this.dataTypeService.GetDataTypeDefinitionById(new Guid(vortoDataTypeGuid));
+
+                var preValues =
+                    this.dataTypeService.GetPreValuesCollectionByDataTypeId(vortoDataType.Id).PreValuesAsDictionary;
+
+                var editorDataTypeGuid = JsonConvert.DeserializeObject<JObject>(preValues["dataType"].Value).Value<string>("guid");
+
+                if (!string.IsNullOrEmpty(editorDataTypeGuid))
                 {
-                    var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(editorDataype));
+                    var editorDataype = this.dataTypeService.GetDataTypeDefinitionById(new Guid(editorDataTypeGuid));
 
-                    if (parser != null)
+                    if (editorDataype != null)
                     {
-                        var values = this.GetValuesForLanguages(item);
+                        var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(editorDataype));
 
-                        foreach (var value in values)
+                        if (parser != null)
                         {
-                            entities.AddRange(parser.GetLinkedEntities(value));
+                            var values = this.GetValuesForLanguages(item);
+
+                            foreach (var value in values)
+                            {
+                                entities.AddRange(parser.GetLinkedEntities(value));
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                // TODO log error               
             }
            
 
@@ -149,7 +156,7 @@
 
                     if (langValue != null)
                     {
-                        propertyValues.Add(langValue.ToObject<string>());
+                        propertyValues.Add(langValue.ToString());
                     }
                 }
             }

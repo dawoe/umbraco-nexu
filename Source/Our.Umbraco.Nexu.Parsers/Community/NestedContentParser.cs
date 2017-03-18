@@ -1,5 +1,6 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Community
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -87,52 +88,59 @@
             var contentTypes = new Dictionary<string, IContentType>();
             var dataTypes = new Dictionary<int, IDataTypeDefinition>();
 
-            var rawValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
-
-            for (var i = 0; i < rawValue.Count; i++)
+            try
             {
-                var item = (JObject)rawValue[i];
+                var rawValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
 
-                var doctypeAlias = this.GetContentTypeAliasFromItem(item);
-
-                if (!string.IsNullOrEmpty(doctypeAlias))
+                for (var i = 0; i < rawValue.Count; i++)
                 {
-                    if (!contentTypes.ContainsKey(doctypeAlias))
-                    {
-                        // retreive content type and stash it in dictionary
-                        contentTypes.Add(
-                            doctypeAlias,
-                            this.contentTypeService.GetContentType(doctypeAlias));
-                    }
+                    var item = (JObject)rawValue[i];
 
-                    var contentType = contentTypes[doctypeAlias];
+                    var doctypeAlias = this.GetContentTypeAliasFromItem(item);
 
-                    // get all datatypes for this content type
-                    foreach (var propertyType in contentType.PropertyTypes)
+                    if (!string.IsNullOrEmpty(doctypeAlias))
                     {
-                        if (!dataTypes.ContainsKey(propertyType.DataTypeDefinitionId))
+                        if (!contentTypes.ContainsKey(doctypeAlias))
                         {
-                            // retreive datatype and stash it in dictionary
-                            dataTypes.Add(propertyType.DataTypeDefinitionId, this.dataTypeService.GetDataTypeDefinitionById(propertyType.DataTypeDefinitionId));
+                            // retreive content type and stash it in dictionary
+                            contentTypes.Add(
+                                doctypeAlias,
+                                this.contentTypeService.GetContentType(doctypeAlias));
                         }
 
-                        var dtd = dataTypes[propertyType.DataTypeDefinitionId];
+                        var contentType = contentTypes[doctypeAlias];
 
-                        // get the parser for the current property
-                        var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dtd));
-
-                        if (parser != null)
+                        // get all datatypes for this content type
+                        foreach (var propertyType in contentType.PropertyTypes)
                         {
-                            var propValue = this.GetPropertyValueFromItem(item, propertyType.Alias);
-
-                            if (propValue != null)
+                            if (!dataTypes.ContainsKey(propertyType.DataTypeDefinitionId))
                             {
-                                entities.AddRange(parser.GetLinkedEntities(propValue));
+                                // retreive datatype and stash it in dictionary
+                                dataTypes.Add(propertyType.DataTypeDefinitionId, this.dataTypeService.GetDataTypeDefinitionById(propertyType.DataTypeDefinitionId));
+                            }
+
+                            var dtd = dataTypes[propertyType.DataTypeDefinitionId];
+
+                            // get the parser for the current property
+                            var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dtd));
+
+                            if (parser != null)
+                            {
+                                var propValue = this.GetPropertyValueFromItem(item, propertyType.Alias);
+
+                                if (propValue != null)
+                                {
+                                    entities.AddRange(parser.GetLinkedEntities(propValue));
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
+            }
+            catch (Exception)
+            {                
+                // TODO Log error
             }
 
             return entities;
