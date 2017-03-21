@@ -1,12 +1,18 @@
 ﻿<div ng-hide="links.length == 0">
     <p>{{title}}:</p>
     <ul style="list-style: none">
-        <li ng-repeat="link in links">
-            <i class="icon umb-tree-icon {{link.Icon}}"></i><a ng-click="handleLinkClick(link.Id)" href={{getEditLink(link.Id)}}> {{link.Name}}</a>
+        <li ng-repeat="link in links">            
+            <i class="icon umb-tree-icon {{link.Icon}}"></i><a ng-click="handleLinkClick(link.Id)" href={{getEditLink(link.Id)}}> {{link.Name}}</a> - 
+            <small ng-hide="$parent.currentIndex == $index" ><a href="#" ng-click="$parent.showProperties($index)" prevent-default><i class="icon icon-navigation-down"></i>Show properties</a></small>
+            <small ng-show="$parent.currentIndex == $index"><a href="#" ng-click="$parent.hideProperties()" prevent-default><i class="icon icon-navigation-up"></i>Hide properties</a></small>
             
-            <div ng-repeat="(key,val) in link.Properties" class="umb-abstract">
-                <p><strong>Tab {{key}}</strong></p>
-                <p><span ng-repeat="prop in val">{{prop}}<span ng-if="!$last">,</span></span></p>                
+            <div ng-if="$parent.currentIndex == $index">
+                <div ng-repeat="(key,val) in link.Properties" class="umb-abstract" >
+                    <p>
+                        <strong>Tab {{key}}</strong>
+                    </p>
+                    <p><span ng-repeat="prop in val">{{prop}}<span ng-if="!$last">,</span></span></p>
+                </div>
             </div>
         </li>
     </ul>

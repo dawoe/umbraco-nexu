@@ -11,13 +11,24 @@
                 title : '@'
             },
             link: function (scope, element, attrs, ctrl) {
+
+                scope.currentIndex = -1;
+
                 scope.getEditLink = function(id) {
                     return '#/content/content/edit/' + id;
-                },
+                };
 
                 scope.handleLinkClick = function(id) {
-                        scope.linkClicked();
-                    }
+                    scope.linkClicked();
+                };
+
+                scope.showProperties = function(index) {
+                    scope.currentIndex = index;
+                };
+
+                scope.hideProperties = function() {
+                    scope.currentIndex = -1;
+                };
             }
         };
     });
