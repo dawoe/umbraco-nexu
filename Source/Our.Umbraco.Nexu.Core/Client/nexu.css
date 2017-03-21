@@ -1,0 +1,19 @@
+﻿ul.nexu-links {
+    list-style: none;
+    margin-left: 0px;
+}
+
+div.nexu-properties {
+    margin-left: 25px;
+    font-size: 85%;
+}
+
+.umb-notification ul.nexu-links {
+    padding-left: 0px;
+}
+
+
+.alert .nexu-links a {
+    color: #555;
+}
+
