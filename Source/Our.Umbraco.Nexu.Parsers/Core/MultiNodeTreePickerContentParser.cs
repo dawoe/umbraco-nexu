@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Core
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
@@ -10,6 +11,7 @@
     using Newtonsoft.Json.Linq;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
     using Our.Umbraco.Nexu.Parsers.Community;
 
     /// <summary>
@@ -42,6 +44,15 @@
             this.dataTypeService = dataTypeService;
         }
 
+        /// <summary>
+        /// Check if it's a parser for a data type definition
+        /// </summary>
+        /// <param name="dataTypeDefinition">
+        /// The data type definition.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
             if (
@@ -71,7 +82,12 @@
 
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedDocumentEntity>(propertyValue.ToString());
         }
     }
 }
