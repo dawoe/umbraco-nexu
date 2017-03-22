@@ -6,6 +6,9 @@
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Parsers.Community;
 
@@ -41,7 +44,29 @@
 
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            throw new System.NotImplementedException();
+            if (
+                !dataTypeDefinition.PropertyEditorAlias.Equals(
+                    global::Umbraco.Core.Constants.PropertyEditors.MultiNodeTreePickerAlias))
+            {
+                return false;
+            }
+
+            var prevalues =
+                this.dataTypeService.GetPreValuesCollectionByDataTypeId(dataTypeDefinition.Id).PreValuesAsDictionary;
+
+            if (!prevalues.ContainsKey("startNode"))
+            {
+                return false;
+            }
+
+            var startNodeType = JsonConvert.DeserializeObject<JObject>(prevalues["startNode"].Value).Value<string>("type");
+
+            if (startNodeType == null || startNodeType != "content")
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)

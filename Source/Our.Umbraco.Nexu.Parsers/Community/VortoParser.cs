@@ -108,7 +108,7 @@
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 // TODO log error               
             }
