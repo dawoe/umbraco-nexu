@@ -1,5 +1,5 @@
-﻿<div ng-hide="links.length == 0">
-    <p>{{title}}:</p>
+﻿<div ng-hide="links.length == 0">   
+    <p><localize key="{{title}}"></localize></p>
     <ul class="nexu-links">
         <li ng-repeat="link in links">            
             <i class="icon umb-tree-icon {{link.Icon}}"></i><a ng-click="handleLinkClick(link.Id)" href={{getEditLink(link.Id)}}> {{link.Name}}</a> - 
