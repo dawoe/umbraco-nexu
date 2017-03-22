@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Tests.Core
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
@@ -11,6 +12,7 @@
 
     using NUnit.Framework;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Parsers.Community;
     using Our.Umbraco.Nexu.Parsers.Core;
 
@@ -108,6 +110,50 @@
 
             // verify
             Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// The test get linked entities with empty value.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CoreParsers")]
+        public void TestGetLinkedEntitiesWithEmptyValue()
+        {
+            // arrange
+            var parser = new MultiNodeTreePickerContentParser();          
+
+            // act
+            var result = parser.GetLinkedEntities(null);
+
+            // verify
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(0, entities.Count());
+        }
+
+        /// <summary>
+        /// The test get linked entities with value.
+        /// </summary>
+        [Test]
+        [Category("Parsers")]
+        [Category("CoreParsers")]
+        public void TestGetLinkedEntitiesWithValue()
+        {
+            // arrange
+            var parser = new MultiNodeTreePickerContentParser();          
+
+            // act
+            var result = parser.GetLinkedEntities("100,101,104");
+
+            // verify
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(3, entities.Count());
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 100));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 101));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 104));
         }
     }
 }
