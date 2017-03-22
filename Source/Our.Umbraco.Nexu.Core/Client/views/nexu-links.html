@@ -3,8 +3,8 @@
     <ul class="nexu-links">
         <li ng-repeat="link in links">            
             <i class="icon umb-tree-icon {{link.Icon}}"></i><a ng-click="handleLinkClick(link.Id)" href={{getEditLink(link.Id)}}> {{link.Name}}</a> - 
-            <small ng-hide="$parent.currentIndex == $index" ><a href="#" ng-click="$parent.showProperties($index)" prevent-default><i class="icon icon-navigation-down"></i>Show properties</a></small>
-            <small ng-show="$parent.currentIndex == $index"><a href="#" ng-click="$parent.hideProperties()" prevent-default><i class="icon icon-navigation-up"></i>Hide properties</a></small>
+            <small ng-hide="$parent.currentIndex == $index" ><a href="#" ng-click="$parent.showProperties($index)" prevent-default><i class="icon icon-navigation-down"></i><localize key="nexu_linksShowProperties">Show properties</localize></a></small>
+            <small ng-show="$parent.currentIndex == $index"><a href="#" ng-click="$parent.hideProperties()" prevent-default><i class="icon icon-navigation-up"></i><localize key="nexu_linksHideProperties">Hide properties</localize></a></small>
             
             <div ng-if="$parent.currentIndex == $index" class="nexu-properties">
                 <div ng-repeat="(key,val) in link.Properties">

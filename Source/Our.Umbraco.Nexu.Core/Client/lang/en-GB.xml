@@ -6,5 +6,7 @@
     <key alias="dashboardItemsProcessed">items processed</key>
     <key alias="dashboardAutorefresh">Auto-refresh every 5 seconds</key>
     <key alias="dashboardRefresh">Refresh</key>
+    <key alias="linksShowProperties">Show properties</key>
+    <key alias="linksHideProperties">Hide properties</key>
   </area>
 </language>
