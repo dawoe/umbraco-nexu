@@ -47,22 +47,7 @@
                 return Enumerable.Empty<ILinkedEntity>();
             }
 
-            var entities = new List<ILinkedEntity>();
-
-            var idlist = propertyValue.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            idlist.ForEach(
-                x =>
-                    {
-                        var attemptId = x.TryConvertTo<int>();
-
-                        if (attemptId.Success)
-                        {
-                            entities.Add(new LinkedMediaEntity(attemptId.Result));
-                        }
-                    });
-
-            return entities;
+            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedMediaEntity>(propertyValue.ToString());           
         }
     }
 }
