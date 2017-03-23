@@ -274,6 +274,7 @@
     <Compile Include="Community\VortoParser.cs" />
     <Compile Include="Core\ContentPickerParser.cs" />
     <Compile Include="Core\LegacyMediaPickerParser.cs" />
+    <Compile Include="Core\MultiNodeTreePickerMediaParser.cs" />
     <Compile Include="Core\MultiNodeTreePickerContentParser.cs" />
     <Compile Include="Core\MultipleMediaPickerParser.cs" />
     <Compile Include="Core\RelatedLinksParser.cs" />
