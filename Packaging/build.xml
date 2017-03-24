@@ -38,7 +38,7 @@
 		<ProjectToBuild Include="$(ParserProjectDir)\Our.Umbraco.Nexu.Parsers.csproj" >
 			<Properties>Configuration=Release</Properties>
 		</ProjectToBuild>
-		<ProjectToBuild Include="$(CoreTestProjectDir)\Our.Umbraco.Nexu.Parsers.Tests.csproj" >
+		<ProjectToBuild Include="$(CoreTestProjectDir)\Our.Umbraco.Nexu.Core.Tests.csproj" >
 			<Properties>Configuration=Release</Properties>
 		</ProjectToBuild>
 		<ProjectToBuild Include="$(ParserTestProjectDir)\Our.Umbraco.Nexu.Parsers.Tests.csproj" >
