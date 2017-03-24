@@ -64,12 +64,15 @@
             // arrange
             var relation123Mock = new Mock<IRelation>();
             relation123Mock.SetupGet(x => x.ParentId).Returns(123);
+            relation123Mock.SetupGet(x => x.Comment).Returns("media [[Images]] || rte [[Content]]");
 
             var relation456Mock = new Mock<IRelation>();
-            relation456Mock.SetupGet(x => x.ParentId).Returns(123);           
+            relation456Mock.SetupGet(x => x.ParentId).Returns(456);
+            relation456Mock.SetupGet(x => x.Comment).Returns("picker [[Links]] || rte [[Content]]");
 
             var relation789Mock = new Mock<IRelation>();
-            relation789Mock.SetupGet(x => x.ParentId).Returns(123);
+            relation789Mock.SetupGet(x => x.ParentId).Returns(789);
+            relation789Mock.SetupGet(x => x.Comment).Returns("picker [[Images]] || media [[Images]]");
 
             var input = new List<IRelation>
                             {
@@ -118,7 +121,7 @@
                         }).Returns(contentItems);
 
             // act
-            var destination = Mapper.Map<IEnumerable<RelatedDocument>>(input);
+            var destination = Mapper.Map<IEnumerable<RelatedDocument>>(input).ToList();
 
             // verify
             this.contentServiceMock.Verify(x => x.GetByIds(It.IsAny<IEnumerable<int>>()), Times.Once);
@@ -127,6 +130,31 @@
 
             Assert.IsNotNull(destination);
             Assert.AreEqual(input.Count, destination.Count());
+
+            // properties
+            var related123Props = destination.First(x => x.Id == 123).Properties;
+
+            Assert.IsTrue(related123Props.Keys.Contains("Images"));
+            Assert.IsTrue(related123Props.Keys.Contains("Content"));
+ 
+            Assert.IsTrue(related123Props["Images"].Exists(x => x.Trim() == "media"));
+            Assert.IsTrue(related123Props["Content"].Exists(x => x.Trim() == "rte"));
+
+            var related456Props = destination.First(x => x.Id == 456).Properties;
+
+            Assert.IsTrue(related456Props.Keys.Contains("Links"));
+            Assert.IsTrue(related456Props.Keys.Contains("Content"));
+
+            Assert.IsTrue(related456Props["Links"].Exists(x => x.Trim() == "picker"));
+            Assert.IsTrue(related456Props["Content"].Exists(x => x.Trim() == "rte"));
+
+            var related789Props = destination.First(x => x.Id == 789).Properties;
+
+            Assert.IsTrue(related789Props.Keys.Contains("Images"));
+
+            Assert.IsTrue(related789Props["Images"].Exists(x => x.Trim() == "picker"));
+            Assert.IsTrue(related789Props["Images"].Exists(x => x.Trim() == "media"));
+
         }
 
         /// <summary>
