@@ -21,7 +21,7 @@
     /// <summary>
     /// The nexu mapping tests.
     /// </summary>
-    //[TestFixture]
+    [TestFixture]
     public class NexuMappingTests
     {
         /// <summary>
@@ -37,11 +37,11 @@
         {
             this.contentServiceMock = new Mock<IContentService>();
 
-            Mapper.Initialize(config =>
-            {
-                config.ConstructServicesUsing(this.ResolveType);
-                config.AddProfile<NexuMappingProfile>();
-            });
+            Mapper.CreateMap<IEnumerable<IRelation>, IEnumerable<RelatedDocument>>().ConvertUsing(new RelationsToRelatedDocumentsConverter(this.contentServiceMock.Object));
+
+            Mapper.CreateMap<IContent, RelatedDocument>()
+                .ForMember(x => x.Properties, opt => opt.Ignore())
+                .ForMember(x => x.Icon, opt => opt.MapFrom(src => src.ContentType.Icon));
         }
 
         /// <summary>
@@ -53,31 +53,11 @@
             this.contentServiceMock = null;
             Mapper.Reset();
         }
-
-        /// <summary>
-        /// Resolves types
-        /// </summary>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="object"/>.
-        /// </returns>
-        public object ResolveType(Type type)
-        {
-            if (type == typeof(RelationsToRelatedDocumentsConverter))
-            {
-                return new RelationsToRelatedDocumentsConverter(this.contentServiceMock.Object);
-            }
-            
-            Assert.Fail("Can not resolve type " + type.AssemblyQualifiedName);
-            return null;
-        }
-
+        
         /// <summary>
         /// Test mapping of relations to related documents.
         /// </summary>
-        //[Test]
+        [Test]
         [Category("Mappings")]
         public void TestMapRelationsToRelatedDocuments()
         {
@@ -86,7 +66,7 @@
             relation123Mock.SetupGet(x => x.ParentId).Returns(123);
 
             var relation456Mock = new Mock<IRelation>();
-            relation456Mock.SetupGet(x => x.ParentId).Returns(123);
+            relation456Mock.SetupGet(x => x.ParentId).Returns(123);           
 
             var relation789Mock = new Mock<IRelation>();
             relation789Mock.SetupGet(x => x.ParentId).Returns(123);
@@ -152,7 +132,7 @@
         /// <summary>
         /// The test mapping from content to related document.
         /// </summary>
-        //[Test]
+        [Test]
         [Category("Mappings")]
         public void TestMappingFromContentToRelatedDocument()
         {
