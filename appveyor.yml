@@ -9,7 +9,7 @@ cache:
 branches:
   only:
     - develop
-    - master
+    #- master
 
 tests: on
 
