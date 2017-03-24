@@ -17,19 +17,23 @@
 		<BuildDir>$(MSBuildProjectDirectory)\Build</BuildDir>
 		<PackageDir>$(MSBuildProjectDirectory)\Package</PackageDir>
 		<BuildNuGetDir>$(MSBuildProjectDirectory)\NugetBuild</BuildNuGetDir>
-		<CoreProjectDir>$(RootDir)\Sources\Our.Umbraco.LoadBalancingDashboard</CoreProjectDir>
+		<CoreProjectDir>$(RootDir)\Source\Our.Umbraco.Nexu.Core</CoreProjectDir>
+		<ParserProjectDir>$(RootDir)\Source\Our.Umbraco.Nexu.Parsers</ParserProjectDir>
 	</PropertyGroup>
 	
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
 		<VersionMinor>0</VersionMinor>
-		<VersionPatch>2</VersionPatch>
+		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 		<UmbracoVersion>7.3.0</UmbracoVersion>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectToBuild Include="$(CoreProjectDir)\Our.Umbraco.LoadBalancingDashboard.csproj" >
+		<ProjectToBuild Include="$(CoreProjectDir)\Our.Umbraco.Nexu.Core.csproj" >
+			<Properties>Configuration=Release</Properties>
+		</ProjectToBuild>
+		<ProjectToBuild Include="$(ParserProjectDir)\Our.Umbraco.Nexu.Parsers.csproj" >
 			<Properties>Configuration=Release</Properties>
 		</ProjectToBuild>
 	</ItemGroup>
@@ -54,6 +58,11 @@
 			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
 			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
 			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
+		<AssemblyInfo CodeLanguage="CS"
+			OutputFile="$(ParserProjectDir)\Properties\VersionInfo.cs"
+			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
+			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
+			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
 	</Target>
 	
 	<!-- COMPILE -->
@@ -64,8 +73,9 @@
 	<!-- PREPARE FILES -->
 	<Target Name="PrepairFiles" DependsOnTargets="Compile">
 		<ItemGroup>
-			<BinFiles Include="$(CoreProjectDir)\Bin\Release\Our.Umbraco.LoadBalancingDashboard.dll" />
-			<WebFiles Include="$(CoreProjectDir)\App_Plugins\**\*.*" />
+			<BinFiles Include="$(CoreProjectDir)\Bin\Release\Our.Umbraco.Nexu.Core.dll" />
+			<BinFiles Include="$(ParserProjectDir)\Bin\Release\Our.Umbraco.Nexu.Parsers.dll" />
+			<WebFiles Include="$(CoreProjectDir)\Client\**\*.*" />
 			<PackageFile Include="$(MSBuildProjectDirectory)\Package.xml" />
 			<NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
 			<TransFroms Include="$(MSBuildProjectDirectory)\nuget-transforms\*.*" />
@@ -115,7 +125,7 @@
 			OutputDirectory="$(PackageDir)"
 			Files="@(PackageFiles)" />
 
-    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Sources\.nuget\Nuget.exe"
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Packaging\Tools\Nuget.exe"
           ManifestFile="$(BuildNuGetDir)\package.nuspec"
           BasePath="$(BuildNuGetDir)"
           Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
