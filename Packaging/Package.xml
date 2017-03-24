@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+	<info>
+		<package>
+			<name>Nexu</name>
+			<version>0.0.0</version>
+			<license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
+			<url>https://our.umbraco.org/projects/backoffice-extensions/nexu/</url>
+			<requirements>
+				<major>0</major>
+				<minor>0</minor>
+				<patch>0</patch>
+			</requirements>
+		</package>
+		<author>
+			<name>Dave Woestenborghs</name>
+			<website>https://github.com/dawoe/umbraco-nexu</website>
+		</author>
+		<readme><![CDATA[After installing this package you will get a Nexu dashboard in the developer section. You can clik the "Rebuild Nexu Relations" button to parse your content for internal links]]></readme>
+	</info>
+
+	<DocumentTypes />
+	<Templates />
+	<Stylesheets />
+	<Macros />
+	<DictionaryItems />
+	<Languages />
+	<DataTypes />
+
+	<Actions>
+		<Action runat="install"  
+			alias="addDashboardSection" 
+			dashboardAlias="Our.Umbraco.Nexu">
+			 <section>
+				<areas>
+				  <area>developer</area>
+				</areas>
+				<tab caption="Nexu">
+				  <control>/App_Plugins/Nexu/views/dashboard.html</control>
+				</tab>
+			 </section>
+		 </Action>
+	</Actions>
+	
+	<control />
+
+	<files />
+
+</umbPackage>

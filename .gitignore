@@ -34,3 +34,5 @@ App_Data/
 testsites/
 
 Source/.vs/config/applicationhost.config
+Packaging/NugetBuild/
+Packaging/Package/
