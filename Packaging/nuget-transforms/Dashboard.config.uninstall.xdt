@@ -1,5 +1,5 @@
 <dashBoard xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">  
-  <section alias="Our.Umbraco.LoadBalancingDashboard"
+  <section alias="Our.Umbraco.Nexu"
             xdt:Locator="Match(alias)"
             xdt:Transform="Remove" />			
 </dashBoard>

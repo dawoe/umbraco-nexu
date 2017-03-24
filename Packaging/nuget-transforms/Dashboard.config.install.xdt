@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <dashBoard xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">  
-  <section alias="Our.Umbraco.LoadBalancingDashboard"
+  <section alias="Our.Umbraco.Nexu"
             xdt:Locator="Match(alias)"
             xdt:Transform="InsertIfMissing">
 			<areas>
 				  <area>developer</area>
 			</areas>
-			<tab caption="Load balancing">
-				  <control>/App_Plugins/Our.Umbraco.LoadbalancingDashBoard/dashboard.html</control>
+			<tab caption="Nexu">
+				  <control>/App_Plugins/Nexu/views/dashboard.html</control>
 			</tab>
 	</section>
 </dashBoard>
