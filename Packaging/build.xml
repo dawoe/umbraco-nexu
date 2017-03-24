@@ -19,6 +19,8 @@
 		<BuildNuGetDir>$(MSBuildProjectDirectory)\NugetBuild</BuildNuGetDir>
 		<CoreProjectDir>$(RootDir)\Source\Our.Umbraco.Nexu.Core</CoreProjectDir>
 		<ParserProjectDir>$(RootDir)\Source\Our.Umbraco.Nexu.Parsers</ParserProjectDir>
+		<CoreTestProjectDir>$(RootDir)\Source\Our.Umbraco.Nexu.Core.Tests</CoreProjectDir>
+		<ParserTestProjectDir>$(RootDir)\Source\Our.Umbraco.Nexu.Parsers.Tests</ParserProjectDir>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -34,6 +36,12 @@
 			<Properties>Configuration=Release</Properties>
 		</ProjectToBuild>
 		<ProjectToBuild Include="$(ParserProjectDir)\Our.Umbraco.Nexu.Parsers.csproj" >
+			<Properties>Configuration=Release</Properties>
+		</ProjectToBuild>
+		<ProjectToBuild Include="$(CoreTestProjectDir)\Our.Umbraco.Nexu.Parsers.Tests.csproj" >
+			<Properties>Configuration=Release</Properties>
+		</ProjectToBuild>
+		<ProjectToBuild Include="$(ParserTestProjectDir)\Our.Umbraco.Nexu.Parsers.Tests.csproj" >
 			<Properties>Configuration=Release</Properties>
 		</ProjectToBuild>
 	</ItemGroup>

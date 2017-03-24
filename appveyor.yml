@@ -11,7 +11,9 @@ branches:
     - develop
     #- master
 
-test: on
+test: 
+    assemblies:
+    - '**\Our.Umbraco.Nexu.*.Tests.dll'
 
 build_script:
   - cd Packaging
