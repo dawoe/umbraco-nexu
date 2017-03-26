@@ -24,7 +24,7 @@ artifacts:
   - path: Packaging\Package\*.zip
   
   
- deploy:
+deploy:
   - provider: NuGet
     server: https://www.myget.org/F/dawoe-umbraco/api/v2/package
     api_key:
