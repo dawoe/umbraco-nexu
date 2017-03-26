@@ -10,6 +10,7 @@
     using NUnit.Framework;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.ObjectResolution;
     using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
@@ -31,14 +32,24 @@
         protected override void FreezeResolution()
         {
             var assembly = Assembly.Load("Our.Umbraco.Nexu.Parsers");
-            var parsers =
+            var propertyParsers =
                 TypeFinder.FindClassesOfType<IPropertyParser>(new List<Assembly> { assembly }).ToList();
 
-            // set up pattern model resolver
+            var gridEditorParsers =
+               TypeFinder.FindClassesOfType<IGridEditorParser>(new List<Assembly> { assembly }).ToList();
+
+            // set up property  parser resolver
             PropertyParserResolver.Current = new PropertyParserResolver(
                 new ActivatorServiceProvider(),
                 this.Logger,
-                parsers);
+                propertyParsers);
+
+            // setup grid editor parser resolver
+            GridEditorParserResolver.Current = new GridEditorParserResolver(
+                new ActivatorServiceProvider(),
+                this.Logger,
+                gridEditorParsers);
+
 
             base.FreezeResolution();
         }
