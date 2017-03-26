@@ -9,9 +9,18 @@
     /// </summary>
     public class MediaGridEditorParser : IGridEditorParser
     {
+        /// <summary>
+        /// Check if it is a parser for a speficic editor
+        /// </summary>
+        /// <param name="editorview">
+        /// The editor view alias as defined in grid config
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsParserFor(string editorview)
         {
-            throw new System.NotImplementedException();
+            return editorview.Equals("media");
         }
 
         public IEnumerable<ILinkedEntity> GetLinkedEntities(string value)
