@@ -277,6 +277,7 @@
     <Compile Include="PropertyParsers\Community\NestedContentParser.cs" />
     <Compile Include="PropertyParsers\Community\VortoParser.cs" />
     <Compile Include="PropertyParsers\Core\ContentPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\GridParser.cs" />
     <Compile Include="PropertyParsers\Core\LegacyMediaPickerParser.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParser.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParser.cs" />
