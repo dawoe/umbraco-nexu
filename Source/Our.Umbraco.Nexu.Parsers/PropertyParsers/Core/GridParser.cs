@@ -11,9 +11,19 @@
     /// </summary>
     public class GridParser : IPropertyParser
     {
+        /// <summary>
+        /// Check if it's a parser for a data type definition
+        /// </summary>
+        /// <param name="dataTypeDefinition">
+        /// The data type definition.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            throw new System.NotImplementedException();
+            return
+                dataTypeDefinition.PropertyEditorAlias.Equals(global::Umbraco.Core.Constants.PropertyEditors.GridAlias);
         }
 
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
