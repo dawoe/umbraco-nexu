@@ -26,9 +26,10 @@ artifacts:
   
  deploy:
   - provider: NuGet
-    server: https://www.myget.org/F/dawoe-umbraco/
+    server: https://www.myget.org/F/dawoe-umbraco/api/v2/package
     api_key:
       secure: xuhyqGpLpjeK0tUansB6IVWy89Fw+yqGqCmCpVuAY1fnDjfYrxA/gVGNBh8oU0JA
     artifact: /.*\.nupkg/
-
+    on:
+      branch: develop
 
