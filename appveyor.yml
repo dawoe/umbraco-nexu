@@ -22,5 +22,13 @@ build_script:
 artifacts:
   - path: Packaging\Package\*.nupkg
   - path: Packaging\Package\*.zip
+  
+  
+ deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/dawoe-umbraco/
+    api_key:
+      secure: xuhyqGpLpjeK0tUansB6IVWy89Fw+yqGqCmCpVuAY1fnDjfYrxA/gVGNBh8oU0JA
+    artifact: /.*\.nupkg/
 
 
