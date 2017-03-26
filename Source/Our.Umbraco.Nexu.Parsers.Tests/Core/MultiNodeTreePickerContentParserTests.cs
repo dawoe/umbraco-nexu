@@ -13,8 +13,7 @@
     using NUnit.Framework;
 
     using Our.Umbraco.Nexu.Core.Enums;
-    using Our.Umbraco.Nexu.Parsers.Community;
-    using Our.Umbraco.Nexu.Parsers.Core;
+    using Our.Umbraco.Nexu.Parsers.PropertyParsers.Core;
 
     /// <summary>
     /// The multi node tree picker content parser tests.

@@ -273,15 +273,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Community\NestedContentParser.cs" />
-    <Compile Include="Community\VortoParser.cs" />
-    <Compile Include="Core\ContentPickerParser.cs" />
-    <Compile Include="Core\LegacyMediaPickerParser.cs" />
-    <Compile Include="Core\MultiNodeTreePickerMediaParser.cs" />
-    <Compile Include="Core\MultiNodeTreePickerContentParser.cs" />
-    <Compile Include="Core\MultipleMediaPickerParser.cs" />
-    <Compile Include="Core\RelatedLinksParser.cs" />
-    <Compile Include="Core\RichTextEditorParser.cs" />
+    <Compile Include="PropertyParsers\Community\NestedContentParser.cs" />
+    <Compile Include="PropertyParsers\Community\VortoParser.cs" />
+    <Compile Include="PropertyParsers\Core\ContentPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\LegacyMediaPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParser.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParser.cs" />
+    <Compile Include="PropertyParsers\Core\MultipleMediaPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\RelatedLinksParser.cs" />
+    <Compile Include="PropertyParsers\Core\RichTextEditorParser.cs" />
     <Compile Include="ParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

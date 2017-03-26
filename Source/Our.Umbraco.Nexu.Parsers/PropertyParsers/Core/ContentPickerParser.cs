@@ -1,8 +1,6 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
@@ -11,9 +9,9 @@
     using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
-    /// The media picker parser.
+    /// The content picker parser.
     /// </summary>
-    public class MultipleMediaPickerParser : IPropertyParser
+    public class ContentPickerParser : IPropertyParser
     {
         /// <summary>
         /// Check if it's a parser for a data type definition
@@ -26,10 +24,9 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return
-                dataTypeDefinition.PropertyEditorAlias.Equals(
-                    global::Umbraco.Core.Constants.PropertyEditors.MultipleMediaPickerAlias);
-        }
+            return dataTypeDefinition.PropertyEditorAlias.Equals(
+                 global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias);
+        }        
 
         /// <summary>
         /// Gets the linked entites from the property value
@@ -42,12 +39,21 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            var entities = new List<LinkedDocumentEntity>();
+
+            if (propertyValue == null)
             {
-                return Enumerable.Empty<ILinkedEntity>();
+                return entities;
             }
 
-            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedMediaEntity>(propertyValue.ToString());           
+            var attemptInt = propertyValue.TryConvertTo<int>();
+
+            if (attemptInt.Success)
+            {
+                entities.Add(new LinkedDocumentEntity(attemptInt.Result));
+            }
+
+            return entities;
         }
     }
 }

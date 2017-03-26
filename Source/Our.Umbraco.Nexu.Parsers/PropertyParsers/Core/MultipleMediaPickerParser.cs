@@ -1,17 +1,17 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
     using System.Collections.Generic;
+    using System.Linq;
 
-    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
-    /// The content picker parser.
+    /// The media picker parser.
     /// </summary>
-    public class ContentPickerParser : IPropertyParser
+    public class MultipleMediaPickerParser : IPropertyParser
     {
         /// <summary>
         /// Check if it's a parser for a data type definition
@@ -24,9 +24,10 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return dataTypeDefinition.PropertyEditorAlias.Equals(
-                 global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias);
-        }        
+            return
+                dataTypeDefinition.PropertyEditorAlias.Equals(
+                    global::Umbraco.Core.Constants.PropertyEditors.MultipleMediaPickerAlias);
+        }
 
         /// <summary>
         /// Gets the linked entites from the property value
@@ -39,21 +40,12 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            var entities = new List<LinkedDocumentEntity>();
-
-            if (propertyValue == null)
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
             {
-                return entities;
+                return Enumerable.Empty<ILinkedEntity>();
             }
 
-            var attemptInt = propertyValue.TryConvertTo<int>();
-
-            if (attemptInt.Success)
-            {
-                entities.Add(new LinkedDocumentEntity(attemptInt.Result));
-            }
-
-            return entities;
+            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedMediaEntity>(propertyValue.ToString());           
         }
     }
 }

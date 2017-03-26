@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -12,12 +12,11 @@
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
-    using Our.Umbraco.Nexu.Parsers.Community;
 
     /// <summary>
-    /// The multi node tree picker content parser.
+    /// The multi node tree picker media parser.
     /// </summary>
-    public class MultiNodeTreePickerContentParser : IPropertyParser
+    public class MultiNodeTreePickerMediaParser : IPropertyParser
     {
 
         /// <summary>
@@ -26,20 +25,20 @@
         private readonly IDataTypeService dataTypeService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultiNodeTreePickerContentParser"/> class.
+        /// Initializes a new instance of the <see cref="MultiNodeTreePickerMediaParser"/> class.
         /// </summary>
-        public MultiNodeTreePickerContentParser()
+        public MultiNodeTreePickerMediaParser()
         {
             this.dataTypeService = ApplicationContext.Current.Services.DataTypeService;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultiNodeTreePickerContentParser"/> class.
+        /// Initializes a new instance of the <see cref="MultiNodeTreePickerMediaParser"/> class.
         /// </summary>
         /// <param name="dataTypeService">
         /// The data type service.
         /// </param>
-        public MultiNodeTreePickerContentParser(IDataTypeService dataTypeService)
+        public MultiNodeTreePickerMediaParser(IDataTypeService dataTypeService)
         {
             this.dataTypeService = dataTypeService;
         }
@@ -72,7 +71,7 @@
 
             var startNodeType = JsonConvert.DeserializeObject<JObject>(prevalues["startNode"].Value).Value<string>("type");
 
-            if (startNodeType == null || startNodeType != "content")
+            if (startNodeType == null || startNodeType != "media")
             {
                 return false;
             }
@@ -87,7 +86,7 @@
                 return Enumerable.Empty<ILinkedEntity>();
             }
 
-            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedDocumentEntity>(propertyValue.ToString());
+            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedMediaEntity>(propertyValue.ToString());
         }
     }
 }

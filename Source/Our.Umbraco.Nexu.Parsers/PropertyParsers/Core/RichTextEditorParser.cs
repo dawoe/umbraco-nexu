@@ -1,11 +1,7 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text.RegularExpressions;
-
-    using Examine.LuceneEngine.SearchCriteria;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
