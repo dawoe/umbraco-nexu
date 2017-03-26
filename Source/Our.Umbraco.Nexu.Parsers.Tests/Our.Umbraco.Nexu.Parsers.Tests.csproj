@@ -301,6 +301,7 @@
     <Compile Include="PropertyParsers\Community\NestedContentParserTests.cs" />
     <Compile Include="PropertyParsers\Community\VortoParserTests.cs" />
     <Compile Include="PropertyParsers\Core\ContentPickerParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\GridParserTests.cs" />
     <Compile Include="PropertyParsers\Core\LegacyMediaPickerParserTests.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParserTests.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParserTests.cs" />
