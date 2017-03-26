@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Tests.Community
+﻿namespace Our.Umbraco.Nexu.Parsers.Tests.PropertyParsers.Community
 {
     using System;
     using System.Collections.Generic;
@@ -26,8 +26,8 @@
         /// The test is parser for valid data type.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CommunityParsers")]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestIsParserForValidDataType()
         {
             // arrange
@@ -46,8 +46,8 @@
         /// The test is parser for in valid data type.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CommunityParsers")]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestIsParserForInValidDataType()
         {
             // arrange
@@ -66,8 +66,8 @@
         /// The test get linked entities with empty value.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CommunityParsers")]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestGetLinkedEntitiesWithEmptyValue()
         {
             // arrange
@@ -88,8 +88,8 @@
         /// The test get linked entities with value.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CommunityParsers")]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestGetLinkedEntitiesWithValue()
         {
             // arrange

@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Tests.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.Tests.PropertyParsers.Core
 {
     using System.Linq;
 
@@ -19,8 +19,8 @@
         /// The test is parser for valid data type.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CoreParsers")]
+        [Category("PropertyParsers")]
+        [Category("CorePropertyParsers")]
         public void TestIsParserForValidDataType()
         {
             // arrange
@@ -39,8 +39,8 @@
         /// The test is parser for in valid data type.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CoreParsers")]
+        [Category("PropertyParsers")]
+        [Category("CorePropertyParsers")]
         public void TestIsParserForInValidDataType()
         {
             // arrange
@@ -59,8 +59,8 @@
         /// The test get linked entities with empty value.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CoreParsers")]
+        [Category("PropertyParsers")]
+        [Category("CorePropertyParsers")]
         public void TestGetLinkedEntitiesWithEmptyValue()
         {
             // arrange
@@ -86,8 +86,8 @@
         /// The test get linked entities with value.
         /// </summary>
         [Test]
-        [Category("Parsers")]
-        [Category("CoreParsers")]
+        [Category("PropertyParsers")]
+        [Category("CorePropertyParsers")]
         public void TestGetLinkedEntitiesWithValue()
         {
             // arrange
