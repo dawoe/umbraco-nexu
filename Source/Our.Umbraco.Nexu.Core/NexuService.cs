@@ -292,9 +292,10 @@
                 {
                     this.relationService.Save(item.Value);
                 }
-                catch
+                catch (Exception exception)
                 {
                     // ignore errors, can occure when try to create relation for non existing content
+                    this.profiler.Logger.Error(typeof(NexuService), "Error saving nexu relation", exception);
                 }
             }
         }
