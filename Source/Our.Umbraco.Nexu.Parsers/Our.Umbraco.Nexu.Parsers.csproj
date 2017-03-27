@@ -185,6 +185,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -273,15 +274,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Community\NestedContentParser.cs" />
-    <Compile Include="Community\VortoParser.cs" />
-    <Compile Include="Core\ContentPickerParser.cs" />
-    <Compile Include="Core\LegacyMediaPickerParser.cs" />
-    <Compile Include="Core\MultiNodeTreePickerMediaParser.cs" />
-    <Compile Include="Core\MultiNodeTreePickerContentParser.cs" />
-    <Compile Include="Core\MultipleMediaPickerParser.cs" />
-    <Compile Include="Core\RelatedLinksParser.cs" />
-    <Compile Include="Core\RichTextEditorParser.cs" />
+    <Compile Include="GridEditorParsers\Core\MediaGridEditorParser.cs" />
+    <Compile Include="GridEditorParsers\Core\RteGridEditorParser.cs" />
+    <Compile Include="PropertyParsers\Community\NestedContentParser.cs" />
+    <Compile Include="PropertyParsers\Community\VortoParser.cs" />
+    <Compile Include="PropertyParsers\Core\ContentPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\GridParser.cs" />
+    <Compile Include="PropertyParsers\Core\LegacyMediaPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParser.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParser.cs" />
+    <Compile Include="PropertyParsers\Core\MultipleMediaPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\RelatedLinksParser.cs" />
+    <Compile Include="PropertyParsers\Core\RichTextEditorParser.cs" />
     <Compile Include="ParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

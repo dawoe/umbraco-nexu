@@ -277,6 +277,7 @@
     <Compile Include="BootStrapper.cs" />
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Enums\LinkedEntityType.cs" />
+    <Compile Include="Interfaces\IGridEditorParser.cs" />
     <Compile Include="Interfaces\INexuService.cs" />
     <Compile Include="Interfaces\ILinkedEntity.cs" />
     <Compile Include="Interfaces\IPropertyParser.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Models\RelatedDocument.cs" />
     <Compile Include="NexuContext.cs" />
     <Compile Include="NexuService.cs" />
+    <Compile Include="ObjectResolution\GridEditorParserResolver.cs" />
     <Compile Include="ObjectResolution\PluginManagerExtensions.cs" />
     <Compile Include="ObjectResolution\PropertyParserResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

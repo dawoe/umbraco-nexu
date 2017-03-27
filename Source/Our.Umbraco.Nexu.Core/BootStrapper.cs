@@ -54,8 +54,12 @@
                     "Begin ApplicationInitialized",
                     "End ApplicationInitialized"))
             {
+                // resolve property parsers
                 PropertyParserResolver.Current =
                     new PropertyParserResolver(PluginManager.Current.ResolvePropertyParsers());
+                
+                // resolve grid editor parsers
+                GridEditorParserResolver.Current = new GridEditorParserResolver(PluginManager.Current.ResolveGridEditorParsers());
             }
         }
 

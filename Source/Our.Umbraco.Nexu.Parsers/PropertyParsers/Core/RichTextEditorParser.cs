@@ -1,19 +1,20 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Text.RegularExpressions;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
+
+    using HtmlAgilityPack;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
-    /// The media picker parser.
+    /// The rich text editor parser.
     /// </summary>
-    public class MultipleMediaPickerParser : IPropertyParser
+    public class RichTextEditorParser : IPropertyParser
     {
         /// <summary>
         /// Check if it's a parser for a data type definition
@@ -28,26 +29,28 @@
         {
             return
                 dataTypeDefinition.PropertyEditorAlias.Equals(
-                    global::Umbraco.Core.Constants.PropertyEditors.MultipleMediaPickerAlias);
+                    global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias);
         }
 
-        /// <summary>
-        /// Gets the linked entites from the property value
-        /// </summary>
-        /// <param name="propertyValue">
-        /// The property value.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
-        /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
+            var linkedEntities = new List<ILinkedEntity>();
+
             if (string.IsNullOrEmpty(propertyValue?.ToString()))
             {
-                return Enumerable.Empty<ILinkedEntity>();
+                return linkedEntities;
             }
 
-            return ParserHelper.GetLinkedEntitiesFromCsvString<LinkedMediaEntity>(propertyValue.ToString());           
+            try
+            {
+                linkedEntities.AddRange(ParserHelper.ParseRichText(propertyValue.ToString()));
+            }
+            catch
+            {
+                // TODO implement logging
+            }
+
+            return linkedEntities;
         }
     }
 }

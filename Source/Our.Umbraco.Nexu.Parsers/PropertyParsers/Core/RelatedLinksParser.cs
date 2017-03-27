@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Core
+﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
     using System.Collections.Generic;
     using System.Linq;

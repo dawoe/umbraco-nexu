@@ -297,15 +297,18 @@
   <ItemGroup>
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="BaseParserTest.cs" />
-    <Compile Include="Community\NestedContentParserTests.cs" />
-    <Compile Include="Community\VortoParserTests.cs" />
-    <Compile Include="Core\ContentPickerParserTests.cs" />
-    <Compile Include="Core\LegacyMediaPickerParserTests.cs" />
-    <Compile Include="Core\MultiNodeTreePickerMediaParserTests.cs" />
-    <Compile Include="Core\MultiNodeTreePickerContentParserTests.cs" />
-    <Compile Include="Core\MultipleMediaPickerParserTests.cs" />
-    <Compile Include="Core\RelatedLinkParserTests.cs" />
-    <Compile Include="Core\RichTextEditorParserTests.cs" />
+    <Compile Include="GridEditorParsers\Core\MediaGridEditorParserTests.cs" />
+    <Compile Include="GridEditorParsers\Core\RteGridEditorParserTests.cs" />
+    <Compile Include="PropertyParsers\Community\NestedContentParserTests.cs" />
+    <Compile Include="PropertyParsers\Community\VortoParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\ContentPickerParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\GridParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\LegacyMediaPickerParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\MultipleMediaPickerParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\RelatedLinkParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\RichTextEditorParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +325,7 @@
       <Name>Our.Umbraco.Nexu.Parsers</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
