@@ -1,6 +1,8 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
 
@@ -34,7 +36,23 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(string value)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(value))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            try
+            {
+                entities.AddRange(ParserHelper.ParseRichText(value));
+            }
+            catch (Exception exception)
+            {
+                // TODO add logging
+            }
+
+            return entities;
         }
     }
 }

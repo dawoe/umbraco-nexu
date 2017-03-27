@@ -117,7 +117,7 @@
                                         if (parser != null)
                                         {
                                             // parse the value
-                                            var value = control.Value<JObject>("value").ToString();
+                                            var value = control["value"].ToString();
                                             entities.AddRange(parser.GetLinkedEntities(value));
                                         }
                                     }
