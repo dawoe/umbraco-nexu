@@ -148,10 +148,10 @@
             // verify
             Assert.IsNotNull(result);
             var entities = result.ToList();
-            Assert.AreEqual(1, entities.Count());
+            Assert.AreEqual(2, entities.Count());
 
             Assert.IsTrue(entities.Any(x => x.Id == mediaId && x.LinkedEntityType == LinkedEntityType.Media));
-            //Assert.IsTrue(entities.Any(x => x.Id == contentId && x.LinkedEntityType == LinkedEntityType.Document));
+            Assert.IsTrue(entities.Any(x => x.Id == contentId && x.LinkedEntityType == LinkedEntityType.Document));
         }
 
         /// <summary>

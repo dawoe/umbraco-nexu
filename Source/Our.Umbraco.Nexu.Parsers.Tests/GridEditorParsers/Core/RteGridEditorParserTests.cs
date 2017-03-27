@@ -1,7 +1,10 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Core
 {
+    using System.Linq;
+
     using NUnit.Framework;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core;
 
     /// <summary>
@@ -44,6 +47,52 @@
 
             // verify
             Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// The test get linked entities with empty value.
+        /// </summary>
+        [Test]
+        [Category("GridEditorParsers")]
+        [Category("CoreGridEditorParsers")]
+        public void TestGetLinkedEntitiesWithEmptyValue()
+        {
+            // arrange            
+            var parser = new RteGridEditorParser();
+
+            // act
+            var result = parser.GetLinkedEntities(null);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            Assert.AreEqual(0, result.Count());
+        }
+
+        /// <summary>
+        /// The test get linked entities.
+        /// </summary>
+        [Test]
+        [Category("GridEditorParsers")]
+        [Category("CoreGridEditorParsers")]
+        public void TestGetLinkedEntities()
+        {
+            // arrange            
+            var parser = new RteGridEditorParser();
+
+            var contentId = 1068;
+
+            string value = $@"<p>Test rich text editor with <a data-id=\""{contentId}\"" href=\""/{{localLink:{contentId}}}\"" title=\""Explore\"">links</a></p>\n<p> </p>";
+
+            // act
+            var result = parser.GetLinkedEntities(value).ToList();
+
+            // verify
+            Assert.IsNotNull(result);
+
+            Assert.AreEqual(1, result.Count());
+
+            Assert.IsTrue(result.Any(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == contentId));
         }
     }
 }
