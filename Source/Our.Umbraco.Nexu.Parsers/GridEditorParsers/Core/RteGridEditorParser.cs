@@ -20,7 +20,7 @@
         /// </returns>
         public bool IsParserFor(string editorview)
         {
-            throw new System.NotImplementedException();
+            return editorview.Equals("rte");
         }
 
         /// <summary>
