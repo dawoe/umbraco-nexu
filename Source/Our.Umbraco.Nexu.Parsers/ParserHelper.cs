@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Web;
 
     using global::Umbraco.Core;
 
@@ -43,6 +45,22 @@
                 });
 
             return entities;
+        }
+
+        /// <summary>
+        /// Maps the path virtual path to a absolute path
+        /// </summary>
+        /// <param name="virtualPath">
+        /// The virtual path.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string MapPath(string virtualPath)
+        {
+            return HttpContext.Current == null
+                        ? Path.Combine(Directory.GetCurrentDirectory(), virtualPath)
+                        : HttpContext.Current.Server.MapPath(virtualPath);
         }
     }
 }
