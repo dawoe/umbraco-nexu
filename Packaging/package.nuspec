@@ -7,7 +7,7 @@
         <authors>Dave Woestenborghs</authors>
         <owners>Dave Woestenborghs</owners>
         <projectUrl>https://github.com/dawoe/umbraco-nexu</projectUrl>
-        <iconUrl>https://raw.githubusercontent.com/dawoe/umbraco-loadbalancing-dashboard/master/icon.png</iconUrl>
+        <iconUrl>https://github.com/dawoe/umbraco-nexu/raw/develop/icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This package makes it possible to keep track of internal links in Umbraco</description>
         <summary>After installing this package you will get a Nexu dashboard in the developer section. You can clik the "Rebuild Nexu Relations" button to parse your content for internal links</summary>
