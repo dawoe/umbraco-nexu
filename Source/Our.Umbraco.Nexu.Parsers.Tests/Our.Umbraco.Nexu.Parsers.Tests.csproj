@@ -297,6 +297,7 @@
   <ItemGroup>
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="BaseParserTest.cs" />
+    <Compile Include="GridEditorParsers\Community\DocTypeGridEditorParserTests.cs" />
     <Compile Include="GridEditorParsers\Core\MediaGridEditorParserTests.cs" />
     <Compile Include="GridEditorParsers\Core\RteGridEditorParserTests.cs" />
     <Compile Include="PropertyParsers\Community\NestedContentParserTests.cs" />
