@@ -36,3 +36,5 @@ testsites/
 Source/.vs/config/applicationhost.config
 Packaging/NugetBuild/
 Packaging/Package/
+Packaging/UmbracoBuild/
+artifacts/
