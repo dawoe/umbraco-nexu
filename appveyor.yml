@@ -17,7 +17,7 @@ test:
 
 build_script:
   - cd Packaging
-  - build.bat
+  - build-appveyor.bat
 
 artifacts:
   - path: Packaging\Package\*.nupkg
