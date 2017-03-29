@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>Our.Umbraco.Nexu</id>
-        <version>0.0.0</version>
-        <title>Nexu</title>
-        <authors>Dave Woestenborghs</authors>
-        <owners>Dave Woestenborghs</owners>
-        <projectUrl>https://github.com/dawoe/umbraco-nexu</projectUrl>
-        <iconUrl>https://github.com/dawoe/umbraco-nexu/raw/develop/icon.png</iconUrl>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>This package makes it possible to keep track of internal links in Umbraco</description>
-        <summary>After installing this package you will get a Nexu dashboard in the developer section. You can clik the "Rebuild Nexu Relations" button to parse your content for internal links</summary>
-        <copyright>Dave Woestenborghs</copyright>
-        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-        <language>en-GB</language>
-        <tags>umbraco</tags>
+    <id></id>
+    <version>0.0.0</version>
+    <title></title>
+    <authors></authors>
+    <owners></owners>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+    <requireLicenseAcceptance></requireLicenseAcceptance>
+    <description></description>
+    <summary></summary>
+    <copyright></copyright>
+    <licenseUrl></licenseUrl>
+    <language></language>
+    <tags></tags>
         <dependencies>
             <dependency id="UmbracoCms.Core" version="7.3.0" />
         </dependencies>		
-    </metadata>    
-	<files>			
-		<file src="App_Plugins\**\*.*" target="Content\App_Plugins" />
-		<file src="nuget-transforms\Dashboard.config.install.xdt" target="Content\config\Dashboard.config.install.xdt" />
-		<file src="nuget-transforms\Dashboard.config.uninstall.xdt" target="Content\config\Dashboard.config.uninstall.xdt" />			
-	</files>
+    </metadata>    	
 </package>
