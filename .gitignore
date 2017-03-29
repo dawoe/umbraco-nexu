@@ -38,3 +38,5 @@ Packaging/NugetBuild/
 Packaging/Package/
 Packaging/UmbracoBuild/
 artifacts/
+Source/Our.Umbraco.Nexu.Core/Properties/VersionInfo.cs
+Source/Our.Umbraco.Nexu.Parsers/Properties/VersionInfo.cs
