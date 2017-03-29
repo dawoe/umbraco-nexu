@@ -20,7 +20,7 @@
         /// </returns>
         public bool IsParserFor(string editorview)
         {
-            return false;
+            return editorview.ToLowerInvariant().Equals("/app_plugins/doctypegrideditor/views/doctypegrideditor.html");
         }
 
         /// <summary>
