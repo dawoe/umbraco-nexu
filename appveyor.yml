@@ -20,8 +20,8 @@ build_script:
   - build-appveyor.bat
 
 artifacts:
-  - path: Packaging\Package\*.nupkg
-  - path: Packaging\Package\*.zip
+  - path: artifacts\*.nupkg
+  - path: artifacts\*.zip
   
   
 deploy:
