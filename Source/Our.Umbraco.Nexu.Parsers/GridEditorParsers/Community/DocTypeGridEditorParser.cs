@@ -1,12 +1,18 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
     /// The doc type grid editor parser.
@@ -72,7 +78,76 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(string value)
         {
-            return Enumerable.Empty<ILinkedEntity>();
+            if (string.IsNullOrEmpty(value))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            try
+            {
+                var dataTypes = new Dictionary<int, IDataTypeDefinition>();
+
+                var jsonValue = JsonConvert.DeserializeObject<JObject>(value);
+
+                var doctypeAlias = jsonValue["dtgeContentTypeAlias"].ToString();
+
+                if (!string.IsNullOrEmpty(doctypeAlias))
+                {
+                    var contentType = this.contentTypeService.GetContentType(doctypeAlias);
+
+                    if (contentType != null)
+                    {
+                        var valueArray = jsonValue["value"];
+
+                        if (valueArray != null)
+                        {
+                            foreach (JProperty item in valueArray)
+                            {
+                                var propAlias = item.Name;
+
+                                var property = contentType.PropertyTypes.FirstOrDefault(x => x.Alias == propAlias);
+
+                                if (property != null)
+                                {
+                                    IDataTypeDefinition dataType = null;
+
+                                    var dataTypeDefinitionId = property.DataTypeDefinitionId;
+
+                                    if (dataTypes.ContainsKey(dataTypeDefinitionId))
+                                    {
+                                        dataType = dataTypes[dataTypeDefinitionId];
+                                    }
+                                    else
+                                    {
+                                        dataType =
+                                            this.dataTypeService.GetDataTypeDefinitionById(
+                                                dataTypeDefinitionId);
+
+                                        dataTypes.Add(dataTypeDefinitionId, dataType);
+                                    }
+
+                                    var parser =
+                                        PropertyParserResolver.Current.Parsers.FirstOrDefault(
+                                            x => x.IsParserFor(dataType));
+
+                                    if (parser != null)
+                                    {
+                                        entities.AddRange(parser.GetLinkedEntities(item.Value));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                // TODO add logging
+            }
+
+            return entities;
         }
     }
 }
