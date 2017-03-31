@@ -3,6 +3,16 @@
     margin-left: 0px;
 }
 
+ul.nexu-links span.deleted {
+    text-decoration: line-through;
+}
+
+ul.nexu-links span.unpublished {
+    font-style: italic;
+    opacity: 0.5;
+}
+
+
 div.nexu-properties {
     margin-left: 25px;
     font-size: 85%;
