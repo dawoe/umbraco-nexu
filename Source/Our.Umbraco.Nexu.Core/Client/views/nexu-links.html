@@ -2,7 +2,7 @@
     <p><localize key="{{title}}"></localize></p>
     <ul class="nexu-links">
         <li ng-repeat="link in links">            
-            <i class="icon umb-tree-icon {{link.Icon}}"></i><a ng-click="handleLinkClick(link.Id)" href={{getEditLink(link.Id)}}> {{link.Name}}</a> - 
+            <i class="icon umb-tree-icon {{link.Icon}}"></i><a ng-click="handleLinkClick(link.Id)" href={{getEditLink(link.Id)}}><span ng-class="{'deleted' : link.Trashed, 'unpublished' : !link.Published && !link.Trashed}">{{link.Name}}</span></a> - 
             <small ng-hide="$parent.currentIndex == $index" ><a href="#" ng-click="$parent.showProperties($index)" prevent-default><i class="icon icon-navigation-down"></i><localize key="nexu_linksShowProperties">Show properties</localize></a></small>
             <small ng-show="$parent.currentIndex == $index"><a href="#" ng-click="$parent.hideProperties()" prevent-default><i class="icon icon-navigation-up"></i><localize key="nexu_linksHideProperties">Hide properties</localize></a></small>
             
