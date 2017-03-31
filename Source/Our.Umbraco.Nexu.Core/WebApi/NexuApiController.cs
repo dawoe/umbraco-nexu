@@ -169,7 +169,18 @@
             foreach (var item in rootLevelItems)
             {
                 this.ParseContent(item);
-            }            
+            } 
+            
+            // parser recyle bin
+            if (attempInt.Result == Constants.System.Root)
+            {
+                rootLevelItems = this.contentService.GetChildren(Constants.System.RecycleBinContent).ToList();
+
+                foreach (var item in rootLevelItems)
+                {
+                    this.ParseContent(item);
+                }
+            }           
 
             // reset context variables after processing
             NexuContext.Current.IsProcessing = false;
