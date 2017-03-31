@@ -23,7 +23,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return false;
+            return dataTypeDefinition.PropertyEditorAlias.Equals("RJP.MultiUrlPicker");
         }
 
         /// <summary>
