@@ -15,6 +15,7 @@
     using global::Umbraco.Core.Services;
     using global::Umbraco.Tests.TestHelpers;
     using global::Umbraco.Web;
+    using global::Umbraco.Web.UI.Umbraco.Controls;
 
     using Moq;
 
@@ -85,7 +86,7 @@
         {
             get
             {
-                yield return new TestCaseData(-1).SetName("TestRebuildJob - Root node");
+                yield return new TestCaseData(Constants.System.Root).SetName("TestRebuildJob - Root node");
                 yield return new TestCaseData(123).SetName("TestRebuildJob - Specific start node");
             }
         }
@@ -244,10 +245,18 @@
             startContent.SetupGet(x => x.Name).Returns("Start content");
             startContent.SetupGet(x => x.Id).Returns(1234);
 
-            if (startnode == -1)
+            var recycleBinContent = new Mock<IContent>();
+            recycleBinContent.SetupGet(x => x.Name).Returns("Recycled 1");
+            recycleBinContent.SetupGet(x => x.Id).Returns(654);
+
+            if (startnode == Constants.System.Root)
             {
                 this.contentServiceMock.Setup(x => x.GetRootContent())
                     .Returns(new List<IContent> { startContent.Object });
+                this.contentServiceMock.Setup(x => x.GetChildren(Constants.System.RecycleBinContent)).Returns(new List<IContent>
+                                                                                                                  {
+                                                                                                                      recycleBinContent.Object
+                                                                                                                  });
             }
             else
             {
@@ -280,9 +289,13 @@
             this.controller.RebuildJob(startnode);
 
             // verify
-            if (startnode == -1)
+            if (startnode == Constants.System.Root)
             {
                 this.contentServiceMock.Verify(x => x.GetRootContent(), Times.Once);
+                this.contentServiceMock.Verify(x => x.GetChildren(Constants.System.RecycleBinContent), Times.Once);
+
+                this.nexuServiceMock.Verify(x => x.ParseContent(recycleBinContent.Object), Times.Once);
+                this.contentServiceMock.Verify(x => x.GetChildren(recycleBinContent.Object.Id), Times.Once);
             }
             else
             {
@@ -297,7 +310,7 @@
             this.contentServiceMock.Verify(x => x.GetChildren(child1.Object.Id), Times.Once);
 
             this.nexuServiceMock.Verify(x => x.ParseContent(child2.Object), Times.Once);
-            this.contentServiceMock.Verify(x => x.GetChildren(child2.Object.Id), Times.Once);           
+            this.contentServiceMock.Verify(x => x.GetChildren(child2.Object.Id), Times.Once);            
         }
 
         #endregion
