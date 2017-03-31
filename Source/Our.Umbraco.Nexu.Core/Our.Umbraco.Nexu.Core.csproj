@@ -305,6 +305,7 @@
   <ItemGroup>
     <Content Include="Client\controllers\content-delete-controller.js" />
     <Content Include="Client\controllers\dashboard-controller.js" />
+    <Content Include="Client\lang\en-US.xml" />
     <Content Include="Client\lang\en-GB.xml" />
     <Content Include="Client\nexu.css" />
     <Content Include="Client\views\dashboard.html" />
