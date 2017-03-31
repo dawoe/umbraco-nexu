@@ -18,8 +18,10 @@ div.nexu-properties {
     font-size: 85%;
 }
 
-.umb-notification ul.nexu-links {
+.unpublish-confirmation ul.nexu-links {
     padding-left: 0px;
+    overflow: scroll;
+    max-height: 200px;
 }
 
 
