@@ -118,7 +118,7 @@
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        public HttpResponseMessage Rebuild(int id = -1)
+        public HttpResponseMessage Rebuild(int id = Constants.System.Root)
         {            
             Thread backgroundRebuild = new Thread(new ParameterizedThreadStart(this.RebuildJob));
             backgroundRebuild.IsBackground = true;
@@ -149,7 +149,7 @@
             // mark rebuild in progress
             NexuContext.Current.IsProcessing = true;
 
-            if (attempInt.Result == -1)
+            if (attempInt.Result == Constants.System.Root)
             {
                 // get the root level content items
                 rootLevelItems = this.contentService.GetRootContent().ToList();
@@ -169,7 +169,7 @@
             foreach (var item in rootLevelItems)
             {
                 this.ParseContent(item);
-            }
+            }            
 
             // reset context variables after processing
             NexuContext.Current.IsProcessing = false;

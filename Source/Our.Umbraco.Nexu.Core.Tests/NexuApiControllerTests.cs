@@ -85,7 +85,7 @@
         {
             get
             {
-                yield return new TestCaseData(-1).SetName("TestRebuildJob - Root node");
+                yield return new TestCaseData(Constants.System.Root).SetName("TestRebuildJob - Root node");
                 yield return new TestCaseData(123).SetName("TestRebuildJob - Specific start node");
             }
         }
@@ -244,7 +244,7 @@
             startContent.SetupGet(x => x.Name).Returns("Start content");
             startContent.SetupGet(x => x.Id).Returns(1234);
 
-            if (startnode == -1)
+            if (startnode == Constants.System.Root)
             {
                 this.contentServiceMock.Setup(x => x.GetRootContent())
                     .Returns(new List<IContent> { startContent.Object });
@@ -280,7 +280,7 @@
             this.controller.RebuildJob(startnode);
 
             // verify
-            if (startnode == -1)
+            if (startnode == Constants.System.Root)
             {
                 this.contentServiceMock.Verify(x => x.GetRootContent(), Times.Once);
             }
