@@ -1,11 +1,17 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The rjp multi url picker parser.
@@ -37,7 +43,55 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            return Enumerable.Empty<ILinkedEntity>();
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            try
+            {
+                var jsonValues = JsonConvert.DeserializeObject<JArray>(propertyValue.ToString());
+
+                foreach (var item in jsonValues)
+                {
+                    if (item["id"] != null)
+                    {
+                        var attempId = item["id"].TryConvertTo<int>();
+
+                        if (attempId.Success)
+                        {
+                            var isMedia = false;
+
+                            if (item["isMedia"] != null)
+                            {
+                                var attemptIsMedia = item["isMedia"].TryConvertTo<bool>();
+
+                                if (attemptIsMedia.Success)
+                                {
+                                    isMedia = attemptIsMedia.Result;
+                                }
+                            }
+
+                            if (isMedia)
+                            {
+                                entities.Add(new LinkedMediaEntity(attempId.Result));
+                            }
+                            else
+                            {
+                                entities.Add(new LinkedDocumentEntity(attempId.Result));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                // TODO Log exceptoin                
+            }
+
+            return entities;;
         }
     }
 }
