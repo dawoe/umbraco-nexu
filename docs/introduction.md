@@ -15,11 +15,11 @@ Pages in the recycle bin will be displayed as strike through
 
 Delete dialog
 
-![Delete dialog](images/delete dialog.png)
+![Delete dialog](images/delete_dialog.png)
 
 Unpublish dialog
 
-![Unpublish dialog](images/unpublish dialog.png)
+![Unpublish dialog](images/unpublish_dialog.png)
 
 ### Nexu dashboard ###
 
