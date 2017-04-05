@@ -8,7 +8,7 @@ When content is saved the package will parse all the properties that have a pars
 
 ### Delete warnings and unpublish warnings ###
 
-When you try to delete or unpublish a item that is linked to from anothe item you will get a warning that it is used by other items. You can also see in which property the link is created.
+When you try to delete or unpublish a item that is linked to from another item you will get a warning that it is used by other items. You can also see in which property the link is created.
 
 Pages that are unpublished will display in italic and greyed out.
 Pages in the recycle bin will be displayed as strike through
@@ -46,7 +46,7 @@ In the developer section a dashboard is added that allows you to rebuild all the
 ## Supported grid editors ##
 
 ### Core grid editors ###
-- Grid
+- Rich text
 - Media
 
 ### Community grid editors ###

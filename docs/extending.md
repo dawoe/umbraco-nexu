@@ -76,7 +76,7 @@ This interface requires you to implement 2 methods
 
 ## Custom grid editor parsers ##
 
-You can create your own grid editor parser by creating a class that implements the interface `Our.Umbraco.Nexu.Interfaces.IGridEditorParser`
+You can create your own grid editor parser by creating a class that implements the interface `Our.Umbraco.Nexu.Core.Interfaces.IGridEditorParser`
 
 This interface requires you to implement 2 methods
 
@@ -119,5 +119,33 @@ This interface requires you to implement 2 methods
 
 ## Registering custom parsers ##
 
+Registering your custom parsers is must be done in the `ApplicationStarting` event of a class inheriting from `Umbraco.Core.ApplicationEventHandler`
+
+	public class UmbracoStartup : ApplicationEventHandler
+    {
+		protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+		{	
+			// register custom nexu property parsers
+            Our.Umbraco.Nexu.Core.ObjectResolution.PropertyParserResolver.Current.AddType<CustomPropertyParser>();
+			
+			// register custom nexu grid editor parsers
+			Our.Umbraco.Nexu.Core.ObjectResolution.GridEditorParserResolver.Current.AddType<CustomGridEditorParser>();
+		}
+    }
+
 
 ## Removing built-in parsers ##
+
+Removing your buil-int parsers is must be done in the `ApplicationStarting` event of a class inheriting from `Umbraco.Core.ApplicationEventHandler`
+
+	public class UmbracoStartup : ApplicationEventHandler
+    {
+		protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+		{	
+			// removing nexu property parsers
+            Our.Umbraco.Nexu.Core.ObjectResolution.PropertyParserResolver.Current.RemoveType<CustomPropertyParser>();
+			
+			// removing nexu grid editor parsers
+			Our.Umbraco.Nexu.Core.ObjectResolution.GridEditorParserResolver.Current.RemoveType<CustomGridEditorParser>();
+		}
+    }
