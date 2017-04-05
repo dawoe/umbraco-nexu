@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
 
     /// <summary>
@@ -49,7 +52,7 @@
             }
             catch (Exception exception)
             {
-                // TODO add logging
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<RteGridEditorParser>("Error parsing rich text grid editor", exception);
             }
 
             return entities;

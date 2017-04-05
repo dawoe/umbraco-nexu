@@ -5,6 +5,7 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -144,7 +145,7 @@
             }
             catch (Exception exception)
             {
-                // TODO add logging
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<DocTypeGridEditorParser>("Error parsing doc type grid editor", exception);
             }
 
             return entities;

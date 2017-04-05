@@ -1,9 +1,11 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
 
     using HtmlAgilityPack;
@@ -45,9 +47,9 @@
             {
                 linkedEntities.AddRange(ParserHelper.ParseRichText(propertyValue.ToString()));
             }
-            catch
+            catch (Exception exception)
             {
-                // TODO implement logging
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<RichTextEditorParser>("Error parsing rich text editor", exception);
             }
 
             return linkedEntities;
