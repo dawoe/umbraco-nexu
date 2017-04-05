@@ -1,13 +1,12 @@
-﻿namespace Our.Umbraco.Nexu.Resolvers
+﻿namespace Our.Umbraco.Nexu.Core.ObjectResolution
 {
     using System;
     using System.Collections.Generic;
 
     using global::Umbraco.Core.Logging;
+    using global::Umbraco.Core.ObjectResolution;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
-
-    using global::Umbraco.Core.ObjectResolution;
 
     /// <summary>
     /// The property parser resolver.

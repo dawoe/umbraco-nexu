@@ -13,7 +13,7 @@
     using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
-    using Our.Umbraco.Nexu.Resolvers;
+    using Our.Umbraco.Nexu.Core.ObjectResolution;
 
     /// <summary>
     /// Nexu service
