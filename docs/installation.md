@@ -2,11 +2,11 @@
 
 ## Umbraco package ##
 
-Download and install the package found here
+Download and install the package found here : [https://our.umbraco.org/projects/backoffice-extensions/nexu](https://our.umbraco.org/projects/backoffice-extensions/nexu)
 
 ## Nuget package ##
 
-
+[https://www.nuget.org/packages/Our.Umbraco.Nexu/](https://www.nuget.org/packages/Our.Umbraco.Nexu/)
 
 # Steps after installation #
 
