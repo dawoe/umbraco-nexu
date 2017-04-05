@@ -1,0 +1,63 @@
+os: Visual Studio 2015
+
+# Version format
+version: 1.0.0.{build}
+
+cache:
+  - Source\packages -> **\packages.config   # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+
+branches:
+  only:
+    - develop
+    - master
+    
+# UMBRACO_PACKAGE_PRERELEASE_SUFFIX if a rtm release build this should be blank, otherwise if empty will default to alpha
+# example UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta
+init:
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm   
+
+test: 
+    assemblies:
+    - '**\Our.Umbraco.Nexu.*.Tests.dll'
+
+build_script:
+  - cd Packaging
+  - build-appveyor.bat
+
+artifacts:
+  - path: artifacts\*.nupkg
+  - path: artifacts\*.zip
+  
+
+
+deploy:
+ # MyGet Deployment for beta releases  
+  - provider: NuGet
+    server: https://www.myget.org/F/dawoe-umbraco/api/v2/package
+    api_key:
+      secure: xuhyqGpLpjeK0tUansB6IVWy89Fw+yqGqCmCpVuAY1fnDjfYrxA/gVGNBh8oU0JA
+    artifact: /.*\.nupkg/
+    on:
+      branch: develop
+      
+ # GitHub Deployment for releases
+  - provider: GitHub
+    auth_token:
+      secure: 2NNEN9lVF0/cA40PZrm64BMMK34Y26A8xK22eUdWcN/7Nn5KyyRH2+THumy91tcV
+    artifact: /.*\.zip/            # upload all Zip packages to release assets
+    draft: false
+    prerelease: false
+    on:
+      branch: master
+      appveyor_repo_tag: true        # deploy on tag push only
+
+# NuGet Deployment for releases
+  - provider: NuGet
+    server:
+    api_key:
+      secure: nbR13qs8xp+iOGpuDFDsz7AtYFcltXswOXo9N8fhqx+oJoRdkzHk3pjubFbfO6dx
+    artifact: /.*\.nupkg/
+    on:
+      branch: master
+      appveyor_repo_tag: true
+

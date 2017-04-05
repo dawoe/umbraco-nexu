@@ -1,0 +1,31 @@
+﻿ul.nexu-links {
+    list-style: none;
+    margin-left: 0px;
+}
+
+ul.nexu-links span.deleted {
+    text-decoration: line-through;
+}
+
+ul.nexu-links span.unpublished {
+    font-style: italic;
+    opacity: 0.5;
+}
+
+
+div.nexu-properties {
+    margin-left: 25px;
+    font-size: 85%;
+}
+
+.unpublish-confirmation ul.nexu-links {
+    padding-left: 0px;
+    overflow: scroll;
+    max-height: 200px;
+}
+
+
+.alert .nexu-links a {
+    color: #555;
+}
+

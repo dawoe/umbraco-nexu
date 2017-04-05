@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language alias="en" intName="English (UK)" localName="English (UK)" lcid="" culture="en-GB">
+  <area alias="nexu">
+    <key alias="dashboardRebuild">Rebuild nexu relations</key>
+    <key alias="dashboardRebuildInProgress">Rebuilding nexu relations in progress</key>
+    <key alias="dashboardItemsProcessed">items processed</key>
+    <key alias="dashboardAutorefresh">Auto-refresh every 5 seconds</key>
+    <key alias="dashboardRefresh">Refresh</key>
+    <key alias="linksShowProperties">Show properties</key>
+    <key alias="linksHideProperties">Hide properties</key>
+    <key alias="linksTitleContent">This page is linked to from following items</key>
+    <key alias="linksTitleMedia">This media item is linked to from following items</key>
+    <key alias="unpublishConfirmation">Are you sure you want to unpublish</key>
+  </area>
+</language>

@@ -1,0 +1,14 @@
+﻿<div class="umb-dialog umb-pane" ng-controller="Our.Umbraco.Nexu.ContentDeleteController">
+    <div class="umb-dialog-body" auto-scale="90" ng-hide="isLoading">
+        
+        <nexu-links links="links" link-clicked="cancel" title="nexu_linksTitleContent"></nexu-links>
+
+        <p class="umb-abstract">
+            <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?
+        </p>
+
+        <umb-confirm on-confirm="performDelete" on-cancel="cancel">
+        </umb-confirm>
+
+    </div>
+</div>

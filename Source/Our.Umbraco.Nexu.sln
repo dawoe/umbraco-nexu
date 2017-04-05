@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core", "Our.Umbraco.Nexu.Core\Our.Umbraco.Nexu.Core.csproj", "{EC661867-E5C0-400E-B11E-0272D345C1A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Parsers", "Our.Umbraco.Nexu.Parsers\Our.Umbraco.Nexu.Parsers.csproj", "{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1E792D0F-A63E-4657-948F-0302E4E8CDC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core.Tests", "Our.Umbraco.Nexu.Core.Tests\Our.Umbraco.Nexu.Core.Tests.csproj", "{8DDC6586-1932-442A-BAB8-86408A342A03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Parsers.Tests", "Our.Umbraco.Nexu.Parsers.Tests\Our.Umbraco.Nexu.Parsers.Tests.csproj", "{23304A00-9AD6-4BA2-A990-528FE5A52021}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC661867-E5C0-400E-B11E-0272D345C1A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216BFF27-5E0B-4C1F-B54F-553CB4F6ECC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DDC6586-1932-442A-BAB8-86408A342A03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DDC6586-1932-442A-BAB8-86408A342A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DDC6586-1932-442A-BAB8-86408A342A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DDC6586-1932-442A-BAB8-86408A342A03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23304A00-9AD6-4BA2-A990-528FE5A52021}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8DDC6586-1932-442A-BAB8-86408A342A03} = {1E792D0F-A63E-4657-948F-0302E4E8CDC4}
+		{23304A00-9AD6-4BA2-A990-528FE5A52021} = {1E792D0F-A63E-4657-948F-0302E4E8CDC4}
+	EndGlobalSection
+EndGlobal
