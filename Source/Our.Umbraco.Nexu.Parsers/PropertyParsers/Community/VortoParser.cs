@@ -5,6 +5,7 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -110,7 +111,7 @@
             }
             catch (Exception exception)
             {
-                // TODO log error               
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<VortoParser>("Error parsing vorto", exception);     
             }
            
 

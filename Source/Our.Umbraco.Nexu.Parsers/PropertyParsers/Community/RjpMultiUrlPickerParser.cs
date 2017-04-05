@@ -5,6 +5,7 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
 
     using Newtonsoft.Json;
@@ -88,10 +89,10 @@
             }
             catch (Exception exception)
             {
-                // TODO Log exceptoin                
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<RjpMultiUrlPickerParser>("Error parsing multi url picker", exception);         
             }
 
-            return entities;;
+            return entities;
         }
     }
 }
