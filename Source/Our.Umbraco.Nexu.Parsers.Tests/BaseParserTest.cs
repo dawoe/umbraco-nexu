@@ -11,7 +11,6 @@
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.ObjectResolution;
-    using Our.Umbraco.Nexu.Resolvers;
 
     /// <summary>
     /// The base parser test.

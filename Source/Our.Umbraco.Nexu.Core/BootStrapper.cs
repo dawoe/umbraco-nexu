@@ -10,7 +10,6 @@
     using AutoMapper;
 
     using ObjectResolution;
-    using Resolvers;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Events;

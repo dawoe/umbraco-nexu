@@ -12,7 +12,7 @@
     using Newtonsoft.Json.Linq;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
-    using Our.Umbraco.Nexu.Resolvers;
+    using Our.Umbraco.Nexu.Core.ObjectResolution;
 
     /// <summary>
     /// The doc type grid editor parser.
