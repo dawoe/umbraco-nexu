@@ -8,6 +8,9 @@
     using System.Web;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Cache;
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     using HtmlAgilityPack;
 
@@ -19,6 +22,8 @@
     /// </summary>
     public static class ParserHelper
     {
+        private const string DocumentUdiPrefix = "umb://document/";
+
         /// <summary>
         /// The get linked entities from csv string.
         /// </summary>
@@ -158,6 +163,60 @@
             }
 
             return linkedEntities;
+        }
+
+        /// <summary>
+        /// Checks if a string is a new V7.6 Udi
+        /// </summary>
+        /// <param name="uid">
+        /// The uid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool IsDocumentUdi(string uid)
+        {
+            return uid.StartsWith(DocumentUdiPrefix);
+        }
+
+        /// <summary>
+        /// Maps a v7.6 udi to a interger id
+        /// </summary>
+        /// <param name="contentService">
+        /// The content service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        /// <param name="uid">
+        /// The uid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public static int MapDocumentUdiToId(IContentService contentService, ICacheProvider cacheProvider, string uid)
+        {
+            var key = uid.TrimStart(DocumentUdiPrefix);
+
+            // cache the key and id in static cache for faster future lookups                    
+            return cacheProvider.GetCacheItem<int>(
+                $"Nexu_Document_Udi_Cache_{key}",
+                () =>
+                {
+                    var attemptGuid = key.TryConvertTo<Guid>();
+
+                    if (attemptGuid.Success)
+                    {
+                        var content = contentService.GetById(attemptGuid.Result);
+
+                        if (content != null)
+                        {
+                            return content.Id;
+                        }
+                    }
+
+                    return -1;
+                });
         }
     }
 }

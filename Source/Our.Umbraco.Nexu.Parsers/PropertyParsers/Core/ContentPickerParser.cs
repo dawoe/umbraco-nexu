@@ -91,36 +91,15 @@
             }
             else
             {
-                // parsing to int failed so could be new udi format in v7.6
-                if (propertyValue.ToString().StartsWith("umb://document"))
+                if (ParserHelper.IsDocumentUdi(propertyValue.ToString()))
                 {
-                    var key = propertyValue.ToString().TrimStart("umb://document/");
-
-                    // cache the key and id in static cache for faster future lookups                    
-                    var id = this.cache.GetCacheItem<int>(
-                        $"Nexu_Document_Udi_Cache_{key}",
-                        () =>
-                            {
-                                var attemptGuid = key.TryConvertTo<Guid>();
-
-                                if (attemptGuid.Success)
-                                {
-                                    var content = this.contentService.GetById(attemptGuid.Result);
-
-                                    if (content != null)
-                                    {
-                                        return content.Id;
-                                    }
-                                }
-
-                                return -1;
-                            });
+                    var id = ParserHelper.MapDocumentUdiToId(this.contentService, this.cache, propertyValue.ToString());
 
                     if (id > -1)
                     {
                         entities.Add(new LinkedDocumentEntity(id));
                     }
-                }
+                }                
             }
 
             return entities;
