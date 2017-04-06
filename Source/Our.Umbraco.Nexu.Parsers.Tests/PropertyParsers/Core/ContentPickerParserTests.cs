@@ -36,6 +36,26 @@
         }
 
         /// <summary>
+        /// The test is parser for valid data type for Umbraco 7.6
+        /// </summary>
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CorePropertyParsers")]
+        public void TestIsParserForValidDataTypeV76()
+        {
+            // arrange
+            var dataTypeDefinition = new DataTypeDefinition("Umbraco.ContentPicker2");
+
+            var parser = new ContentPickerParser();
+
+            // act
+            var result = parser.IsParserFor(dataTypeDefinition);
+
+            // verify
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
         /// The test is parser for in valid data type.
         /// </summary>
         [Test]
