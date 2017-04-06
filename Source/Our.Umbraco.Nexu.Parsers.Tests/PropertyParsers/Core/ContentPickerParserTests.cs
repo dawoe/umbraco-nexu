@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
 
+    using global::Umbraco.Core.Cache;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -122,6 +123,10 @@
             // arrange
             var contentServiceMock = new Mock<IContentService>();
 
+            var cacheProviderMock = new Mock<ICacheProvider>();
+            cacheProviderMock.Setup(x => x.GetCacheItem(It.IsAny<string>(), It.IsAny<Func<object>>()))
+                .Returns((string k, Func<object> action) => action());
+
             var key = "84ccc854d4bf47d8a2d6833c9fd5fed7";
             var guid = Guid.Parse(key);
 
@@ -130,7 +135,7 @@
 
             contentServiceMock.Setup(x => x.GetById(guid)).Returns(contentMock.Object);
 
-            var parser = new ContentPickerParser(contentServiceMock.Object);
+            var parser = new ContentPickerParser(contentServiceMock.Object, cacheProviderMock.Object);
 
             var propertyType = new PropertyType(
                               "Umbraco.ContentPicker2",

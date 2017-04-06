@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Cache;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -21,11 +22,17 @@
         private readonly IContentService contentService;
 
         /// <summary>
+        /// The cache.
+        /// </summary>
+        private readonly ICacheProvider cache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContentPickerParser"/> class.
         /// </summary>
         public ContentPickerParser()
         {
             this.contentService = ApplicationContext.Current.Services.ContentService;
+            this.cache = ApplicationContext.Current.ApplicationCache.StaticCache;
         }
 
         /// <summary>
@@ -34,9 +41,13 @@
         /// <param name="contentService">
         /// The content service.
         /// </param>
-        public ContentPickerParser(IContentService contentService)
+        /// <param name="cacheProvider">
+        /// The cache Provider.
+        /// </param>
+        public ContentPickerParser(IContentService contentService, ICacheProvider cacheProvider)
         {
             this.contentService = contentService;
+            this.cache = cacheProvider;
         }
 
         /// <summary>
@@ -85,16 +96,29 @@
                 {
                     var key = propertyValue.ToString().TrimStart("umb://document/");
 
-                    var attemptGuid = key.TryConvertTo<Guid>();
+                    // cache the key and id in static cache for faster future lookups                    
+                    var id = this.cache.GetCacheItem<int>(
+                        $"Nexu_Document_Udi_Cache_{key}",
+                        () =>
+                            {
+                                var attemptGuid = key.TryConvertTo<Guid>();
 
-                    if (attemptGuid.Success)
+                                if (attemptGuid.Success)
+                                {
+                                    var content = this.contentService.GetById(attemptGuid.Result);
+
+                                    if (content != null)
+                                    {
+                                        return content.Id;
+                                    }
+                                }
+
+                                return -1;
+                            });
+
+                    if (id > -1)
                     {
-                        var content = this.contentService.GetById(attemptGuid.Result);
-
-                        if (content != null)
-                        {
-                            entities.Add(new LinkedDocumentEntity(content.Id));
-                        }
+                        entities.Add(new LinkedDocumentEntity(id));
                     }
                 }
             }
