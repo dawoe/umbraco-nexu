@@ -25,7 +25,7 @@
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
             return dataTypeDefinition.PropertyEditorAlias.Equals(
-                 global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias);
+                 global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias) || dataTypeDefinition.PropertyEditorAlias.Equals("Umbraco.ContentPicker2");
         }        
 
         /// <summary>
