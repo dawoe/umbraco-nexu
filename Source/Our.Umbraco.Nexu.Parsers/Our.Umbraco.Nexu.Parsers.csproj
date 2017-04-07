@@ -284,6 +284,7 @@
     <Compile Include="PropertyParsers\Core\GridParser.cs" />
     <Compile Include="PropertyParsers\Core\LegacyMediaPickerParser.cs" />
     <Compile Include="PropertyParsers\Core\MediaPicker2Parser.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePicker2ContentParser.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParser.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParser.cs" />
     <Compile Include="PropertyParsers\Core\MultipleMediaPickerParser.cs" />
