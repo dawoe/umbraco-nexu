@@ -24,6 +24,8 @@
     {
         private const string DocumentUdiPrefix = "umb://document/";
 
+        private const string MediaUdiPrefix = "umb://media/";
+
         /// <summary>
         /// The get linked entities from csv string.
         /// </summary>
@@ -166,17 +168,31 @@
         }
 
         /// <summary>
-        /// Checks if a string is a new V7.6 Udi
+        /// Checks if a string is a new V7.6 document UDI
         /// </summary>
-        /// <param name="uid">
+        /// <param name="udi">
         /// The uid.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public static bool IsDocumentUdi(string uid)
+        public static bool IsDocumentUdi(string udi)
         {
-            return uid.StartsWith(DocumentUdiPrefix);
+            return udi.StartsWith(DocumentUdiPrefix);
+        }
+
+        /// <summary>
+        /// Check if a string is a new v7.6 media UDI
+        /// </summary>
+        /// <param name="udi">
+        /// The udi.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool IsMediaUdi(string udi)
+        {
+            return udi.StartsWith(MediaUdiPrefix);
         }
 
         /// <summary>
@@ -188,15 +204,15 @@
         /// <param name="cacheProvider">
         /// The cache provider.
         /// </param>
-        /// <param name="uid">
+        /// <param name="udi">
         /// The uid.
         /// </param>
         /// <returns>
         /// The <see cref="int"/>.
         /// </returns>
-        public static int MapDocumentUdiToId(IContentService contentService, ICacheProvider cacheProvider, string uid)
+        public static int MapDocumentUdiToId(IContentService contentService, ICacheProvider cacheProvider, string udi)
         {
-            var key = uid.TrimStart(DocumentUdiPrefix);
+            var key = udi.TrimStart(DocumentUdiPrefix);
 
             // cache the key and id in static cache for faster future lookups                    
             return cacheProvider.GetCacheItem<int>(
@@ -212,6 +228,46 @@
                         if (content != null)
                         {
                             return content.Id;
+                        }
+                    }
+
+                    return -1;
+                });
+        }
+
+        /// <summary>
+        /// Maps a v7.6 media UDI to a integer id
+        /// </summary>
+        /// <param name="mediaService">
+        /// The media service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        /// <param name="udi">
+        /// The udi.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public static int MapMediaUdiToId(IMediaService mediaService, ICacheProvider cacheProvider, string udi)
+        {
+            var key = udi.TrimStart(MediaUdiPrefix);
+
+            // cache the key and id in static cache for faster future lookups                    
+            return cacheProvider.GetCacheItem<int>(
+                $"Nexu_Media_Udi_Cache_{key}",
+                () =>
+                {
+                    var attemptGuid = key.TryConvertTo<Guid>();
+
+                    if (attemptGuid.Success)
+                    {
+                        var media = mediaService.GetById(attemptGuid.Result);
+
+                        if (media != null)
+                        {
+                            return media.Id;
                         }
                     }
 

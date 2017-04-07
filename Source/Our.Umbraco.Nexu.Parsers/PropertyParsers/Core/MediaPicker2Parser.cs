@@ -10,6 +10,7 @@
     using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The media picker parser for sites using V7.6 and up
@@ -75,7 +76,29 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            return Enumerable.Empty<ILinkedEntity>();
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            var udiArray = propertyValue.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var udi in udiArray)
+            {
+                if (ParserHelper.IsMediaUdi(udi))
+                {
+                    var id = ParserHelper.MapMediaUdiToId(this.mediaService, this.cacheProvider, udi);
+
+                    if (id > -1)
+                    {
+                        entities.Add(new LinkedMediaEntity(id));
+                    }
+                }
+            }
+
+            return entities;
         }
     }
 }
