@@ -3,15 +3,41 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
 
     /// <summary>
-    /// The multi node tree picker 2 content parser.
+    /// The multi node tree picker 2 content parser in Umbraco v7.6
     /// </summary>
     public class MultiNodeTreePicker2ContentParser : IPropertyParser
     {
+        /// <summary>
+        /// The data type service.
+        /// </summary>
+        private readonly IDataTypeService dataTypeService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiNodeTreePicker2ContentParser"/> class.
+        /// </summary>
+        public MultiNodeTreePicker2ContentParser()
+        {
+            this.dataTypeService = ApplicationContext.Current.Services.DataTypeService;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiNodeTreePicker2ContentParser"/> class.
+        /// </summary>
+        /// <param name="dataTypeService">
+        /// The data type service.
+        /// </param>
+        public MultiNodeTreePicker2ContentParser(IDataTypeService dataTypeService)
+        {
+            this.dataTypeService = dataTypeService;
+        }
+
         /// <summary>
         /// Check if it's a parser for a data type definition
         /// </summary>
