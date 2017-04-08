@@ -1,5 +1,6 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -12,6 +13,7 @@
     using Newtonsoft.Json.Linq;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The multi node tree picker 2 content parser in Umbraco v7.6
@@ -115,7 +117,29 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            return Enumerable.Empty<ILinkedEntity>();
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            var udiArray = propertyValue.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var udi in udiArray)
+            {
+                if (ParserHelper.IsDocumentUdi(udi))
+                {
+                    var id = ParserHelper.MapDocumentUdiToId(this.contentService, this.cache, udi);
+
+                    if (id > -1)
+                    {
+                        entities.Add(new LinkedDocumentEntity(id));
+                    }
+                }
+            }
+
+            return entities;
         }
     }
 }
