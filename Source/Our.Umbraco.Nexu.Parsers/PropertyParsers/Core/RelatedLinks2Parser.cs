@@ -8,7 +8,11 @@
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// The related links parser in Umbraco V7.6
@@ -74,7 +78,73 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            return Enumerable.Empty<ILinkedEntity>();
+            if (string.IsNullOrEmpty(propertyValue?.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            var jsonValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
+
+            foreach (JObject item in jsonValue)
+            {
+                if (this.IsInternalLink(item))
+                {
+                    var udi = this.GetInternalId(item);
+
+                    if (ParserHelper.IsDocumentUdi(udi))
+                    {
+                        var id = ParserHelper.MapDocumentUdiToId(this.contentService, this.cacheProvider, udi);
+
+                        if (id > -1)
+                        {
+                            entities.Add(new LinkedDocumentEntity(id));
+                        }
+                    }                   
+                }
+            }
+
+            return entities;
+        }
+
+        /// <summary>
+        /// Check if it is a internal link.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private bool IsInternalLink(JObject item)
+        {
+            bool isInternal = false;
+
+            var isInternalProperty = item["isInternal"];
+
+            if (isInternalProperty != null)
+            {
+                isInternal = isInternalProperty.ToObject<bool>();
+            }
+
+            return isInternal;
+        }
+
+        /// <summary>
+        /// Gets the internal id.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private string GetInternalId(JObject item)
+        {
+            var internalIdProperty = item["internal"];
+
+            return internalIdProperty?.ToObject<string>();
         }
     }
 }

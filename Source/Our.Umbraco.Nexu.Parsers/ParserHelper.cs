@@ -178,6 +178,11 @@
         /// </returns>
         public static bool IsDocumentUdi(string udi)
         {
+            if (string.IsNullOrEmpty(udi))
+            {
+                return false;
+            }
+
             return udi.StartsWith(DocumentUdiPrefix);
         }
 
@@ -192,6 +197,11 @@
         /// </returns>
         public static bool IsMediaUdi(string udi)
         {
+            if (string.IsNullOrEmpty(udi))
+            {
+                return false;
+            }
+
             return udi.StartsWith(MediaUdiPrefix);
         }
 
