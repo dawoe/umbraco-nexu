@@ -96,6 +96,13 @@
             try
             {
                 entities.AddRange(ParserHelper.ParseRichText(value));
+
+                if (value.Contains("umb://document")
+                    || value.Contains("umb://media"))
+                {
+                    // it's a v7.6 rte field
+                    entities.AddRange(ParserHelper.ParseRichTextForV76(value, this.contentService, this.mediaService, this.cacheProvider));
+                }
             }
             catch (Exception exception)
             {
