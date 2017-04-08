@@ -17,7 +17,7 @@
     /// The multi node tree picker 2 content parser tests.
     /// </summary>
     [TestFixture]
-    public class MultiNodeTreePicker2ContentParserTests
+    public class MultiNodeTreePicker2ContentParserTests : BaseParserTest
     {
         /// <summary>
         /// The test is parser for valid data type.

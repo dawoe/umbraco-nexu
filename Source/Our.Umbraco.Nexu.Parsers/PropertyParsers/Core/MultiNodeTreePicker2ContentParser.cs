@@ -7,6 +7,9 @@
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     using Our.Umbraco.Nexu.Core.Interfaces;
 
     /// <summary>
@@ -49,7 +52,28 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return false;
+            if (
+               !dataTypeDefinition.PropertyEditorAlias.Equals("Umbraco.MultiNodeTreePicker2"))
+            {
+                return false;
+            }
+
+            var prevalues =
+                this.dataTypeService.GetPreValuesCollectionByDataTypeId(dataTypeDefinition.Id).PreValuesAsDictionary;
+
+            if (!prevalues.ContainsKey("startNode"))
+            {
+                return false;
+            }
+
+            var startNodeType = JsonConvert.DeserializeObject<JObject>(prevalues["startNode"].Value).Value<string>("type");
+
+            if (startNodeType == null || startNodeType != "content")
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
