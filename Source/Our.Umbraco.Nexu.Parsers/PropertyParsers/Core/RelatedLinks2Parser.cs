@@ -60,7 +60,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return false;
+            return dataTypeDefinition.PropertyEditorAlias.Equals("Umbraco.RelatedLinks2");
         }
 
         /// <summary>
