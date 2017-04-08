@@ -4,6 +4,7 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Cache;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -23,11 +24,23 @@
         private readonly IDataTypeService dataTypeService;
 
         /// <summary>
+        /// The content service.
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// The cache.
+        /// </summary>
+        private readonly ICacheProvider cache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MultiNodeTreePicker2ContentParser"/> class.
         /// </summary>
         public MultiNodeTreePicker2ContentParser()
         {
             this.dataTypeService = ApplicationContext.Current.Services.DataTypeService;
+            this.contentService = ApplicationContext.Current.Services.ContentService;
+            this.cache = ApplicationContext.Current.ApplicationCache.StaticCache;
         }
 
         /// <summary>
@@ -39,6 +52,21 @@
         public MultiNodeTreePicker2ContentParser(IDataTypeService dataTypeService)
         {
             this.dataTypeService = dataTypeService;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiNodeTreePicker2ContentParser"/> class.
+        /// </summary>
+        /// <param name="contentService">
+        /// The content service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        public MultiNodeTreePicker2ContentParser(IContentService contentService, ICacheProvider cacheProvider)
+        {
+            this.contentService = contentService;
+            this.cache = cacheProvider;
         }
 
         /// <summary>
