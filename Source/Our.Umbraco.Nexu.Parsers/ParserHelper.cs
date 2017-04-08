@@ -8,9 +8,13 @@
     using System.Web;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Cache;
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     using HtmlAgilityPack;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
 
@@ -19,6 +23,10 @@
     /// </summary>
     public static class ParserHelper
     {
+        private const string DocumentUdiPrefix = "umb://document/";
+
+        private const string MediaUdiPrefix = "umb://media/";
+
         /// <summary>
         /// The get linked entities from csv string.
         /// </summary>
@@ -158,6 +166,193 @@
             }
 
             return linkedEntities;
+        }
+
+        /// <summary>
+        /// Parse rich text for v 76.
+        /// </summary>
+        /// <param name="html">
+        /// The html.
+        /// </param>
+        /// <param name="contentService">
+        /// The content service.
+        /// </param>
+        /// <param name="mediaService">
+        /// The media service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        public static IEnumerable<ILinkedEntity> ParseRichTextForV76(
+            string html,
+            IContentService contentService,
+            IMediaService mediaService,
+            ICacheProvider cacheProvider)
+        {
+            var entities = new List<ILinkedEntity>();
+
+            var documentUdiMatches = Regex.Matches(html, "umb://document/(.{32})");
+
+            foreach (Match match in documentUdiMatches)
+            {
+                var udi = match.Value;
+
+                if (IsDocumentUdi(udi))
+                {
+                    var id = MapDocumentUdiToId(contentService, cacheProvider, udi);
+
+                    if (id > -1)
+                    {
+                        if (!entities.Any(x => x.Id == id && x.LinkedEntityType == LinkedEntityType.Document))
+                        {
+                            entities.Add(new LinkedDocumentEntity(id));
+                        }
+                    }
+                }
+            }
+
+            var mediaUdiMatches = Regex.Matches(html, "umb://media/(.{32})");
+
+            foreach (Match match in mediaUdiMatches)
+            {
+                var udi = match.Value;
+
+                if (IsMediaUdi(udi))
+                {
+                    var id = MapMediaUdiToId(mediaService, cacheProvider, udi);
+
+                    if (id > -1)
+                    {
+                        if (!entities.Any(x => x.Id == id && x.LinkedEntityType == LinkedEntityType.Media))
+                        {
+                            entities.Add(new LinkedMediaEntity(id));
+                        }
+                    }
+                }
+            }
+
+            return entities;
+        }
+
+        /// <summary>
+        /// Checks if a string is a new V7.6 document UDI
+        /// </summary>
+        /// <param name="udi">
+        /// The uid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool IsDocumentUdi(string udi)
+        {
+            if (string.IsNullOrEmpty(udi))
+            {
+                return false;
+            }
+
+            return udi.StartsWith(DocumentUdiPrefix);
+        }
+
+        /// <summary>
+        /// Check if a string is a new v7.6 media UDI
+        /// </summary>
+        /// <param name="udi">
+        /// The udi.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool IsMediaUdi(string udi)
+        {
+            if (string.IsNullOrEmpty(udi))
+            {
+                return false;
+            }
+
+            return udi.StartsWith(MediaUdiPrefix);
+        }
+
+        /// <summary>
+        /// Maps a v7.6 udi to a interger id
+        /// </summary>
+        /// <param name="contentService">
+        /// The content service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        /// <param name="udi">
+        /// The uid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public static int MapDocumentUdiToId(IContentService contentService, ICacheProvider cacheProvider, string udi)
+        {
+            var key = udi.TrimStart(DocumentUdiPrefix);
+
+            // cache the key and id in static cache for faster future lookups                    
+            return cacheProvider.GetCacheItem<int>(
+                $"Nexu_Document_Udi_Cache_{key}",
+                () =>
+                {
+                    var attemptGuid = key.TryConvertTo<Guid>();
+
+                    if (attemptGuid.Success)
+                    {
+                        var content = contentService.GetById(attemptGuid.Result);
+
+                        if (content != null)
+                        {
+                            return content.Id;
+                        }
+                    }
+
+                    return -1;
+                });
+        }
+
+        /// <summary>
+        /// Maps a v7.6 media UDI to a integer id
+        /// </summary>
+        /// <param name="mediaService">
+        /// The media service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        /// <param name="udi">
+        /// The udi.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public static int MapMediaUdiToId(IMediaService mediaService, ICacheProvider cacheProvider, string udi)
+        {
+            var key = udi.TrimStart(MediaUdiPrefix);
+
+            // cache the key and id in static cache for faster future lookups                    
+            return cacheProvider.GetCacheItem<int>(
+                $"Nexu_Media_Udi_Cache_{key}",
+                () =>
+                {
+                    var attemptGuid = key.TryConvertTo<Guid>();
+
+                    if (attemptGuid.Success)
+                    {
+                        var media = mediaService.GetById(attemptGuid.Result);
+
+                        if (media != null)
+                        {
+                            return media.Id;
+                        }
+                    }
+
+                    return -1;
+                });
         }
     }
 }

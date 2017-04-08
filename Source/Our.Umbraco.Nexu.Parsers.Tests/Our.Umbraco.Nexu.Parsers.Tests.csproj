@@ -306,9 +306,13 @@
     <Compile Include="PropertyParsers\Core\ContentPickerParserTests.cs" />
     <Compile Include="PropertyParsers\Core\GridParserTests.cs" />
     <Compile Include="PropertyParsers\Core\LegacyMediaPickerParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\MediaPicker2ParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePicker2MediaParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\MultiNodeTreePicker2ContentParserTests.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParserTests.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParserTests.cs" />
     <Compile Include="PropertyParsers\Core\MultipleMediaPickerParserTests.cs" />
+    <Compile Include="PropertyParsers\Core\RelatedLink2ParserTests.cs" />
     <Compile Include="PropertyParsers\Core\RelatedLinkParserTests.cs" />
     <Compile Include="PropertyParsers\Core\RichTextEditorParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
