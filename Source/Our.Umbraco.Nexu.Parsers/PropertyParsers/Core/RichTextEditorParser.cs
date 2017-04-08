@@ -76,6 +76,15 @@
                     global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias);
         }
 
+        /// <summary>
+        /// Gets the linked entites from the property value
+        /// </summary>
+        /// <param name="propertyValue">
+        /// The property value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
             var linkedEntities = new List<ILinkedEntity>();
@@ -87,7 +96,15 @@
 
             try
             {
-                linkedEntities.AddRange(ParserHelper.ParseRichText(propertyValue.ToString()));
+                var html = propertyValue.ToString();
+                linkedEntities.AddRange(ParserHelper.ParseRichText(html));
+
+                if (html.Contains("umb://document")
+                    || html.Contains("umb://media"))
+                {
+                    // it's a v7.6 rte field
+                    linkedEntities.AddRange(ParserHelper.ParseRichTextForV76(html, this.contentService, this.mediaService, this.cacheProvider));
+                }
             }
             catch (Exception exception)
             {

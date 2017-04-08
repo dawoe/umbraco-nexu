@@ -14,6 +14,7 @@
 
     using HtmlAgilityPack;
 
+    using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
 
@@ -165,6 +166,75 @@
             }
 
             return linkedEntities;
+        }
+
+        /// <summary>
+        /// Parse rich text for v 76.
+        /// </summary>
+        /// <param name="html">
+        /// The html.
+        /// </param>
+        /// <param name="contentService">
+        /// The content service.
+        /// </param>
+        /// <param name="mediaService">
+        /// The media service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        public static IEnumerable<ILinkedEntity> ParseRichTextForV76(
+            string html,
+            IContentService contentService,
+            IMediaService mediaService,
+            ICacheProvider cacheProvider)
+        {
+            var entities = new List<ILinkedEntity>();
+
+            var documentUdiMatches = Regex.Matches(html, "umb://document/(.{32})");
+
+            foreach (Match match in documentUdiMatches)
+            {
+                var udi = match.Value;
+
+                if (IsDocumentUdi(udi))
+                {
+                    var id = MapDocumentUdiToId(contentService, cacheProvider, udi);
+
+                    if (id > -1)
+                    {
+                        if (!entities.Any(x => x.Id == id && x.LinkedEntityType == LinkedEntityType.Document))
+                        {
+                            entities.Add(new LinkedDocumentEntity(id));
+                        }
+                    }
+                }
+            }
+
+            var mediaUdiMatches = Regex.Matches(html, "umb://media/(.{32})");
+
+            foreach (Match match in mediaUdiMatches)
+            {
+                var udi = match.Value;
+
+                if (IsMediaUdi(udi))
+                {
+                    var id = MapMediaUdiToId(mediaService, cacheProvider, udi);
+
+                    if (id > -1)
+                    {
+                        if (!entities.Any(x => x.Id == id && x.LinkedEntityType == LinkedEntityType.Media))
+                        {
+                            entities.Add(new LinkedMediaEntity(id));
+                        }
+                    }
+                }
+            }
+
+            return entities;
         }
 
         /// <summary>
