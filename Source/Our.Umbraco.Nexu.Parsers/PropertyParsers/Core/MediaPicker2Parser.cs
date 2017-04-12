@@ -2,25 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Cache;
-    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
-    /// The rich text editor parser.
+    /// The media picker parser for sites using V7.6 and up
     /// </summary>
-    public class RichTextEditorParser : IPropertyParser
+    public class MediaPicker2Parser : IPropertyParser
     {
-        /// <summary>
-        /// The content service.
-        /// </summary>
-        private readonly IContentService contentService;
-
         /// <summary>
         /// The media service.
         /// </summary>
@@ -32,30 +28,25 @@
         private readonly ICacheProvider cacheProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextEditorParser"/> class.
+        /// Initializes a new instance of the <see cref="MediaPicker2Parser"/> class.
         /// </summary>
-        public RichTextEditorParser()
+        public MediaPicker2Parser()
         {
-            this.contentService = ApplicationContext.Current.Services.ContentService;
             this.mediaService = ApplicationContext.Current.Services.MediaService;
             this.cacheProvider = ApplicationContext.Current.ApplicationCache.StaticCache;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextEditorParser"/> class.
+        /// Initializes a new instance of the <see cref="MediaPicker2Parser"/> class.
         /// </summary>
-        /// <param name="contentService">
-        /// The content service.
-        /// </param>
         /// <param name="mediaService">
         /// The media service.
         /// </param>
         /// <param name="cacheProvider">
         /// The cache provider.
         /// </param>
-        public RichTextEditorParser(IContentService contentService, IMediaService mediaService, ICacheProvider cacheProvider)
+        public MediaPicker2Parser(IMediaService mediaService, ICacheProvider cacheProvider)
         {
-            this.contentService = contentService;
             this.mediaService = mediaService;
             this.cacheProvider = cacheProvider;
         }
@@ -71,9 +62,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return
-                dataTypeDefinition.PropertyEditorAlias.Equals(
-                    global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias);
+            return dataTypeDefinition.PropertyEditorAlias.Equals("Umbraco.MediaPicker2");
         }
 
         /// <summary>
@@ -87,31 +76,29 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            var linkedEntities = new List<ILinkedEntity>();
-
             if (string.IsNullOrEmpty(propertyValue?.ToString()))
             {
-                return linkedEntities;
+                return Enumerable.Empty<ILinkedEntity>();
             }
 
-            try
-            {
-                var html = propertyValue.ToString();
-                linkedEntities.AddRange(ParserHelper.ParseRichText(html));
+            var entities = new List<ILinkedEntity>();
 
-                if (html.Contains("umb://document")
-                    || html.Contains("umb://media"))
+            var udiArray = propertyValue.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var udi in udiArray)
+            {
+                if (ParserHelper.IsMediaUdi(udi))
                 {
-                    // it's a v7.6 rte field
-                    linkedEntities.AddRange(ParserHelper.ParseRichTextForV76(html, this.contentService, this.mediaService, this.cacheProvider));
+                    var id = ParserHelper.MapMediaUdiToId(this.mediaService, this.cacheProvider, udi);
+
+                    if (id > -1)
+                    {
+                        entities.Add(new LinkedMediaEntity(id));
+                    }
                 }
             }
-            catch (Exception exception)
-            {
-                ApplicationContext.Current.ProfilingLogger.Logger.Error<RichTextEditorParser>("Error parsing rich text editor", exception);
-            }
 
-            return linkedEntities;
+            return entities;
         }
     }
 }
