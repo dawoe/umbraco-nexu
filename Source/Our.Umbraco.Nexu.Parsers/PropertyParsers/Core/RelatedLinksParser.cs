@@ -1,9 +1,11 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
 
     using Newtonsoft.Json;
@@ -51,19 +53,26 @@
 
             var entities = new List<ILinkedEntity>();
 
-            var jsonValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
-
-            foreach (JObject item in jsonValue)
+            try
             {
-                if (this.IsInternalLink(item))
-                {
-                    var attemptId = this.GetInternalId(item).TryConvertTo<int>();
+                var jsonValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
 
-                    if (attemptId.Success)
+                foreach (JObject item in jsonValue)
+                {
+                    if (this.IsInternalLink(item))
                     {
-                        entities.Add(new LinkedDocumentEntity(attemptId.Result));
+                        var attemptId = this.GetInternalId(item).TryConvertTo<int>();
+
+                        if (attemptId.Success)
+                        {
+                            entities.Add(new LinkedDocumentEntity(attemptId.Result));
+                        }
                     }
                 }
+            }
+            catch (Exception exception)
+            {
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<RelatedLinksParser>("Error parsing related links", exception);
             }
 
             return entities;

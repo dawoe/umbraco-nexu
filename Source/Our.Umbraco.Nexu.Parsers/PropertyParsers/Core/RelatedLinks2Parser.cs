@@ -1,10 +1,12 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Cache;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
@@ -85,24 +87,31 @@
 
             var entities = new List<ILinkedEntity>();
 
-            var jsonValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
-
-            foreach (JObject item in jsonValue)
+            try
             {
-                if (this.IsInternalLink(item))
+                var jsonValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
+
+                foreach (JObject item in jsonValue)
                 {
-                    var udi = this.GetInternalId(item);
-
-                    if (ParserHelper.IsDocumentUdi(udi))
+                    if (this.IsInternalLink(item))
                     {
-                        var id = ParserHelper.MapDocumentUdiToId(this.contentService, this.cacheProvider, udi);
+                        var udi = this.GetInternalId(item);
 
-                        if (id > -1)
+                        if (ParserHelper.IsDocumentUdi(udi))
                         {
-                            entities.Add(new LinkedDocumentEntity(id));
-                        }
-                    }                   
+                            var id = ParserHelper.MapDocumentUdiToId(this.contentService, this.cacheProvider, udi);
+
+                            if (id > -1)
+                            {
+                                entities.Add(new LinkedDocumentEntity(id));
+                            }
+                        }                   
+                    }
                 }
+            }
+            catch (Exception exception)
+            {
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<RelatedLinks2Parser>("Error parsing related links", exception);
             }
 
             return entities;
