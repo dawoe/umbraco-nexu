@@ -5,8 +5,10 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Cache;
     using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -19,6 +21,50 @@
     /// </summary>
     public class RjpMultiUrlPickerParser : IPropertyParser
     {
+        /// <summary>
+        /// The content type service.
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// The media service.
+        /// </summary>
+        private readonly IMediaService mediaService;
+
+        /// <summary>
+        /// The cache.
+        /// </summary>
+        private readonly ICacheProvider cache;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RjpMultiUrlPickerParser"/> class.
+        /// </summary>
+        public RjpMultiUrlPickerParser()
+        {
+            this.contentService = ApplicationContext.Current.Services.ContentService;
+            this.mediaService = ApplicationContext.Current.Services.MediaService;
+            this.cache = ApplicationContext.Current.ApplicationCache.StaticCache;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RjpMultiUrlPickerParser"/> class.
+        /// </summary>
+        /// <param name="contentService">
+        /// The content service.
+        /// </param>
+        /// <param name="mediaService">
+        /// The media service.
+        /// </param>
+        /// <param name="cacheProvider">
+        /// The cache provider.
+        /// </param>
+        public RjpMultiUrlPickerParser(IContentService contentService, IMediaService mediaService, ICacheProvider cacheProvider)
+        {
+            this.contentService = contentService;
+            this.mediaService = mediaService;
+            this.cache = cacheProvider;
+        }
+
         /// <summary>
         /// Check if it's a parser for a data type definition
         /// </summary>
@@ -57,7 +103,29 @@
 
                 foreach (var item in jsonValues)
                 {
-                    if (item["id"] != null)
+                    if(item["udi"] != null)
+                    {
+                        var udi = item.Value<string>("udi");
+                        if(ParserHelper.IsDocumentUdi(udi))
+                        {
+                            var id = ParserHelper.MapDocumentUdiToId(contentService, cache, udi);
+
+                            if (id > -1)
+                            {
+                                entities.Add(new LinkedDocumentEntity(id));
+                            }
+                        }
+                        else if (ParserHelper.IsMediaUdi(udi))
+                        {
+                            var id = ParserHelper.MapMediaUdiToId(mediaService, cache, udi);
+
+                            if (id > -1)
+                            {
+                                entities.Add(new LinkedMediaEntity(id));
+                            }
+                        }
+                    }
+                    else if (item["id"] != null)
                     {
                         var attempId = item["id"].TryConvertTo<int>();
 
