@@ -105,12 +105,12 @@
         }
 
         /// <summary>
-        /// Test setup of relatoin types when they already exist.
+        /// Test setup of relatoin types when they don't exist.
         /// </summary>
         [Test]
         [Category("Service")]
         [Category("Setup")]
-        public void TestSetupRelationTypessWithExistingRelationsTypes()
+        public void TestSetupRelationTypesWithNonExistingRelationTypes()
         {
             // arrange        
             var actualRelationTypes = new List<IRelationType>();
@@ -156,15 +156,18 @@
             Assert.AreEqual(new Guid(Constants.ObjectTypes.Media), mediaRelType.ChildObjectType);
             Assert.AreEqual(new Guid(Constants.ObjectTypes.Document), mediaRelType.ParentObjectType);
 
+            Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
+            Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
+
         }
 
         /// <summary>
-        /// Test setup relations with non existing relations.
+        /// Test setup relations with  existing relations.
         /// </summary>
         [Test]
         [Category("Service")]
         [Category("Setup")]
-        public void TestSetupRelationTypessWithNonExistingRelationTypes()
+        public void TestSetupRelationTypesWithExistingRelationTypes()
         {
             // arrange
             this.relationService.Setup(
