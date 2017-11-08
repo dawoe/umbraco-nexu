@@ -253,6 +253,8 @@
         /// </param>
         public virtual void SaveLinkedEntitiesAsRelations(int contentid, Dictionary<string, IEnumerable<ILinkedEntity>> linkedEntities)
         {
+            this.SetupRelationTypes();
+
             var docToDocRelationType = this.relationService.GetRelationTypeByAlias(
                 RelationTypes.DocumentToDocumentAlias);
 
@@ -332,7 +334,7 @@
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
-        public void SetupRelationTypes()
+        public virtual void SetupRelationTypes()
         {
             using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
             {
