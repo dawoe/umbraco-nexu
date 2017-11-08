@@ -37,6 +37,7 @@ In the developer section a dashboard is added that allows you to rebuild all the
 - Related links
 - Media picker
 - Multiple Media picker
+- Nested Content (v7.7+)
 
 ### Community property editors ###
 - [Nested Content](https://our.umbraco.org/projects/backoffice-extensions/nested-content/)
