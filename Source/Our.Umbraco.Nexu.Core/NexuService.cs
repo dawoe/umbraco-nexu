@@ -336,8 +336,16 @@
         {
             using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
             {
-                this.SetupDocumentToDocumentRelationType();
-                this.SetupDocumentToMediaRelationType();
+                if (!NexuContext.Current.DocumentToDocumentRelationTypeExists)
+                {
+                    this.SetupDocumentToDocumentRelationType();
+                }
+
+                if (!NexuContext.Current.DocumentToMediaRelationTypeExists)
+                {
+                    this.SetupDocumentToMediaRelationType();
+                }
+               
             }
         }
 
