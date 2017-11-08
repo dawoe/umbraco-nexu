@@ -253,6 +253,8 @@
         /// </param>
         public virtual void SaveLinkedEntitiesAsRelations(int contentid, Dictionary<string, IEnumerable<ILinkedEntity>> linkedEntities)
         {
+            this.SetupRelationTypes();
+
             var docToDocRelationType = this.relationService.GetRelationTypeByAlias(
                 RelationTypes.DocumentToDocumentAlias);
 
@@ -332,12 +334,20 @@
         /// <summary>
         /// Sets up the needed the relation types
         /// </summary>
-        public void SetupRelationTypes()
+        public virtual void SetupRelationTypes()
         {
             using (this.profiler.DebugDuration<NexuService>("Begin SetupRelationTypes", "End SetupRelationTypes"))
             {
-                this.SetupDocumentToDocumentRelationType();
-                this.SetupDocumentToMediaRelationType();
+                if (!NexuContext.Current.DocumentToDocumentRelationTypeExists)
+                {
+                    this.SetupDocumentToDocumentRelationType();
+                }
+
+                if (!NexuContext.Current.DocumentToMediaRelationTypeExists)
+                {
+                    this.SetupDocumentToMediaRelationType();
+                }
+               
             }
         }
 
@@ -371,6 +381,7 @@
         {
             if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias) != null)
             {
+                NexuContext.Current.DocumentToDocumentRelationTypeExists = true;
                 return;
             }
 
@@ -378,6 +389,8 @@
                 RelationTypes.DocumentToDocumentAlias,
                 RelationTypes.DocumentToDocumentName,
                 new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document));
+
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = true;
         }
 
         /// <summary>
@@ -387,6 +400,7 @@
         {
             if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias) != null)
             {
+                NexuContext.Current.DocumentToMediaRelationTypeExists = true;
                 return;
             }
 
@@ -394,6 +408,8 @@
                 RelationTypes.DocumentToMediaAlias,
                 RelationTypes.DocumentToMediaName,
                 new Guid(global::Umbraco.Core.Constants.ObjectTypes.Media));
+
+            NexuContext.Current.DocumentToMediaRelationTypeExists = true;
         }
     }
 }
