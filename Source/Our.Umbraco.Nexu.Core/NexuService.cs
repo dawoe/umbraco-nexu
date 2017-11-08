@@ -378,6 +378,8 @@
                 RelationTypes.DocumentToDocumentAlias,
                 RelationTypes.DocumentToDocumentName,
                 new Guid(global::Umbraco.Core.Constants.ObjectTypes.Document));
+
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = true;
         }
 
         /// <summary>
@@ -394,6 +396,8 @@
                 RelationTypes.DocumentToMediaAlias,
                 RelationTypes.DocumentToMediaName,
                 new Guid(global::Umbraco.Core.Constants.ObjectTypes.Media));
+
+            NexuContext.Current.DocumentToMediaRelationTypeExists = true;
         }
     }
 }
