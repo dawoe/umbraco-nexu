@@ -31,9 +31,6 @@
         {            
             using (ApplicationContext.Current.ProfilingLogger.TraceDuration<BootStrapper>("Begin ApplicationStarted", "End ApplicationStarted"))
             {
-                // setup needed relation types
-                NexuService.Current.SetupRelationTypes();
-
                 // set up mappings
                 Mapper.AddProfile<NexuMappingProfile>();
 
