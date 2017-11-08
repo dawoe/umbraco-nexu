@@ -105,14 +105,17 @@
         }
 
         /// <summary>
-        /// Test setup of relatoin types when they already exist.
+        /// Test setup of relatoin types when they don't exist.
         /// </summary>
         [Test]
         [Category("Service")]
         [Category("Setup")]
-        public void TestSetupRelationTypessWithExistingRelationsTypes()
+        public void TestSetupRelationTypesWithNonExistingRelationTypes()
         {
             // arrange        
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = false;
+            NexuContext.Current.DocumentToMediaRelationTypeExists = false;
+
             var actualRelationTypes = new List<IRelationType>();
 
             this.relationService.Setup(
@@ -156,17 +159,23 @@
             Assert.AreEqual(new Guid(Constants.ObjectTypes.Media), mediaRelType.ChildObjectType);
             Assert.AreEqual(new Guid(Constants.ObjectTypes.Document), mediaRelType.ParentObjectType);
 
+            Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
+            Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
+
         }
 
         /// <summary>
-        /// Test setup relations with non existing relations.
+        /// Test setup relations with  existing relations.
         /// </summary>
         [Test]
         [Category("Service")]
         [Category("Setup")]
-        public void TestSetupRelationTypessWithNonExistingRelationTypes()
+        public void TestSetupRelationTypesWithExistingRelationTypes()
         {
             // arrange
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = false;
+            NexuContext.Current.DocumentToMediaRelationTypeExists = false;
+
             this.relationService.Setup(
                     x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias))
                 .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToDocumentAlias));
@@ -184,7 +193,44 @@
 
             this.relationService.Verify(
                 x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias), Times.Once);
+
+            Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
+            Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
         }
+
+
+        [Test]
+        [Category("Service")]
+        [Category("Setup")]
+        public void TestSetupRelationTypesWithPropertiesSetOnContext()
+        {
+            // arrange
+            this.relationService.Setup(
+                    x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias))
+                .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToDocumentAlias));
+
+            this.relationService.Setup(
+                    x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias))
+                .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToMediaAlias));
+
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = true;
+            NexuContext.Current.DocumentToMediaRelationTypeExists = true;
+
+            // act
+            this.service.SetupRelationTypes();
+
+            // verify
+            this.relationService.Verify(
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias), Times.Never);
+
+            this.relationService.Verify(
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias), Times.Never);
+
+            Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
+            Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
+        }
+
+
 
         /// <summary>
         /// Tests retreiving of all property parsers
@@ -518,12 +564,7 @@
         {
             // arrange
             var contentId = 1;
-            //var entities = new List<ILinkedEntity>
-            //                   {
-            //                       new LinkedDocumentEntity(1500),
-            //                       new LinkedMediaEntity(2500)
-            //                   };
-
+           
             var entities = new Dictionary<string, IEnumerable<ILinkedEntity>>
                                {
                                        {
@@ -572,6 +613,8 @@
 
             this.relationService.Setup(x => x.Save(docToMediaRelation));
 
+            this.serviceMock.Setup(x => x.SetupRelationTypes());
+
 
             // act
             this.service.SaveLinkedEntitiesAsRelations(contentId, entities);
@@ -579,7 +622,7 @@
             // verify
             this.relationService.Verify(x => x.GetRelationTypeByAlias(It.IsAny<string>()), Times.Exactly(2));
             this.relationService.Verify(x => x.Save(It.IsAny<Relation>()), Times.Exactly(2));
-            //this.relationService.Verify(x => x.Save(docToMediaRelation), Times.Once);
+            this.serviceMock.Verify(x => x.SetupRelationTypes(), Times.Once);
         }
 
         /// <summary>
