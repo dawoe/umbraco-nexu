@@ -564,12 +564,7 @@
         {
             // arrange
             var contentId = 1;
-            //var entities = new List<ILinkedEntity>
-            //                   {
-            //                       new LinkedDocumentEntity(1500),
-            //                       new LinkedMediaEntity(2500)
-            //                   };
-
+           
             var entities = new Dictionary<string, IEnumerable<ILinkedEntity>>
                                {
                                        {
@@ -618,6 +613,8 @@
 
             this.relationService.Setup(x => x.Save(docToMediaRelation));
 
+            this.serviceMock.Setup(x => x.SetupRelationTypes());
+
 
             // act
             this.service.SaveLinkedEntitiesAsRelations(contentId, entities);
@@ -625,7 +622,7 @@
             // verify
             this.relationService.Verify(x => x.GetRelationTypeByAlias(It.IsAny<string>()), Times.Exactly(2));
             this.relationService.Verify(x => x.Save(It.IsAny<Relation>()), Times.Exactly(2));
-            //this.relationService.Verify(x => x.Save(docToMediaRelation), Times.Once);
+            this.serviceMock.Verify(x => x.SetupRelationTypes(), Times.Once);
         }
 
         /// <summary>
