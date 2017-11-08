@@ -289,6 +289,7 @@
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerMediaParser.cs" />
     <Compile Include="PropertyParsers\Core\MultiNodeTreePickerContentParser.cs" />
     <Compile Include="PropertyParsers\Core\MultipleMediaPickerParser.cs" />
+    <Compile Include="PropertyParsers\Core\NestedContentParser.cs" />
     <Compile Include="PropertyParsers\Core\RelatedLinks2Parser.cs" />
     <Compile Include="PropertyParsers\Core\RelatedLinksParser.cs" />
     <Compile Include="PropertyParsers\Core\RichTextEditorParser.cs" />
