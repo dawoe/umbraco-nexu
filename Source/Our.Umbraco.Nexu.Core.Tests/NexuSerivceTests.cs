@@ -187,6 +187,9 @@
 
             this.relationService.Verify(
                 x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias), Times.Once);
+
+            Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
+            Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
         }
 
         /// <summary>
