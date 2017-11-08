@@ -371,6 +371,7 @@
         {
             if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToDocumentAlias) != null)
             {
+                NexuContext.Current.DocumentToDocumentRelationTypeExists = true;
                 return;
             }
 
@@ -389,6 +390,7 @@
         {
             if (this.relationService.GetRelationTypeByAlias(RelationTypes.DocumentToMediaAlias) != null)
             {
+                NexuContext.Current.DocumentToMediaRelationTypeExists = true;
                 return;
             }
 
