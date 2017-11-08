@@ -18,6 +18,8 @@
             this.IsProcessing = false;
             this.ItemInProgress = string.Empty;
             this.ItemsProcessed = 0;
+            this.DocumentToDocumentRelationTypeExists = false;
+            this.DocumentToMediaRelationTypeExists = false;
             instance = this;
         }
 
@@ -40,5 +42,15 @@
         /// Gets or sets the items processed.
         /// </summary>
         public int ItemsProcessed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether document to document relation type exists.
+        /// </summary>
+        public bool DocumentToDocumentRelationTypeExists { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether document to media relation type exists.
+        /// </summary>
+        public bool DocumentToMediaRelationTypeExists { get; set; }
     }
 }
