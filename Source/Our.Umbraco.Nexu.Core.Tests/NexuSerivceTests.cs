@@ -113,6 +113,9 @@
         public void TestSetupRelationTypesWithNonExistingRelationTypes()
         {
             // arrange        
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = false;
+            NexuContext.Current.DocumentToMediaRelationTypeExists = false;
+
             var actualRelationTypes = new List<IRelationType>();
 
             this.relationService.Setup(
@@ -170,6 +173,9 @@
         public void TestSetupRelationTypesWithExistingRelationTypes()
         {
             // arrange
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = false;
+            NexuContext.Current.DocumentToMediaRelationTypeExists = false;
+
             this.relationService.Setup(
                     x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias))
                 .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToDocumentAlias));
@@ -191,6 +197,40 @@
             Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
             Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
         }
+
+
+        [Test]
+        [Category("Service")]
+        [Category("Setup")]
+        public void TestSetupRelationTypesWithPropertiesSetOnContext()
+        {
+            // arrange
+            this.relationService.Setup(
+                    x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias))
+                .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToDocumentAlias));
+
+            this.relationService.Setup(
+                    x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias))
+                .Returns(new RelationType(Guid.Empty, Guid.Empty, Core.Constants.RelationTypes.DocumentToMediaAlias));
+
+            NexuContext.Current.DocumentToDocumentRelationTypeExists = true;
+            NexuContext.Current.DocumentToMediaRelationTypeExists = true;
+
+            // act
+            this.service.SetupRelationTypes();
+
+            // verify
+            this.relationService.Verify(
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToDocumentAlias), Times.Never);
+
+            this.relationService.Verify(
+                x => x.GetRelationTypeByAlias(Core.Constants.RelationTypes.DocumentToMediaAlias), Times.Never);
+
+            Assert.IsTrue(NexuContext.Current.DocumentToDocumentRelationTypeExists);
+            Assert.IsTrue(NexuContext.Current.DocumentToMediaRelationTypeExists);
+        }
+
+
 
         /// <summary>
         /// Tests retreiving of all property parsers
