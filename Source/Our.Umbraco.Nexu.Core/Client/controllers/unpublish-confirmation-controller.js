@@ -1,17 +1,17 @@
 ﻿angular.module('umbraco').controller('Our.Umbraco.Nexu.UnPublishConfirmationController',
-    ['$scope','notificationsService', 
+    ['$scope','notificationsService',
     function ($scope, notificationsService) {
 
         $scope.links = $scope.notification.args.links;
 
-        $scope.publish = function (notification) {            
+        $scope.publish = function (notification) {
             notificationsService.remove(notification);
 
             // execute the deferred unpublish request
-            notification.args.deferredPromise.resolve(notification.args.originalRequest);            
+            notification.args.deferredPromise.resolve(notification.args.originalRequest);
         };
 
-        $scope.cancel = function (notification) {            
+        $scope.cancel = function (notification) {
             notificationsService.remove(notification);
         };
 

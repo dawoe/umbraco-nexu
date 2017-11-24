@@ -1,4 +1,6 @@
-﻿namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
+﻿using System.Threading;
+
+namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
 {
     using System;
     using System.Collections.Generic;
@@ -24,11 +26,17 @@
         private readonly IContentService contentService;
 
         /// <summary>
+        /// The localization service.
+        /// </summary>
+        private readonly ILocalizationService localizationService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RelationsToRelatedDocumentsConverter"/> class.
         /// </summary>
         public RelationsToRelatedDocumentsConverter()
         {
             this.contentService = ApplicationContext.Current.Services.ContentService;
+            this.localizationService = ApplicationContext.Current.Services.LocalizationService;
         }
 
         /// <summary>
@@ -72,9 +80,11 @@
                 return destination;
             }
 
-            var ids = source.Select(x => x.ParentId).ToList();            
+            var ids = source.Select(x => x.ParentId).ToList();
 
             var contentItems = this.contentService.GetByIds(ids).ToList();
+
+            var language = Thread.CurrentThread.CurrentCulture.Name;
 
             destination = Mapper.Map<IEnumerable<RelatedDocument>>(contentItems).ToList();
 
@@ -94,26 +104,65 @@
                         foreach (var prop in commentItems)
                         {
                             var matches = Regex.Matches(prop, "(.*)(?:\\[\\[)([^\\]\\]]*)(?:\\]\\])");
-                            
+
                             var tabname = matches[0].Groups[2].Value;
 
                             if (string.IsNullOrEmpty(tabname))
                             {
                                 tabname = "Generic";
                             }
+                            if (tabname.StartsWith("#"))
+                            {
+                                if (localizationService.DictionaryItemExists(tabname.Substring(1)))
+                                {
+                                    var dictionaryItem = localizationService.GetDictionaryItemByKey(tabname.Substring(1));
+                                    if (dictionaryItem != null)
+                                    {
+                                        var translations = dictionaryItem.Translations.ToList();
+                                        if (translations.Any())
+                                        {
+                                            var translation = translations.SingleOrDefault(x => x.Language.IsoCode == language);
+                                            if (translation != null)
+                                            {
+                                                tabname = translation.Value;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
+                            var propertyName = matches[0].Groups[1].Value;
+                            if (propertyName.StartsWith("#"))
+                            {
+                                if (localizationService.DictionaryItemExists(propertyName.Substring(1)))
+                                {
+                                    var dictionaryItem = localizationService.GetDictionaryItemByKey(propertyName.Substring(1));
+                                    if (dictionaryItem != null)
+                                    {
+                                        var translations = dictionaryItem.Translations.ToList();
+                                        if (translations.Any())
+                                        {
+                                            var translation = translations.SingleOrDefault(x => x.Language.IsoCode == language);
+                                            if (translation != null)
+                                            {
+                                                propertyName = translation.Value;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             if (item.Properties.ContainsKey(tabname))
                             {
-                                item.Properties[tabname].Add(matches[0].Groups[1].Value);
+                                item.Properties[tabname].Add(propertyName);
                             }
                             else
                             {
-                                item.Properties.Add(tabname, new List<string> { matches[0].Groups[1].Value});
+                                item.Properties.Add(tabname, new List<string> { propertyName });
                             }
                         }
                     }
                 }
-                
+
             }
 
             return destination;

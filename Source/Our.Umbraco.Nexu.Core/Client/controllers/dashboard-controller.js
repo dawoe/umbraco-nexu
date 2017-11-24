@@ -17,11 +17,11 @@
 
                     if ($scope.RebuildStatus.IsProcessing && $scope.autoRefresh) {
                         $timeout(function() { $scope.getRebuildStatus() }, 5000, true);
-                    } 
+                    }
                 });
         };
 
-        $scope.rebuild = function() {           
+        $scope.rebuild = function() {
             nexuResource.rebuild(-1)
                 .then(function(result) {
                     $scope.getRebuildStatus();

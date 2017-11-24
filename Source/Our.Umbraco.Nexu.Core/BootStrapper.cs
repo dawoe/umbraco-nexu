@@ -28,7 +28,7 @@
     {
         /// <inheritdoc />
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        {            
+        {
             using (ApplicationContext.Current.ProfilingLogger.TraceDuration<BootStrapper>("Begin ApplicationStarted", "End ApplicationStarted"))
             {
                 // set up mappings
@@ -53,7 +53,7 @@
                 // resolve property parsers
                 PropertyParserResolver.Current =
                     new PropertyParserResolver(PluginManager.Current.ResolvePropertyParsers());
-                
+
                 // resolve grid editor parsers
                 GridEditorParserResolver.Current = new GridEditorParserResolver(PluginManager.Current.ResolveGridEditorParsers());
             }

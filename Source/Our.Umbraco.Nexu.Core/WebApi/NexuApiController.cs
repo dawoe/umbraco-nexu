@@ -85,7 +85,7 @@
         {
             var relations = this.nexuService.GetNexuRelationsForContent(contentId, false);
 
-            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations.ToList());           
+            var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations.ToList());
 
             return this.Request.CreateResponse(HttpStatusCode.OK, relatedDocs);
         }
@@ -109,7 +109,7 @@
         }
 
         /// <summary>
-        /// Rebuilds relations 
+        /// Rebuilds relations
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -119,7 +119,7 @@
         /// </returns>
         [HttpGet]
         public HttpResponseMessage Rebuild(int id = Constants.System.Root)
-        {            
+        {
             Thread backgroundRebuild = new Thread(new ParameterizedThreadStart(this.RebuildJob));
             backgroundRebuild.IsBackground = true;
             backgroundRebuild.Name = "NexuRebuildJob";
@@ -169,8 +169,8 @@
             foreach (var item in rootLevelItems)
             {
                 this.ParseContent(item);
-            } 
-            
+            }
+
             // parser recyle bin
             if (attempInt.Result == Constants.System.Root)
             {
@@ -180,7 +180,7 @@
                 {
                     this.ParseContent(item);
                 }
-            }           
+            }
 
             // reset context variables after processing
             NexuContext.Current.IsProcessing = false;
