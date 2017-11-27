@@ -1,4 +1,6 @@
-﻿namespace Our.Umbraco.Nexu.Core
+﻿using Umbraco.Web;
+
+namespace Our.Umbraco.Nexu.Core
 {
     using System;
     using System.Collections.Generic;
@@ -46,7 +48,7 @@
         private IDataTypeService dataTypeService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NexuService"/> class. 
+        /// Initializes a new instance of the <see cref="NexuService"/> class.
         /// </summary>
         /// <param name="profiler">
         /// The profiler.
@@ -126,8 +128,8 @@
                 // get linked entities fro the properties that we found a parsers for
                 parsableProperties.ForEach(
                     pp =>
-                        {                           
-                            linkedEntities.Add(pp.Property.PropertyType.Name + " [[" + pp.TabName + "]]" , pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());                            
+                        {
+                            linkedEntities.Add(pp.Property.PropertyType.Name + " [[" + pp.TabName + "]]" , pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());
                         });
 
                 return linkedEntities;
@@ -187,7 +189,7 @@
                                 {
                                     tabname = propertyTabDictionairy[p.Alias];
                                 }
-                                                               
+
                                 properties.Add(new PropertyWithParser(p, parser, tabname));
                             }
                         });
@@ -228,8 +230,8 @@
         {
             var relations = Enumerable.Empty<IRelation>().ToList();
 
-            relations = isParent ? this.relationService.GetByParentId(contentId).ToList() : this.relationService.GetByChildId(contentId).ToList();                
-            
+            relations = isParent ? this.relationService.GetByParentId(contentId).ToList() : this.relationService.GetByChildId(contentId).ToList();
+
             if (!relations.Any())
             {
                 return relations;
@@ -347,7 +349,7 @@
                 {
                     this.SetupDocumentToMediaRelationType();
                 }
-               
+
             }
         }
 
