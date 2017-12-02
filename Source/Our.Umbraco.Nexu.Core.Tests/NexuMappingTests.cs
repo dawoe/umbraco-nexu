@@ -1,20 +1,17 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using AutoMapper;
 
     using global::Umbraco.Core.Models;
-    using global::Umbraco.Core.Persistence.Migrations.Upgrades.TargetVersionSevenThreeZero;
     using global::Umbraco.Core.Services;
 
     using Moq;
 
     using NUnit.Framework;
 
-    using Our.Umbraco.Nexu.Core.Mapping.Profiles;
     using Our.Umbraco.Nexu.Core.Mapping.TypeConverters;
     using Our.Umbraco.Nexu.Core.Models;
 
@@ -30,14 +27,20 @@
         private Mock<IContentService> contentServiceMock;
 
         /// <summary>
+        /// The localization service mock.
+        /// </summary>
+        private Mock<ILocalizationService> localizationServiceMock;
+
+        /// <summary>
         /// Test setup.
         /// </summary>
         [SetUp]
         public void Setup()
         {
             this.contentServiceMock = new Mock<IContentService>();
+            this.localizationServiceMock = new Mock<ILocalizationService>();
 
-            Mapper.CreateMap<IEnumerable<IRelation>, IEnumerable<RelatedDocument>>().ConvertUsing(new RelationsToRelatedDocumentsConverter(this.contentServiceMock.Object));
+            Mapper.CreateMap<IEnumerable<IRelation>, IEnumerable<RelatedDocument>>().ConvertUsing(new RelationsToRelatedDocumentsConverter(this.contentServiceMock.Object, this.localizationServiceMock.Object));
 
             Mapper.CreateMap<IContent, RelatedDocument>()
                 .ForMember(x => x.Properties, opt => opt.Ignore())

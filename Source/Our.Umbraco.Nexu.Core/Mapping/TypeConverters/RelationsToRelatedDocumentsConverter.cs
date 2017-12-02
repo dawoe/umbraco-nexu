@@ -45,9 +45,13 @@ namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
         /// <param name="contentservice">
         /// The contentservice.
         /// </param>
-        public RelationsToRelatedDocumentsConverter(IContentService contentservice)
+        /// <param name="localizationService">
+        /// The localization Service.
+        /// </param>
+        public RelationsToRelatedDocumentsConverter(IContentService contentservice, ILocalizationService localizationService)
         {
             this.contentService = contentservice;
+            this.localizationService = localizationService;
         }
 
         /// <summary>
