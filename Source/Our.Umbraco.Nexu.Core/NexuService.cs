@@ -1,21 +1,19 @@
-﻿using Umbraco.Web;
-
-namespace Our.Umbraco.Nexu.Core
+﻿namespace Our.Umbraco.Nexu.Core
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using global::Umbraco.Core;
-    using global::Umbraco.Core.Logging;
-    using global::Umbraco.Core.Models;
-    using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Core.Constants;
     using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
     using Our.Umbraco.Nexu.Core.ObjectResolution;
+
+    using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     /// <summary>
     /// Nexu service
@@ -30,22 +28,22 @@ namespace Our.Umbraco.Nexu.Core
         /// <summary>
         /// The profiler.
         /// </summary>
-        private ProfilingLogger profiler;
+        private readonly ProfilingLogger profiler;
 
         /// <summary>
         /// The property parser resolver.
         /// </summary>
-        private PropertyParserResolver propertyParserResolver;
+        private readonly PropertyParserResolver propertyParserResolver;
 
         /// <summary>
         /// The relation service.
         /// </summary>
-        private IRelationService relationService;
+        private readonly IRelationService relationService;
 
         /// <summary>
         /// The data type service.
         /// </summary>
-        private IDataTypeService dataTypeService;
+        private readonly IDataTypeService dataTypeService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NexuService"/> class.

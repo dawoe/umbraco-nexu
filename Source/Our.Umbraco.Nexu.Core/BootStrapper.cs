@@ -8,8 +8,11 @@
     using System.Web.Routing;
 
     using AutoMapper;
-
+    
     using ObjectResolution;
+
+    using Our.Umbraco.Nexu.Core.Mapping.Profiles;
+    using Our.Umbraco.Nexu.Core.WebApi;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Events;
@@ -17,9 +20,6 @@
     using global::Umbraco.Core.Services;
     using global::Umbraco.Web;
     using global::Umbraco.Web.UI.JavaScript;
-
-    using Our.Umbraco.Nexu.Core.Mapping.Profiles;
-    using Our.Umbraco.Nexu.Core.WebApi;
 
     /// <summary>
     /// Bootstrapper to handle umbraco startup events
