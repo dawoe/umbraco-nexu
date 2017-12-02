@@ -115,11 +115,12 @@ namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
                             {
                                 tabname = "Generic";
                             }
+
                             if (tabname.StartsWith("#"))
                             {
-                                if (localizationService.DictionaryItemExists(tabname.Substring(1)))
+                                if (this.localizationService.DictionaryItemExists(tabname.Substring(1)))
                                 {
-                                    var dictionaryItem = localizationService.GetDictionaryItemByKey(tabname.Substring(1));
+                                    var dictionaryItem = this.localizationService.GetDictionaryItemByKey(tabname.Substring(1));
                                     if (dictionaryItem != null)
                                     {
                                         var translations = dictionaryItem.Translations.ToList();
@@ -138,9 +139,9 @@ namespace Our.Umbraco.Nexu.Core.Mapping.TypeConverters
                             var propertyName = matches[0].Groups[1].Value;
                             if (propertyName.StartsWith("#"))
                             {
-                                if (localizationService.DictionaryItemExists(propertyName.Substring(1)))
+                                if (this.localizationService.DictionaryItemExists(propertyName.Substring(1)))
                                 {
-                                    var dictionaryItem = localizationService.GetDictionaryItemByKey(propertyName.Substring(1));
+                                    var dictionaryItem = this.localizationService.GetDictionaryItemByKey(propertyName.Substring(1));
                                     if (dictionaryItem != null)
                                     {
                                         var translations = dictionaryItem.Translations.ToList();
