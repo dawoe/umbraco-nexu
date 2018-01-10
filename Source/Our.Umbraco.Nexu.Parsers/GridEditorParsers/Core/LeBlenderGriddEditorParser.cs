@@ -18,8 +18,6 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core
 {
     public class LeBlenderGridEditorParser : IGridEditorParser
     {
-        private static readonly ILog Log = LogManager.GetLogger("SYP.Umbraco");
-
         public bool IsParserFor(string editorview)
         {
             return editorview.Equals("/App_Plugins/LeBlender/editors/leblendereditor/LeBlendereditor.html");
@@ -56,8 +54,7 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core
                             var node = contentService.GetById(guidUdi.Guid);
                             if (node != null)
                             {
-                                linkedEntities.Add(new LinkedDocumentEntity(node.Id));
-                                Log.Info(String.Concat("NEXU: Add Linked Document with id ", node.Id));
+                                linkedEntities.Add(new LinkedDocumentEntity(node.Id));                                
                             }
                         }
                         else if (propvalue.StartsWith("umb://media/"))
@@ -65,8 +62,7 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core
                             var media = mediaService.GetById(guidUdi.Guid);
                             if (media != null)
                             {
-                                linkedEntities.Add(new LinkedMediaEntity(media.Id));
-                                Log.Info(String.Concat("NEXU: Add Linked Media with id ", media.Id));
+                                linkedEntities.Add(new LinkedMediaEntity(media.Id));                                
                             }
                         }
                     }
@@ -74,7 +70,7 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core
             }
             catch (Exception e)
             {
-                Log.Info(String.Concat(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, e.Message));
+                
             }
 
             return linkedEntities;
