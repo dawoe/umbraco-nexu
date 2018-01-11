@@ -1,11 +1,11 @@
-namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Core
+namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Community
 {
     using System.Linq;
 
     using NUnit.Framework;
 
     using Our.Umbraco.Nexu.Core.Enums;
-    using Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core;
+    using Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community;
 
     /// <summary>
     /// The media grid editor parser tests.
@@ -18,7 +18,7 @@ namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Core
         /// </summary>
         [Test]
         [Category("GridEditorParsers")]
-        [Category("CoreGridEditorParsers")]
+        [Category("CommunityGridEditorParsers")]
         public void TestIsParserForValidView()
         {
             // arrange            
@@ -36,7 +36,7 @@ namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Core
         /// </summary>
         [Test]
         [Category("GridEditorParsers")]
-        [Category("CoreGridEditorParsers")]
+        [Category("CommunityGridEditorParsers")]
         public void TestIsParserForInValidView()
         {
             // arrange            
@@ -54,7 +54,7 @@ namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Core
         /// </summary>
         [Test]
         [Category("GridEditorParsers")]
-        [Category("CoreGridEditorParsers")]
+        [Category("CommunityGridEditorParsers")]
         public void TestGetLinkedEntitiesWithEmptyValue()
         {
             // arrange            
@@ -74,7 +74,7 @@ namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Core
         /// </summary>
         [Test]
         [Category("GridEditorParsers")]
-        [Category("CoreGridEditorParsers")]
+        [Category("CommunityGridEditorParsers")]
         public void TestGetLinkedEntities()
         {
             // arrange            

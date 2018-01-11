@@ -1,21 +1,17 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-using Our.Umbraco.Nexu.Core.Interfaces;
-using Our.Umbraco.Nexu.Core.Models;
-
-using System.Collections.Generic;
-using System.Linq;
-
-using global::Umbraco.Core;
-using global::Umbraco.Web;
-
-using log4net;
-using System;
-
-
-namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Core
+namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using global::Umbraco.Core;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
+    using Our.Umbraco.Nexu.Core.Interfaces;
+    using Our.Umbraco.Nexu.Core.Models;
+
     public class LeBlenderGridEditorParser : IGridEditorParser
     {
         public bool IsParserFor(string editorview)
