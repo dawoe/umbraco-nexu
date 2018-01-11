@@ -5,18 +5,47 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
+    using Our.Umbraco.Nexu.Core.ObjectResolution;
 
     /// <summary>
     /// The le blender grid editor parser.
     /// </summary>
     public class LeBlenderGridEditorParser : IGridEditorParser
     {
+
+        /// <summary>
+        /// The data type service.
+        /// </summary>
+        private readonly IDataTypeService dataTypeService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LeBlenderGridEditorParser"/> class.
+        /// </summary>
+        public LeBlenderGridEditorParser()
+        {
+            this.dataTypeService = ApplicationContext.Current.Services.DataTypeService;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LeBlenderGridEditorParser"/> class.
+        /// </summary>
+        /// <param name="dataTypeService">
+        /// The data type service.
+        /// </param>
+        public LeBlenderGridEditorParser(IDataTypeService dataTypeService)
+        {
+            this.dataTypeService = dataTypeService;
+        }
+
         /// <summary>
         /// Check if it is a parser for a speficic editor
         /// </summary>
@@ -41,58 +70,59 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(string value)
-        {            
+        {
             if (string.IsNullOrEmpty(value))
             {
                 return Enumerable.Empty<ILinkedEntity>();
             }
 
-            return Enumerable.Empty<ILinkedEntity>();
+            var linkedEntities = new List<ILinkedEntity>();
 
-            //var linkedEntities = new List<ILinkedEntity>();
+            try
+            {
+                var dataTypes = new Dictionary<string, IDataTypeDefinition>();
 
-            //try
-            //{
-            //    var jsonValue = JsonConvert.DeserializeObject<JArray>(value);
+                var jsonValue = JsonConvert.DeserializeObject<JArray>(value);
 
-            //    ///get any value that's a udi
-            //    var props = jsonValue.Descendants().OfType<JProperty>().Where(p => p.Name == "value" && p.Value.ToString().StartsWith("umb://")).ToList();
+                foreach (var item in jsonValue)
+                {
+                    foreach (JProperty field in item)
+                    {
+                        var dataTypeGuid = field.Value["dataTypeGuid"].ToString();
 
-            //    var contentService = ApplicationContext.Current.Services.ContentService;
-            //    var mediaService = ApplicationContext.Current.Services.MediaService;
+                        IDataTypeDefinition dataType = null;
 
-            //    foreach (JProperty property in props)
-            //    {
-            //        var propvalue = property.Value.ToString();
-            //        var guidUdi = Udi.Parse(propvalue) as GuidUdi;
+                        if (dataTypes.ContainsKey(dataTypeGuid))
+                        {
+                            dataType = dataTypes[dataTypeGuid];
+                        }
+                        else
+                        {
+                            dataType =
+                                this.dataTypeService.GetDataTypeDefinitionById(
+                                    new Guid(dataTypeGuid));
 
-            //        if (guidUdi != null)
-            //        {
-            //            if (propvalue.StartsWith("umb://document/"))
-            //            {
-            //                var node = contentService.GetById(guidUdi.Guid);
-            //                if (node != null)
-            //                {
-            //                    linkedEntities.Add(new LinkedDocumentEntity(node.Id));                                
-            //                }
-            //            }
-            //            else if (propvalue.StartsWith("umb://media/"))
-            //            {
-            //                var media = mediaService.GetById(guidUdi.Guid);
-            //                if (media != null)
-            //                {
-            //                    linkedEntities.Add(new LinkedMediaEntity(media.Id));                                
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //catch (Exception e)
-            //{
+                            dataTypes.Add(dataTypeGuid, dataType);
+                        }
 
-            //}
+                        var parser =
+                            PropertyParserResolver.Current.Parsers.FirstOrDefault(
+                                x => x.IsParserFor(dataType));
 
-            //return linkedEntities;
+                        if (parser != null)
+                        {
+                            linkedEntities.AddRange(parser.GetLinkedEntities(field.Value["value"]));
+                        }
+
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<LeBlenderGridEditorParser>("Error parsing le blender grid editor", exception);
+            }
+
+            return linkedEntities;
         }
     }
 }
