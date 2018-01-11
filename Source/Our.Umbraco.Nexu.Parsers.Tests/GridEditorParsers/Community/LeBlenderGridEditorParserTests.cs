@@ -1,6 +1,12 @@
 namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Community
 {
+    using System;
     using System.Linq;
+
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
+
+    using Moq;
 
     using NUnit.Framework;
 
@@ -77,35 +83,93 @@ namespace Our.Umbraco.Nexu.Parsers.Tests.GridEditorParsers.Community
         [Category("CommunityGridEditorParsers")]
         public void TestGetLinkedEntities()
         {
-//            // arrange            
-//            var parser = new LeBlenderGridEditorParser();
+            // arrange            
+            var dataTypeServiceMock = new Mock<IDataTypeService>();
+            
+            var contentPickerDataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.ContentPickerAlias)
+                                                      {
+                                                          Key = Guid.NewGuid()
+                                                      };
 
-//            string value = @" [
-//  {
-//    ""nodeId"": {
-//      ""value"": ""umb://document/680f252a8501444b840715302132c53c"",
-//      ""dataTypeGuid"": ""fd1e0da5-5606-4862-b679-5d0cf3a52a59"",
-//      ""editorAlias"": ""nodeId"",
-//      ""editorName"": ""Content Page""
-//    },
-//    ""themePicker"": {
-//      ""value"": ""31"",
-//      ""dataTypeGuid"": ""395625fb-05b7-47b8-aace-eb57052de203"",
-//      ""editorAlias"": ""themePicker"",
-//      ""editorName"": ""Theme Picker""
-//    }
-//  }
-//]";
+            var mediaPickerDataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.MediaPickerAlias)
+                                                    {
+                Key = Guid.NewGuid()
+            };
 
-//            // act
-//            var result = parser.GetLinkedEntities(value).ToList();
+            var rteDataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias)
+                                            {
+                Key = Guid.NewGuid()
+            };
 
-//            // verify
-//            Assert.IsNotNull(result);
+            var stringDataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TextboxAlias)
+                                               {
+                Key = Guid.NewGuid()
+            };
+           
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(contentPickerDataTypeDefinition.Key))
+                .Returns(contentPickerDataTypeDefinition);
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(mediaPickerDataTypeDefinition.Key))
+                .Returns(mediaPickerDataTypeDefinition);
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(rteDataTypeDefinition.Key))
+                .Returns(rteDataTypeDefinition);
+            dataTypeServiceMock.Setup(x => x.GetDataTypeDefinitionById(stringDataTypeDefinition.Key))
+                .Returns(stringDataTypeDefinition);
 
-//            Assert.AreEqual(1, result.Count());
+            var parser = new LeBlenderGridEditorParser(dataTypeServiceMock.Object);
 
-//            Assert.IsTrue(result.Any(x => x.LinkedEntityType == LinkedEntityType.D && x.Id == ???));
+            var rteLinkId = 1079;
+            var rteMediaId = 1080;
+            var mediaPickerId = 1068;
+            var contentPickerId = 1086;
+
+            string value = $@"[
+   {{
+      ""title"":{{
+         ""value"":""Test"",
+         ""dataTypeGuid"":""{stringDataTypeDefinition.Key}"",
+         ""editorAlias"":""title"",
+         ""editorName"":""Title""
+      }},
+      ""text"":{{
+         ""value"":""<p>Content with <a data-id=\""{rteLinkId}\"" href=\""/{{localLink:{rteLinkId}}}\"" title=\""Contact\"">links</a></p>\n<p> </p>\n<p>And media</p>\n<p><img style=\""width: 500px; height:333.49609375px;\"" src=\""/media/1052/boston-city-flow.jpg?width=500&amp;height=333.49609375\"" alt=\""\"" rel=\""{rteMediaId}\"" data-id=\""{rteMediaId}\"" /></p>"",
+         ""dataTypeGuid"":""{rteDataTypeDefinition.Key}"",
+         ""editorAlias"":""text"",
+         ""editorName"":""Text""
+      }},
+      ""media"":{{
+         ""value"":""{mediaPickerId}"",
+         ""dataTypeGuid"":""{mediaPickerDataTypeDefinition.Key}"",
+         ""editorAlias"":""media"",
+         ""editorName"":""Media""
+      }},
+      ""content"":{{
+         ""value"":""{contentPickerId}"",
+         ""dataTypeGuid"":""{contentPickerDataTypeDefinition.Key}"",
+         ""editorAlias"":""content"",
+         ""editorName"":""Content""
+      }}
+   }}
+]";
+
+            // act
+            var result = parser.GetLinkedEntities(value).ToList();
+
+            // assert
+            
+
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(contentPickerDataTypeDefinition.Key), Times.Once);
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(mediaPickerDataTypeDefinition.Key), Times.Once);
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(rteDataTypeDefinition.Key), Times.Once);
+            dataTypeServiceMock.Verify(x => x.GetDataTypeDefinitionById(stringDataTypeDefinition.Key), Times.Once);
+
+            Assert.AreEqual(4, result.Count);
+            Assert.AreEqual(2, result.Count(x => x.LinkedEntityType == LinkedEntityType.Media));          
+            Assert.AreEqual(2, result.Count(x => x.LinkedEntityType == LinkedEntityType.Document));
+
+            Assert.IsTrue(result.Any(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == mediaPickerId));
+            Assert.IsTrue(result.Any(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == rteMediaId));
+            Assert.IsTrue(result.Any(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == rteLinkId));
+            Assert.IsTrue(result.Any(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == contentPickerId));
         }
     }
 }
