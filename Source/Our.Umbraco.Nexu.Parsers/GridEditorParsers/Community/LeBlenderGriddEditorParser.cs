@@ -12,64 +12,87 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
 
+    /// <summary>
+    /// The le blender grid editor parser.
+    /// </summary>
     public class LeBlenderGridEditorParser : IGridEditorParser
     {
+        /// <summary>
+        /// Check if it is a parser for a speficic editor
+        /// </summary>
+        /// <param name="editorview">
+        /// The editor view alias as defined in grid config
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsParserFor(string editorview)
         {
             return editorview.Equals("/App_Plugins/LeBlender/editors/leblendereditor/LeBlendereditor.html");
         }
 
+        /// <summary>
+        /// Gets the linked entities for this editor
+        /// </summary>
+        /// <param name="value">
+        /// The grid editor value
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(string value)
-        {
+        {            
             if (string.IsNullOrEmpty(value))
             {
                 return Enumerable.Empty<ILinkedEntity>();
             }
 
-            var linkedEntities = new List<ILinkedEntity>();
+            return Enumerable.Empty<ILinkedEntity>();
 
-            try
-            {
-                var jsonValue = JsonConvert.DeserializeObject<JArray>(value);
+            //var linkedEntities = new List<ILinkedEntity>();
 
-                ///get any value that's a udi
-                var props = jsonValue.Descendants().OfType<JProperty>().Where(p => p.Name == "value" && p.Value.ToString().StartsWith("umb://")).ToList();
+            //try
+            //{
+            //    var jsonValue = JsonConvert.DeserializeObject<JArray>(value);
 
-                var contentService = ApplicationContext.Current.Services.ContentService;
-                var mediaService = ApplicationContext.Current.Services.MediaService;
+            //    ///get any value that's a udi
+            //    var props = jsonValue.Descendants().OfType<JProperty>().Where(p => p.Name == "value" && p.Value.ToString().StartsWith("umb://")).ToList();
 
-                foreach (JProperty property in props)
-                {
-                    var propvalue = property.Value.ToString();
-                    var guidUdi = Udi.Parse(propvalue) as GuidUdi;
+            //    var contentService = ApplicationContext.Current.Services.ContentService;
+            //    var mediaService = ApplicationContext.Current.Services.MediaService;
 
-                    if (guidUdi != null)
-                    {
-                        if (propvalue.StartsWith("umb://document/"))
-                        {
-                            var node = contentService.GetById(guidUdi.Guid);
-                            if (node != null)
-                            {
-                                linkedEntities.Add(new LinkedDocumentEntity(node.Id));                                
-                            }
-                        }
-                        else if (propvalue.StartsWith("umb://media/"))
-                        {
-                            var media = mediaService.GetById(guidUdi.Guid);
-                            if (media != null)
-                            {
-                                linkedEntities.Add(new LinkedMediaEntity(media.Id));                                
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                
-            }
+            //    foreach (JProperty property in props)
+            //    {
+            //        var propvalue = property.Value.ToString();
+            //        var guidUdi = Udi.Parse(propvalue) as GuidUdi;
 
-            return linkedEntities;
+            //        if (guidUdi != null)
+            //        {
+            //            if (propvalue.StartsWith("umb://document/"))
+            //            {
+            //                var node = contentService.GetById(guidUdi.Guid);
+            //                if (node != null)
+            //                {
+            //                    linkedEntities.Add(new LinkedDocumentEntity(node.Id));                                
+            //                }
+            //            }
+            //            else if (propvalue.StartsWith("umb://media/"))
+            //            {
+            //                var media = mediaService.GetById(guidUdi.Guid);
+            //                if (media != null)
+            //                {
+            //                    linkedEntities.Add(new LinkedMediaEntity(media.Id));                                
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+
+            //}
+
+            //return linkedEntities;
         }
     }
 }
