@@ -102,6 +102,23 @@
         [HttpGet]
         public bool CheckDescendantsForIncomingLinks(int contentid)
         {
+            var children = this.contentService.GetChildren(contentid).ToList();
+
+            if (children.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (var child in children)
+            {
+                var relations = this.nexuService.GetNexuRelationsForContent(child.Id, false).ToList();
+
+                if (relations.Any() == true)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
