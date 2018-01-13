@@ -5,10 +5,20 @@
         angular.extend(this, $controller('Umbraco.Editors.Media.DeleteController', { $scope: $scope }));
 
         $scope.links = {};
+        $scope.descendantsHaveLinks = false;
         $scope.isLoading = true;
 
         nexuResource.getIncomingLinks($scope.currentNode.id).then(function (result) {
             $scope.links = result.data;
-            $scope.isLoading = false;
+
+            if (result.data.length == 0) {
+                nexuResource.checkDescendants($scope.currentNode.id).then(function(result) {
+                    $scope.descendantsHaveLinks = result.data;
+                    $scope.isLoading = false;
+                });
+            } else {
+                $scope.isLoading = false;
+            }
+           
         });
     }]);
