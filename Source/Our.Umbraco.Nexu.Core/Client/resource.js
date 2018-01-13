@@ -4,6 +4,9 @@
                 getIncomingLinks: function (id) {
                     return $http.get(Umbraco.Sys.ServerVariables.Nexu.GetIncomingLinks + "?contentId=" + id);
                 },
+                checkDescendants : function(id) {
+                    return $http.get(Umbraco.Sys.ServerVariables.Nexu.CheckDescendantsForIncomingLinks + "?contentId=" + id);
+                },
                 getRebuildStatus : function() {
                     return $http.get(Umbraco.Sys.ServerVariables.Nexu.GetRebuildStatus);
                 },
