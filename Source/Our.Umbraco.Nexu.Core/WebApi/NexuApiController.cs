@@ -110,7 +110,7 @@
         /// The <see cref="bool"/>.
         /// </returns>
         [HttpGet]
-        public bool CheckDescendantsForIncomingLinks(int contentid)
+        public bool CheckContentDescendantsForIncomingLinks(int contentid)
         {
             var children = this.contentService.GetChildren(contentid).ToList();
 
@@ -128,6 +128,37 @@
                     return true;
                 }
             }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check media descendants for incoming links.
+        /// </summary>
+        /// <param name="mediaId">
+        /// The media id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool CheckMediaDescendantsForIncomingLinks(int mediaId)
+        {
+            //var children = this.contentService.GetChildren(contentid).ToList();
+
+            //if (children.Count == 0)
+            //{
+            //    return false;
+            //}
+
+            //foreach (var child in children)
+            //{
+            //    var relations = this.nexuService.GetNexuRelationsForContent(child.Id, false).ToList();
+
+            //    if (relations.Any() == true)
+            //    {
+            //        return true;
+            //    }
+            //}
 
             return false;
         }

@@ -220,7 +220,7 @@
                 .Returns(new List<IRelation>());
 
             // act
-            var result = this.controller.CheckDescendantsForIncomingLinks(contentId);
+            var result = this.controller.CheckContentDescendantsForIncomingLinks(contentId);
 
             // arrange
             Assert.IsFalse(result);
@@ -258,7 +258,7 @@
                 .Returns(new List<IRelation>());
 
             // act
-            var result = this.controller.CheckDescendantsForIncomingLinks(contentId);
+            var result = this.controller.CheckContentDescendantsForIncomingLinks(contentId);
 
             // arrange
             Assert.IsFalse(result);
@@ -311,7 +311,7 @@
                 .Returns(new List<IRelation>());
 
             // act
-            var result = this.controller.CheckDescendantsForIncomingLinks(contentId);
+            var result = this.controller.CheckContentDescendantsForIncomingLinks(contentId);
 
             // arrange
             Assert.IsTrue(result);
