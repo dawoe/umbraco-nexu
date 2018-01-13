@@ -12,7 +12,7 @@
             $scope.links = result.data;
 
             if (result.data.length == 0) {
-                nexuResource.checkDescendants($scope.currentNode.id).then(function(result) {
+                nexuResource.checkDescendants($scope.currentNode.id, true).then(function(result) {
                     $scope.descendantsHaveLinks = result.data;
                     $scope.isLoading = false;
                 });
