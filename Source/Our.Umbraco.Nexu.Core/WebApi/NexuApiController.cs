@@ -91,6 +91,21 @@
         }
 
         /// <summary>
+        /// Check descendants for incoming links.
+        /// </summary>
+        /// <param name="contentid">
+        /// The contentid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        [HttpGet]
+        public bool CheckDescendantsForIncomingLinks(int contentid)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Gets the rebuild status.
         /// </summary>
         /// <returns>
