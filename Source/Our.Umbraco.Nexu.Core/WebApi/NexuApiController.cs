@@ -141,24 +141,25 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        [HttpGet]
         public bool CheckMediaDescendantsForIncomingLinks(int mediaId)
         {
-            //var children = this.contentService.GetChildren(contentid).ToList();
+            var children = this.mediaService.GetChildren(mediaId).ToList();
 
-            //if (children.Count == 0)
-            //{
-            //    return false;
-            //}
+            if (children.Count == 0)
+            {
+                return false;
+            }
 
-            //foreach (var child in children)
-            //{
-            //    var relations = this.nexuService.GetNexuRelationsForContent(child.Id, false).ToList();
+            foreach (var child in children)
+            {
+                var relations = this.nexuService.GetNexuRelationsForContent(child.Id, false).ToList();
 
-            //    if (relations.Any() == true)
-            //    {
-            //        return true;
-            //    }
-            //}
+                if (relations.Any() == true)
+                {
+                    return true;
+                }
+            }
 
             return false;
         }
