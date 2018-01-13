@@ -305,6 +305,7 @@
   <ItemGroup>
     <Content Include="Client\controllers\content-delete-controller.js" />
     <Content Include="Client\controllers\dashboard-controller.js" />
+    <Content Include="Client\directives\nexuDescendantsWarning.js" />
     <Content Include="Client\lang\nl-NL.xml" />
     <Content Include="Client\lang\en-US.xml" />
     <Content Include="Client\lang\en-GB.xml" />
@@ -317,6 +318,7 @@
     <Content Include="Client\resource.js" />
     <Content Include="Client\views\content-delete.html" />
     <Content Include="Client\views\media-delete.html" />
+    <Content Include="Client\views\nexu-descendants-warning.html" />
     <Content Include="Client\views\nexu-links.html" />
     <Content Include="Client\views\unpublish-confirmation.html" />
   </ItemGroup>

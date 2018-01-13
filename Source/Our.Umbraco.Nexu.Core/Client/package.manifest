@@ -6,7 +6,8 @@
     '~/App_Plugins/Nexu/controllers/media-delete-controller.js',
     '~/App_Plugins/Nexu/controllers/unpublish-confirmation-controller.js',
     '~/App_Plugins/Nexu/controllers/dashboard-controller.js',
-    '~/App_Plugins/Nexu/directives/nexuLinks.js'
+    '~/App_Plugins/Nexu/directives/nexuLinks.js',
+	'~/App_Plugins/Nexu/directives/nexuDescendantsWarning.js'
   ],
   css: [
     '~/App_Plugins/Nexu/nexu.css'
