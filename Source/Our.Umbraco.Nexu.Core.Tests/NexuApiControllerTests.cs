@@ -49,6 +49,11 @@
         private Mock<IContentService> contentServiceMock;
 
         /// <summary>
+        /// The media service.
+        /// </summary>
+        private Mock<IMediaService> mediaServiceMock;
+
+        /// <summary>
         /// The controller.
         /// </summary>
         private NexuApiController controller;
@@ -106,6 +111,7 @@
             this.nexuServiceMock = new Mock<INexuService>();
             this.mappingEngineMock = new Mock<IMappingEngine>();
             this.contentServiceMock = new Mock<IContentService>();
+            this.mediaServiceMock = new Mock<IMediaService>();
 
             // Mocked settings are now necessary
             SettingsForTests.ConfigureSettings(SettingsForTests.GenerateMockSettings());
@@ -126,7 +132,8 @@
                                   this.UmbracoContext,
                                   this.nexuServiceMock.Object,
                                   this.mappingEngineMock.Object,
-                                  this.contentServiceMock.Object)
+                                  this.contentServiceMock.Object,
+                                  this.mediaServiceMock.Object)
             {
                 Request = new HttpRequestMessage
                 {

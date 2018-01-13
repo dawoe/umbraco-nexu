@@ -41,10 +41,16 @@
         private readonly IContentService contentService;
 
         /// <summary>
+        /// The media service.
+        /// </summary>
+        private readonly IMediaService mediaService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NexuApiController"/> class.
         /// </summary>
         public NexuApiController()
         {
+            this.mediaService = this.Services.MediaService;
             this.contentService = this.Services.ContentService;
             this.mappingEngine = AutoMapper.Mapper.Engine;
             this.nexuService = NexuService.Current;
@@ -65,11 +71,15 @@
         /// <param name="contentService">
         /// The content Service.
         /// </param>
-        internal NexuApiController(UmbracoContext umbracoContext, INexuService nexuService,  IMappingEngine mappingEngine, IContentService contentService) : base(umbracoContext)
+        /// <param name="mediaService">
+        /// The media Service.
+        /// </param>
+        internal NexuApiController(UmbracoContext umbracoContext, INexuService nexuService,  IMappingEngine mappingEngine, IContentService contentService, IMediaService mediaService) : base(umbracoContext)
         {
             this.nexuService = nexuService;
             this.mappingEngine = mappingEngine;
             this.contentService = contentService;
+            this.mediaService = mediaService;
         }
 
         /// <summary>
