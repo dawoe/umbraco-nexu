@@ -1,14 +1,8 @@
 ﻿angular.module('umbraco').controller('Our.Umbraco.Nexu.ContentDeleteController',
-    ['$scope', '$controller', 'Our.Umbraco.Nexu.Resource',
-    function ($scope, $controller, nexuResource) {
-        // inherit core delete controller
-        angular.extend(this, $controller('Umbraco.Editors.Content.DeleteController', { $scope: $scope }));
+    ['$scope', '$controller', 
+    function ($scope, $controller) {
+        $scope.isMedia = false;
 
-        $scope.links = {};
-        $scope.isLoading = true;
-
-        nexuResource.getIncomingLinks($scope.currentNode.id).then(function (result) {
-            $scope.links = result.data;
-            $scope.isLoading = false;
-        });
+        // inherit base delete controller        
+        angular.extend(this, $controller('Our.Umbraco.Nexu.BaseDeleteController', { $scope: $scope }));
     }]);
