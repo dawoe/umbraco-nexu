@@ -1,6 +1,5 @@
 ﻿namespace Our.Umbraco.Nexu.Core.WebApi
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -15,7 +14,6 @@
     using global::Umbraco.Core.Services;
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
-    using global::Umbraco.Web.WebApi;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
@@ -122,8 +120,6 @@
             return this.CheckDescendantsOfContentTreeForIncomingLinks(children);
         }
 
-        
-
         /// <summary>
         /// Check media descendants for incoming links.
         /// </summary>
@@ -143,17 +139,7 @@
                 return false;
             }
 
-            foreach (var child in children)
-            {
-                var relations = this.nexuService.GetNexuRelationsForContent(child.Id, false).ToList();
-
-                if (relations.Any() == true)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return this.CheckDescendantsOfMediaTreeForIncomingLinks(children);
         }
 
         /// <summary>
@@ -313,6 +299,49 @@
                 if (children.Count != 0)
                 {
                     var hasLinks = this.CheckDescendantsOfContentTreeForIncomingLinks(children);
+
+                    if (hasLinks)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check descendants of media tree for incoming links recursively
+        /// </summary>
+        /// <param name="items">
+        /// The items.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private bool CheckDescendantsOfMediaTreeForIncomingLinks(IEnumerable<IMedia> items)
+        {
+            var childIds = new List<int>();
+
+            foreach (var item in items)
+            {
+                var relations = this.nexuService.GetNexuRelationsForContent(item.Id, false).ToList();
+
+                if (relations.Any())
+                {
+                    return true;
+                }
+
+                childIds.Add(item.Id);
+            }
+
+            foreach (var id in childIds)
+            {
+                var children = this.mediaService.GetChildren(id).ToList();
+
+                if (children.Count != 0)
+                {
+                    var hasLinks = this.CheckDescendantsOfMediaTreeForIncomingLinks(children);
 
                     if (hasLinks)
                     {
