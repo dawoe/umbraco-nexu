@@ -1,14 +1,19 @@
 ﻿<div class="umb-dialog umb-pane" ng-controller="Our.Umbraco.Nexu.MediaDeleteController">
-    <div class="umb-dialog-body" auto-scale="90" ng-hide="isLoading" >
+    <umb-load-indicator ng-if="isLoading">
+    </umb-load-indicator>
 
-        <nexu-links links="links" link-clicked="cancel" title="nexu_linksTitleMedia"></nexu-links>
+        <div class="umb-dialog-body" auto-scale="90" ng-hide="isLoading">
 
-        <p class="umb-abstract">
-            <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?
-        </p>
+            <nexu-links links="links" link-clicked="cancel" title="nexu_linksTitleMedia"></nexu-links>
 
-        <umb-confirm on-confirm="performDelete" on-cancel="cancel">
-        </umb-confirm>
+            <nexu-descendants-warning ng-if="descendantsHaveLinks"></nexu-descendants-warning>
 
-    </div>
+            <p class="umb-abstract">
+                <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?
+            </p>
+
+            <umb-confirm on-confirm="performDelete" on-cancel="cancel">
+            </umb-confirm>
+
+        </div>
 </div>

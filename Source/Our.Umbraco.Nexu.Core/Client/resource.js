@@ -4,6 +4,13 @@
                 getIncomingLinks: function (id) {
                     return $http.get(Umbraco.Sys.ServerVariables.Nexu.GetIncomingLinks + "?contentId=" + id);
                 },
+                checkDescendants: function (id, isMedia) {
+                    if (isMedia) {
+                        return $http.get(Umbraco.Sys.ServerVariables.Nexu.CheckMediaDescendantsForIncomingLinks + "?mediaId=" + id);
+                    }
+
+                    return $http.get(Umbraco.Sys.ServerVariables.Nexu.CheckContentDescendantsForIncomingLinks + "?contentId=" + id);
+                },
                 getRebuildStatus : function() {
                     return $http.get(Umbraco.Sys.ServerVariables.Nexu.GetRebuildStatus);
                 },

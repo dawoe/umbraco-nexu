@@ -1,6 +1,5 @@
 ﻿namespace Our.Umbraco.Nexu.Core.WebApi
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -15,7 +14,6 @@
     using global::Umbraco.Core.Services;
     using global::Umbraco.Web;
     using global::Umbraco.Web.Editors;
-    using global::Umbraco.Web.WebApi;
 
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
@@ -41,10 +39,16 @@
         private readonly IContentService contentService;
 
         /// <summary>
+        /// The media service.
+        /// </summary>
+        private readonly IMediaService mediaService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NexuApiController"/> class.
         /// </summary>
         public NexuApiController()
         {
+            this.mediaService = this.Services.MediaService;
             this.contentService = this.Services.ContentService;
             this.mappingEngine = AutoMapper.Mapper.Engine;
             this.nexuService = NexuService.Current;
@@ -65,11 +69,15 @@
         /// <param name="contentService">
         /// The content Service.
         /// </param>
-        internal NexuApiController(UmbracoContext umbracoContext, INexuService nexuService,  IMappingEngine mappingEngine, IContentService contentService) : base(umbracoContext)
+        /// <param name="mediaService">
+        /// The media Service.
+        /// </param>
+        internal NexuApiController(UmbracoContext umbracoContext, INexuService nexuService,  IMappingEngine mappingEngine, IContentService contentService, IMediaService mediaService) : base(umbracoContext)
         {
             this.nexuService = nexuService;
             this.mappingEngine = mappingEngine;
             this.contentService = contentService;
+            this.mediaService = mediaService;
         }
 
         /// <summary>
@@ -88,6 +96,50 @@
             var relatedDocs = this.mappingEngine.Map<IEnumerable<RelatedDocument>>(relations.ToList());
 
             return this.Request.CreateResponse(HttpStatusCode.OK, relatedDocs);
+        }
+
+        /// <summary>
+        /// Check descendants for incoming links.
+        /// </summary>
+        /// <param name="contentid">
+        /// The contentid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        [HttpGet]
+        public bool CheckContentDescendantsForIncomingLinks(int contentid)
+        {
+            var children = this.contentService.GetChildren(contentid).ToList();
+
+            if (children.Count == 0)
+            {
+                return false;
+            }
+
+            return this.CheckDescendantsOfContentTreeForIncomingLinks(children);
+        }
+
+        /// <summary>
+        /// Check media descendants for incoming links.
+        /// </summary>
+        /// <param name="mediaId">
+        /// The media id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        [HttpGet]
+        public bool CheckMediaDescendantsForIncomingLinks(int mediaId)
+        {
+            var children = this.mediaService.GetChildren(mediaId).ToList();
+
+            if (children.Count == 0)
+            {
+                return false;
+            }
+
+            return this.CheckDescendantsOfMediaTreeForIncomingLinks(children);
         }
 
         /// <summary>
@@ -213,6 +265,92 @@
                 // parse the content
                 this.ParseContent(child);
             }
+        }
+
+        /// <summary>
+        /// Check descendants of content tree for incoming links recursively
+        /// </summary>
+        /// <param name="items">
+        /// The items.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private bool CheckDescendantsOfContentTreeForIncomingLinks(IEnumerable<IContent> items)
+        {
+            var childIds = new List<int>();
+
+            foreach (var item in items)
+            {
+                var relations = this.nexuService.GetNexuRelationsForContent(item.Id, false).ToList();
+
+                if (relations.Any())
+                {
+                    return true;
+                }
+
+                childIds.Add(item.Id);
+            }
+
+            foreach (var id in childIds)
+            {
+                var children = this.contentService.GetChildren(id).ToList();
+
+                if (children.Count != 0)
+                {
+                    var hasLinks = this.CheckDescendantsOfContentTreeForIncomingLinks(children);
+
+                    if (hasLinks)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check descendants of media tree for incoming links recursively
+        /// </summary>
+        /// <param name="items">
+        /// The items.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private bool CheckDescendantsOfMediaTreeForIncomingLinks(IEnumerable<IMedia> items)
+        {
+            var childIds = new List<int>();
+
+            foreach (var item in items)
+            {
+                var relations = this.nexuService.GetNexuRelationsForContent(item.Id, false).ToList();
+
+                if (relations.Any())
+                {
+                    return true;
+                }
+
+                childIds.Add(item.Id);
+            }
+
+            foreach (var id in childIds)
+            {
+                var children = this.mediaService.GetChildren(id).ToList();
+
+                if (children.Count != 0)
+                {
+                    var hasLinks = this.CheckDescendantsOfMediaTreeForIncomingLinks(children);
+
+                    if (hasLinks)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

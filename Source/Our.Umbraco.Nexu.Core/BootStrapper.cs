@@ -98,6 +98,8 @@
 
             urlDictionairy.Add("BaseApi", urlHelper.GetUmbracoApiServiceBaseUrl<NexuApiController>(c => c.GetIncomingLinks(-1)));
             urlDictionairy.Add("GetIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("GetIncomingLinks", null));
+            urlDictionairy.Add("CheckContentDescendantsForIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("CheckContentDescendantsForIncomingLinks", null));
+            urlDictionairy.Add("CheckMediaDescendantsForIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("CheckMediaDescendantsForIncomingLinks", null));
             urlDictionairy.Add("GetRebuildStatus", urlHelper.GetUmbracoApiService<NexuApiController>("GetRebuildStatus"));
             urlDictionairy.Add("Rebuild", urlHelper.GetUmbracoApiService<NexuApiController>("Rebuild", null));
 

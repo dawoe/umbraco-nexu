@@ -1,7 +1,12 @@
 ﻿<div class="umb-dialog umb-pane" ng-controller="Our.Umbraco.Nexu.ContentDeleteController">
+    <umb-load-indicator ng-if="isLoading">
+    </umb-load-indicator>
+
     <div class="umb-dialog-body" auto-scale="90" ng-hide="isLoading">
-        
+
         <nexu-links links="links" link-clicked="cancel" title="nexu_linksTitleContent"></nexu-links>
+        
+        <nexu-descendants-warning ng-if="descendantsHaveLinks"></nexu-descendants-warning>
 
         <p class="umb-abstract">
             <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?
