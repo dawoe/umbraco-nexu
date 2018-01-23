@@ -4,6 +4,8 @@
 
         $scope.links = $scope.notification.args.links;
 
+        $scope.descendantsHaveLinks = $scope.notification.args.descendantsHaveLinks;
+
         $scope.publish = function (notification) {
             notificationsService.remove(notification);
 

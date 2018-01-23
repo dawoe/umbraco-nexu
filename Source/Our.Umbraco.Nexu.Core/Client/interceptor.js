@@ -41,12 +41,30 @@
                                        args: {
                                            links: result.data,
                                            deferredPromise: deferred,
-                                           originalRequest : request
+                                           originalRequest: request,
+                                           descendantsHaveLinks : false
                                        }
                                    });
                                } else {
-                                   // execute request as normal
-                                   deferred.resolve(request);
+                                   nexuService.checkDescendants(id, false).then(function(result) {
+                                       if (result.data) {
+                                           notificationsService.add({
+                                               // the path of our custom notification view
+                                               view: "/App_Plugins/Nexu/views/unpublish-confirmation.html",
+                                               // arguments object we want to pass to our custom notification
+                                               args: {
+                                                   links: [],
+                                                   deferredPromise: deferred,
+                                                   originalRequest: request,
+                                                   descendantsHaveLinks: true
+                                               }
+                                           });
+                                       } else {
+                                           // execute request as normal
+                                           deferred.resolve(request);
+                                       }
+                                   });
+                                   
                                }
                            });
 
