@@ -22,3 +22,5 @@ The documentation for this package can be found [here](docs/index.md)
 ## Special thanks ##
 
 [Jeavon Leopold](https://twitter.com/crumpled_jeavon) for his help in setting up the build automation. Sorry for bugging you on Slack :-)
+
+And of course all the [contributors](https://github.com/dawoe/umbraco-nexu/graphs/contributors)
