@@ -52,5 +52,6 @@ In the developer section a dashboard is added that allows you to rebuild all the
 
 ### Community grid editors ###
 - [Doc Type Grid Editor](https://our.umbraco.org/projects/backoffice-extensions/doc-type-grid-editor/)
+- [LeBlender](https://our.umbraco.org/projects/backoffice-extensions/leblender/)
 
 
