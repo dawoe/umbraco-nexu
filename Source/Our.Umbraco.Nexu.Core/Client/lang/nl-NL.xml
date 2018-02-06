@@ -11,5 +11,6 @@
     <key alias="linksTitleContent">Er wordt naar deze pagina gelinkt vanuit deze paginas</key>
     <key alias="linksTitleMedia">Er wordt naar dit bestand gelinkt vanuit deze paginas</key>
     <key alias="unpublishConfirmation">Bent u zeker dat u deze pagina wil depubliceren</key>
+    <key alias="descendantsHaveLinksWarning">Eén van de onderliggende items is gelinkt in een andere pagina</key>
   </area>
 </language>

@@ -275,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GridEditorParsers\Community\DocTypeGridEditorParser.cs" />
+    <Compile Include="GridEditorParsers\Community\LeBlenderGriddEditorParser.cs" />
     <Compile Include="GridEditorParsers\Core\MediaGridEditorParser.cs" />
     <Compile Include="GridEditorParsers\Core\RteGridEditorParser.cs" />
     <Compile Include="PropertyParsers\Community\NestedContentParser.cs" />

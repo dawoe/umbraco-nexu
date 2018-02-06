@@ -37,6 +37,7 @@ In the developer section a dashboard is added that allows you to rebuild all the
 - Related links
 - Media picker
 - Multiple Media picker
+- Nested Content (v7.7+)
 
 ### Community property editors ###
 - [Nested Content](https://our.umbraco.org/projects/backoffice-extensions/nested-content/)
@@ -51,5 +52,6 @@ In the developer section a dashboard is added that allows you to rebuild all the
 
 ### Community grid editors ###
 - [Doc Type Grid Editor](https://our.umbraco.org/projects/backoffice-extensions/doc-type-grid-editor/)
+- [LeBlender](https://our.umbraco.org/projects/backoffice-extensions/leblender/)
 
 

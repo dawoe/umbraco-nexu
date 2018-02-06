@@ -4,16 +4,16 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using global::Umbraco.Core;
-    using global::Umbraco.Core.Logging;
-    using global::Umbraco.Core.Models;
-    using global::Umbraco.Core.Services;
-
     using Our.Umbraco.Nexu.Core.Constants;
     using Our.Umbraco.Nexu.Core.Enums;
     using Our.Umbraco.Nexu.Core.Interfaces;
     using Our.Umbraco.Nexu.Core.Models;
     using Our.Umbraco.Nexu.Core.ObjectResolution;
+
+    using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
+    using global::Umbraco.Core.Models;
+    using global::Umbraco.Core.Services;
 
     /// <summary>
     /// Nexu service
@@ -28,25 +28,25 @@
         /// <summary>
         /// The profiler.
         /// </summary>
-        private ProfilingLogger profiler;
+        private readonly ProfilingLogger profiler;
 
         /// <summary>
         /// The property parser resolver.
         /// </summary>
-        private PropertyParserResolver propertyParserResolver;
+        private readonly PropertyParserResolver propertyParserResolver;
 
         /// <summary>
         /// The relation service.
         /// </summary>
-        private IRelationService relationService;
+        private readonly IRelationService relationService;
 
         /// <summary>
         /// The data type service.
         /// </summary>
-        private IDataTypeService dataTypeService;
+        private readonly IDataTypeService dataTypeService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NexuService"/> class. 
+        /// Initializes a new instance of the <see cref="NexuService"/> class.
         /// </summary>
         /// <param name="profiler">
         /// The profiler.
@@ -126,8 +126,8 @@
                 // get linked entities fro the properties that we found a parsers for
                 parsableProperties.ForEach(
                     pp =>
-                        {                           
-                            linkedEntities.Add(pp.Property.PropertyType.Name + " [[" + pp.TabName + "]]" , pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());                            
+                        {
+                            linkedEntities.Add(pp.Property.PropertyType.Name + " [[" + pp.TabName + "]]" , pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());
                         });
 
                 return linkedEntities;
@@ -187,7 +187,7 @@
                                 {
                                     tabname = propertyTabDictionairy[p.Alias];
                                 }
-                                                               
+
                                 properties.Add(new PropertyWithParser(p, parser, tabname));
                             }
                         });
@@ -228,8 +228,8 @@
         {
             var relations = Enumerable.Empty<IRelation>().ToList();
 
-            relations = isParent ? this.relationService.GetByParentId(contentId).ToList() : this.relationService.GetByChildId(contentId).ToList();                
-            
+            relations = isParent ? this.relationService.GetByParentId(contentId).ToList() : this.relationService.GetByChildId(contentId).ToList();
+
             if (!relations.Any())
             {
                 return relations;
@@ -347,7 +347,7 @@
                 {
                     this.SetupDocumentToMediaRelationType();
                 }
-               
+
             }
         }
 

@@ -8,8 +8,11 @@
     using System.Web.Routing;
 
     using AutoMapper;
-
+    
     using ObjectResolution;
+
+    using Our.Umbraco.Nexu.Core.Mapping.Profiles;
+    using Our.Umbraco.Nexu.Core.WebApi;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Events;
@@ -18,9 +21,6 @@
     using global::Umbraco.Web;
     using global::Umbraco.Web.UI.JavaScript;
 
-    using Our.Umbraco.Nexu.Core.Mapping.Profiles;
-    using Our.Umbraco.Nexu.Core.WebApi;
-
     /// <summary>
     /// Bootstrapper to handle umbraco startup events
     /// </summary>
@@ -28,7 +28,7 @@
     {
         /// <inheritdoc />
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        {            
+        {
             using (ApplicationContext.Current.ProfilingLogger.TraceDuration<BootStrapper>("Begin ApplicationStarted", "End ApplicationStarted"))
             {
                 // set up mappings
@@ -53,7 +53,7 @@
                 // resolve property parsers
                 PropertyParserResolver.Current =
                     new PropertyParserResolver(PluginManager.Current.ResolvePropertyParsers());
-                
+
                 // resolve grid editor parsers
                 GridEditorParserResolver.Current = new GridEditorParserResolver(PluginManager.Current.ResolveGridEditorParsers());
             }
@@ -98,6 +98,8 @@
 
             urlDictionairy.Add("BaseApi", urlHelper.GetUmbracoApiServiceBaseUrl<NexuApiController>(c => c.GetIncomingLinks(-1)));
             urlDictionairy.Add("GetIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("GetIncomingLinks", null));
+            urlDictionairy.Add("CheckContentDescendantsForIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("CheckContentDescendantsForIncomingLinks", null));
+            urlDictionairy.Add("CheckMediaDescendantsForIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("CheckMediaDescendantsForIncomingLinks", null));
             urlDictionairy.Add("GetRebuildStatus", urlHelper.GetUmbracoApiService<NexuApiController>("GetRebuildStatus"));
             urlDictionairy.Add("Rebuild", urlHelper.GetUmbracoApiService<NexuApiController>("Rebuild", null));
 
