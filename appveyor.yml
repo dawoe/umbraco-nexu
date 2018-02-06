@@ -61,3 +61,9 @@ deploy:
       branch: master
       appveyor_repo_tag: true
 
+notifications:
+- provider: Email  
+  subject: Umbraco Nexu build
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
