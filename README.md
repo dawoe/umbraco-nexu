@@ -30,6 +30,6 @@ And of course all the [contributors](https://github.com/dawoe/umbraco-nexu/graph
 
 ## Buy me a beer ##
 
-If you like this package and use it in your website, consider me a small donation through paypal.me for maintaining this package.
+If you like this package and use it in your website, consider giving me a small donation through paypal.me for maintaining this package.
 
 [![Donate](https://img.shields.io/badge/donate-paypal.me-blue.svg)](https://www.paypal.me/dawoe21)
