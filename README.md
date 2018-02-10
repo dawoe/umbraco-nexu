@@ -27,3 +27,9 @@ At the moment there is a issue with bulk delete and unpublish actions in listvie
 [Jeavon Leopold](https://twitter.com/crumpled_jeavon) for his help in setting up the build automation. Sorry for bugging you on Slack :-)
 
 And of course all the [contributors](https://github.com/dawoe/umbraco-nexu/graphs/contributors)
+
+## Buy me a beer ##
+
+If you like this package and use it in your website, consider me a small donation through paypal.me for maintaining this package.
+
+[![Donate](https://img.shields.io/badge/donate-paypal.me-blue.svg)](https://www.paypal.me/dawoe21)
