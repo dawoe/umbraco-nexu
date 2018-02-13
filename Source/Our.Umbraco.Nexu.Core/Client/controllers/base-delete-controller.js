@@ -2,7 +2,12 @@
     ['$scope', '$controller', 'Our.Umbraco.Nexu.Resource',
         function ($scope, $controller, nexuResource) {
             // inherit core delete controller
-            angular.extend(this, $controller('Umbraco.Editors.Media.DeleteController', { $scope: $scope }));
+            if ($scope.isMedia) {
+                angular.extend(this, $controller('Umbraco.Editors.Media.DeleteController', { $scope: $scope }));
+            } else {
+                angular.extend(this, $controller('Umbraco.Editors.Content.DeleteController', { $scope: $scope }));
+            }
+           
 
             $scope.links = {};
             $scope.descendantsHaveLinks = false;
