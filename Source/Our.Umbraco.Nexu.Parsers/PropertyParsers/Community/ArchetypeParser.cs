@@ -1,5 +1,4 @@
-﻿using Archetype.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Our.Umbraco.Nexu.Core.Interfaces;
 using Our.Umbraco.Nexu.Core.Models;
@@ -13,7 +12,7 @@ using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community {
+namespace Impinj.Web.App_Plugins.NexuExtensions {
     public class ArchetypeParser : IPropertyParser {
         private readonly IDataTypeService _dataTypeService;
         private Dictionary<string, List<KeyValuePair<string, Guid>>> _aliasToIdMappings;
@@ -57,32 +56,36 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community {
                 return Enumerable.Empty<ILinkedEntity>();
             }
             var entities = new List<ILinkedEntity>();
-            var model = JsonConvert.DeserializeObject<ArchetypeModel>(propertyValue.ToString());
-            if (model != null && model.Any()) {
+            var model = JsonConvert.DeserializeObject<JObject>(propertyValue.ToString());
+            if (model != null) {
                 try {
                     var parsers = new Dictionary<string, IPropertyParser>();
                     var dataTypes = new Dictionary<Guid, IDataTypeDefinition>();
-                    var items = _aliasToIdMappings[model.First().Alias];
-                    foreach (var prop in items) {
-                        IDataTypeDefinition dataType = null;
-                        if (dataTypes.ContainsKey(prop.Value)) {
-                            dataType = dataTypes[prop.Value];
-                        }
-                        else {
-                            dataType = _dataTypeService.GetDataTypeDefinitionById(prop.Value);
-                            dataTypes.Add(prop.Value, dataType);
-                        }
-                        if (dataType != null) {
-                            var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dataType));
-                            if (parser != null) {
-                                parsers.Add(prop.Key, parser);
+                    if (model["fieldsets"].Count() > 0) {
+                        var items = _aliasToIdMappings[model["fieldsets"].First()["alias"].ToString()];
+                        foreach (var prop in items) {
+                            IDataTypeDefinition dataType = null;
+                            if (dataTypes.ContainsKey(prop.Value)) {
+                                dataType = dataTypes[prop.Value];
+                            }
+                            else {
+                                dataType = _dataTypeService.GetDataTypeDefinitionById(prop.Value);
+                                dataTypes.Add(prop.Value, dataType);
+                            }
+                            if (dataType != null) {
+                                var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dataType));
+                                if (parser != null) {
+                                    parsers.Add(prop.Key, parser);
+                                }
                             }
                         }
-                    }
-                    foreach (var item in model) {
-                        foreach (var alias in parsers.Keys) {
-                            var val = item.GetValue<Object>(alias);
-                            entities.AddRange(parsers[alias].GetLinkedEntities(item.GetValue(alias)));
+                        foreach (var fieldset in model["fieldsets"]) {
+                            foreach (var alias in parsers.Keys) {
+                                var item = fieldset["properties"].Where(x => x["alias"].ToString() == alias).FirstOrDefault();
+                                if (item != null) {
+                                    entities.AddRange(parsers[alias].GetLinkedEntities(item["value"]));
+                                }
+                            }
                         }
                     }
                 }
