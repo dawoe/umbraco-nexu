@@ -127,7 +127,23 @@
                 parsableProperties.ForEach(
                     pp =>
                         {
-                            linkedEntities.Add(pp.Property.PropertyType.Name + " [[" + pp.TabName + "]]" , pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());
+                            var key = pp.Property.PropertyType.Name + " [[" + pp.TabName + "]]";
+
+                            if (linkedEntities.ContainsKey(key))
+                            {
+                                // there is already another property with the same label on this tab
+                                var entities = linkedEntities[key].ToList();
+
+                                entities.AddRange(pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());
+
+                                linkedEntities[key] = entities;
+
+                            }
+                            else
+                            {
+                                linkedEntities.Add(key, pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());
+                            }
+                            
                         });
 
                 return linkedEntities;
