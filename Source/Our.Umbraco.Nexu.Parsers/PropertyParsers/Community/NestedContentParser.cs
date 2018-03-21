@@ -179,7 +179,7 @@
         {
             var property = item[propertyAlias];
 
-            return property.ToString();
+            return property?.ToString();
         }
     }
 }
