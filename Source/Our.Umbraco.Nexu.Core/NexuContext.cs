@@ -20,6 +20,8 @@
             this.ItemsProcessed = 0;
             this.DocumentToDocumentRelationTypeExists = false;
             this.DocumentToMediaRelationTypeExists = false;
+            this.PreventDelete = true;
+            this.PreventUnPublish = true;
             instance = this;
         }
 
@@ -52,5 +54,15 @@
         /// Gets or sets a value indicating whether document to media relation type exists.
         /// </summary>
         public bool DocumentToMediaRelationTypeExists { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether prevent delete.
+        /// </summary>
+        public bool PreventDelete { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether prevent un publish.
+        /// </summary>
+        public bool PreventUnPublish { get; set; }
     }
 }
