@@ -7,6 +7,8 @@
             } else {
                 angular.extend(this, $controller('Umbraco.Editors.Content.DeleteController', { $scope: $scope }));
             }
+
+            $scope.preventDelete = Umbraco.Sys.ServerVariables.Nexu.PreventDelete;
            
 
             $scope.links = {};
@@ -21,7 +23,7 @@
                         $scope.descendantsHaveLinks = result.data;
                         $scope.isLoading = false;
                     });
-                } else {
+                } else {                    
                     $scope.isLoading = false;
                 }
 
