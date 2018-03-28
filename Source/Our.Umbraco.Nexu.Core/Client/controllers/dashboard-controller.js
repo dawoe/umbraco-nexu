@@ -10,7 +10,7 @@
         $scope.autoRefresh = true;
 
         $scope.preventDelete = Umbraco.Sys.ServerVariables.Nexu.PreventDelete;
-        $scope.preventUnPublish = Umbraco.Sys.ServerVariables.Nexu.preventUnPublish;
+        $scope.preventUnPublish = Umbraco.Sys.ServerVariables.Nexu.PreventUnPublish;
 
         $scope.getRebuildStatus = function() {
             nexuResource.getRebuildStatus()
