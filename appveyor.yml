@@ -65,7 +65,7 @@ notifications:
 - provider: Email  
   subject: Umbraco Nexu build
   to :      
-     - secure: R7dZ4m7gCp+NdEN+sUnfIwSTHrMZCBNSpp8tZZygg4A=
+    secure: R7dZ4m7gCp+NdEN+sUnfIwSTHrMZCBNSpp8tZZygg4A=
   on_build_success: true
   on_build_failure: true
   on_build_status_changed: true
