@@ -1,3 +1,7 @@
+environment:
+  my_email:
+    secure: R7dZ4m7gCp+NdEN+sUnfI9NsdMh/lvBNhdqsAGO/CWg=
+
 os: Visual Studio 2015
 
 # Version format
@@ -60,12 +64,3 @@ deploy:
     on:
       branch: master
       appveyor_repo_tag: true
-
-notifications:
-- provider: Email  
-  subject: Umbraco Nexu build
-  to :      
-    secure: R7dZ4m7gCp+NdEN+sUnfIwSTHrMZCBNSpp8tZZygg4A=
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true
