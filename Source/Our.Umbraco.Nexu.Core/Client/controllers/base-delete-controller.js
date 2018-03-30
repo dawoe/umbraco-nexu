@@ -22,7 +22,7 @@
                 if (result.data.length == 0) {
                     nexuResource.checkDescendants($scope.currentNode.id, $scope.isMedia).then(function (result) {
                         $scope.descendantsHaveLinks = result.data;
-                        if ($scope.descendantsHaveLinks && $scope.preventDelete) {
+                        if ($scope.descendantsHaveLinks === "true" && $scope.preventDelete) {
                             $scope.allowDelete = false;
                         }
                         $scope.isLoading = false;
