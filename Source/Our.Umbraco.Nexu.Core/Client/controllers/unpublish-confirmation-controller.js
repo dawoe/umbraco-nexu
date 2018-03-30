@@ -6,6 +6,13 @@
 
         $scope.descendantsHaveLinks = $scope.notification.args.descendantsHaveLinks;
 
+        $scope.preventUnPublish = Umbraco.Sys.ServerVariables.Nexu.PreventUnPublish;
+        $scope.allowUnPublish = true;
+
+        if ($scope.preventUnPublish && ($scope.descendantsHaveLinks || ($scope.links && $scope.links.length > 0))) {
+            $scope.allowUnPublish = false;
+        }
+
         $scope.publish = function (notification) {
             notificationsService.remove(notification);
 

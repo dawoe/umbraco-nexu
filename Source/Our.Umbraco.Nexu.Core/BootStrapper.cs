@@ -102,6 +102,8 @@
             urlDictionairy.Add("CheckMediaDescendantsForIncomingLinks", urlHelper.GetUmbracoApiService<NexuApiController>("CheckMediaDescendantsForIncomingLinks", null));
             urlDictionairy.Add("GetRebuildStatus", urlHelper.GetUmbracoApiService<NexuApiController>("GetRebuildStatus"));
             urlDictionairy.Add("Rebuild", urlHelper.GetUmbracoApiService<NexuApiController>("Rebuild", null));
+            urlDictionairy.Add("PreventDelete", NexuContext.Current.PreventDelete);
+            urlDictionairy.Add("PreventUnPublish", NexuContext.Current.PreventUnPublish);
 
             if (!e.Keys.Contains("Nexu"))
             {

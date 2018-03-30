@@ -47,7 +47,7 @@
                                    });
                                } else {
                                    nexuService.checkDescendants(id, false).then(function(result) {
-                                       if (result.data) {
+                                       if (result.data === 'true') {
                                            notificationsService.add({
                                                // the path of our custom notification view
                                                view: "/App_Plugins/Nexu/views/unpublish-confirmation.html",

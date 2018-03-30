@@ -12,5 +12,9 @@
     <key alias="linksTitleMedia">Er wordt naar dit bestand gelinkt vanuit deze paginas</key>
     <key alias="unpublishConfirmation">Bent u zeker dat u deze pagina wil depubliceren</key>
     <key alias="descendantsHaveLinksWarning">Eén van de onderliggende items is gelinkt in een andere pagina</key>
+    <key alias="preventDeleteDescription">Verwijderen van gebruikte content is</key>
+    <key alias="preventUnplisheDescription">Depubliceren van gebruikte content is</key>
+    <key alias="allowed">toegestaan</key>
+    <key alias="prevented">niet toegestaan</key>
   </area>
 </language>
