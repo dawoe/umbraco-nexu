@@ -1,8 +1,8 @@
 ﻿<div ng-controller="Our.Umbraco.Nexu.DashboardController">
     <div ng-hide="isLoading">
         <div>
-            <p>Deleting of used content is <span ng-if="preventDelete">prevented</span><span ng-if="!preventDelete">enabled</span></p>
-            <p>Unpublishing of used content is <span ng-if="preventUnPublish">prevented</span><span ng-if="!preventUnPublish">enabled</span></p>
+            <p><localize key="nexu_preventDeleteDescription">Deleting of used content is</localize> <span ng-if="preventDelete"><localize key="nexu_prevented">prevented</localize></span><span ng-if="!preventDelete"><localize key="nexu_allowed">allowed</localize></span></p>
+            <p><localize key="nexu_preventUnplisheDescription">Unpublishing of used content is</localize> <span ng-if="preventDelete"><localize key="nexu_prevented">prevented</localize></span><span ng-if="!preventDelete"><localize key="nexu_allowed">allowed</localize></span></p>            
         </div>
         <div ng-hide="RebuildStatus.IsProcessing">
             <div class="btn-group">
