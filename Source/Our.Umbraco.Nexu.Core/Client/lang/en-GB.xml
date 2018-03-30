@@ -12,5 +12,9 @@
     <key alias="linksTitleMedia">This media item is linked to from following items</key>
     <key alias="unpublishConfirmation">Are you sure you want to unpublish</key>
     <key alias="descendantsHaveLinksWarning">One of the sub items is linked from another content item</key>
+    <key alias="preventDeleteDescription">Deleting of used content is</key>
+    <key alias="preventUnplisheDescription">Unpublishing of used content is</key>
+    <key alias="allowed">allowed</key>
+    <key alias="prevented">prevented</key>
   </area>
 </language>
