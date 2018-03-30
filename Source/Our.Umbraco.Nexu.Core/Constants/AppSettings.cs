@@ -8,11 +8,11 @@
         /// <summary>
         /// Allow delete app setting
         /// </summary>
-        public const string AllowDelete = "nexu:AllowDelete";
+        public const string AllowDelete = "nexu:PreventDelete";
 
         /// <summary>
         /// Allow unpublish app setting
         /// </summary>
-        public const string AllowUnPublish = "nexu:AllowUnPublish";
+        public const string AllowUnPublish = "nexu:PreventUnPublish";
     }
 }
