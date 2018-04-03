@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
@@ -72,7 +73,14 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            throw new System.NotImplementedException();
+            if (propertyValue == null || string.IsNullOrEmpty(propertyValue.ToString()))
+            {
+                return Enumerable.Empty<ILinkedEntity>();
+            }
+
+            var entities = new List<ILinkedEntity>();
+
+            return entities;
         }
     }
 }
