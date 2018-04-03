@@ -1,5 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Parsers.Tests.PropertyParsers.Community
 {
+    using System.Linq;
+
     using global::Umbraco.Core.Models;
 
     using NUnit.Framework;
@@ -50,6 +52,28 @@
 
             // verify
             Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// The test get linked entities with empty value.
+        /// </summary>
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestGetLinkedEntitiesWithEmptyValue()
+        {
+            // arrange
+            var parser = new InnerContentParser();
+
+            object propValue = null;
+
+            // act
+            var result = parser.GetLinkedEntities(propValue);
+
+            // verify
+            Assert.IsNotNull(result);
+            var entities = result.ToList();
+            Assert.AreEqual(0, entities.Count());
         }
     }
 }
