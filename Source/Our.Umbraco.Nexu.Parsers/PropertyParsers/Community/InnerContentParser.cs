@@ -58,7 +58,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            throw new System.NotImplementedException();
+            return dataTypeDefinition.PropertyEditorAlias.Equals("Our.Umbraco.StackedContent");
         }
 
         /// <summary>
