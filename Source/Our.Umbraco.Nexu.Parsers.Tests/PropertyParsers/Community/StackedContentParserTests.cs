@@ -18,7 +18,7 @@
     /// The inner content parser tests.
     /// </summary>
     [TestFixture]
-    public class InnerContentParserTests : BaseParserTest
+    public class StackedContentParserTests : BaseParserTest
     {
         /// <summary>
         /// The test is parser for valid data type.
@@ -31,7 +31,7 @@
             // arrange
             var dataTypeDefinition = new DataTypeDefinition("Our.Umbraco.StackedContent");
 
-            var parser = new InnerContentParser();
+            var parser = new StackedContentParser();
 
             // act
             var result = parser.IsParserFor(dataTypeDefinition);
@@ -51,7 +51,7 @@
             // arrange
             var dataTypeDefinition = new DataTypeDefinition("foo");
 
-            var parser = new InnerContentParser();
+            var parser = new StackedContentParser();
 
             // act
             var result = parser.IsParserFor(dataTypeDefinition);
@@ -69,7 +69,7 @@
         public void TestGetLinkedEntitiesWithEmptyValue()
         {
             // arrange
-            var parser = new InnerContentParser();
+            var parser = new StackedContentParser();
 
             object propValue = null;
 
@@ -184,7 +184,7 @@
     }}
 ]";
 
-            var parser = new InnerContentParser(contentTypeServiceMock.Object, dataTypeServiceMock.Object);
+            var parser = new StackedContentParser(contentTypeServiceMock.Object, dataTypeServiceMock.Object);
 
             // act
             var result = parser.GetLinkedEntities(propValue);

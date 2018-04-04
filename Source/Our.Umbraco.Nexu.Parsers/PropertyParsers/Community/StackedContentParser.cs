@@ -16,9 +16,9 @@
     using Our.Umbraco.Nexu.Core.ObjectResolution;
 
     /// <summary>
-    /// The inner content parser.
+    /// The stacked content parser.
     /// </summary>
-    public class InnerContentParser : IPropertyParser
+    public class StackedContentParser : IPropertyParser
     {
         /// <summary>
         /// The content type service.
@@ -31,16 +31,16 @@
         private readonly IDataTypeService dataTypeService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InnerContentParser"/> class.
+        /// Initializes a new instance of the <see cref="StackedContentParser"/> class.
         /// </summary>
-        public InnerContentParser()
+        public StackedContentParser()
         {
             this.dataTypeService = ApplicationContext.Current.Services.DataTypeService;
             this.contentTypeService = ApplicationContext.Current.Services.ContentTypeService;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InnerContentParser"/> class.
+        /// Initializes a new instance of the <see cref="StackedContentParser"/> class.
         /// </summary>
         /// <param name="contentTypeService">
         /// The content type service.
@@ -48,7 +48,7 @@
         /// <param name="dataTypeService">
         /// The data Type Service.
         /// </param>
-        public InnerContentParser(IContentTypeService contentTypeService, IDataTypeService dataTypeService)
+        public StackedContentParser(IContentTypeService contentTypeService, IDataTypeService dataTypeService)
         {
             this.contentTypeService = contentTypeService;
             this.dataTypeService = dataTypeService;
@@ -141,7 +141,7 @@
             }
             catch (Exception exception)
             {
-                ApplicationContext.Current.ProfilingLogger.Logger.Error<InnerContentParser>(
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<StackedContentParser>(
                     "Error parsing stacked content",
                     exception);
             }
