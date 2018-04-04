@@ -21,6 +21,8 @@ Unpublish dialog
 
 ![Unpublish dialog](images/unpublish_dialog.png)
 
+From v1.5.0 a [property editor](property-editor.md "Property Editor") can be added to documenttypes and mediatypes to allow editors to view the incoming relations.
+
 ### Nexu dashboard ###
 
 In the developer section a dashboard is added that allows you to rebuild all the relations. This happens in a background thread, so once you have pushed the button you can continue working in the backoffice. You can go back to the dashboard to check the status.
