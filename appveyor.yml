@@ -1,7 +1,11 @@
+environment:
+  my_email:
+    secure: R7dZ4m7gCp+NdEN+sUnfI9NsdMh/lvBNhdqsAGO/CWg=
+
 os: Visual Studio 2015
 
 # Version format
-version: 1.4.1.{build}
+version: 1.5.0.{build}
 
 cache:
   - Source\packages -> **\packages.config   # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
@@ -14,7 +18,7 @@ branches:
 # UMBRACO_PACKAGE_PRERELEASE_SUFFIX if a rtm release build this should be blank, otherwise if empty will default to alpha
 # example UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta
 init:
-  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm   
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm  
 
 test: 
     assemblies:
@@ -60,4 +64,3 @@ deploy:
     on:
       branch: master
       appveyor_repo_tag: true
-

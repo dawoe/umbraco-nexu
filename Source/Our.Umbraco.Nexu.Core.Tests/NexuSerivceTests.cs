@@ -371,17 +371,27 @@
                                        Name = "Text box"
                                    };
 
+            var propTypeCp3 = new PropertyType(
+                                  Constants.PropertyEditors.ContentPickerAlias,
+                                  DataTypeDatabaseType.Integer,
+                                  "contentPicker")
+                                  {
+                                      Name = "Content picker"
+                                  };
+
             content.SetupGet(x => x.PropertyTypes)
                 .Returns(
                     new List<PropertyType>()
                         {
                             propTypeCp1,
                             propTypeText,
-                            propTypeCp2
+                            propTypeCp2,
+                            propTypeCp3
                         });
 
             var prop1 = new Property(propTypeCp1, 1500);
             var prop2 = new Property(propTypeCp2, 1500);
+            var prop3 = new Property(propTypeCp3, 2000);
             content.SetupGet(x => x.Properties)
                 .Returns(
                     new PropertyCollection(
@@ -389,7 +399,8 @@
                             {
                                 prop1,
                                 new Property(propTypeText, "Foo"),
-                                prop2
+                                prop2,
+                                prop3,
                             }));
 
             content.SetupGet(x => x.Id).Returns(1234);
@@ -402,12 +413,16 @@
             parser.Setup(x => x.GetLinkedEntities(prop2.Value))
                .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity(1500) });
 
+            parser.Setup(x => x.GetLinkedEntities(prop3.Value))
+                .Returns(new List<ILinkedEntity> { new LinkedDocumentEntity(2000) });
+
             this.serviceMock.Setup(x => x.GetParsablePropertiesForContent(content.Object))
                 .Returns(
                     new List<PropertyWithParser>
                         {
                             new PropertyWithParser(prop1, parser.Object, "Content"),
-                            new PropertyWithParser(prop2, parser.Object, "Meta")
+                            new PropertyWithParser(prop2, parser.Object, "Meta"),
+                            new PropertyWithParser(prop3, parser.Object, "Content"),
                         });
 
             // act
@@ -424,6 +439,8 @@
             Assert.IsTrue(result.ContainsKey("Content picker 2 [[Meta]]"));
             Assert.IsTrue(
                 result["Content picker [[Content]]"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
+            Assert.IsTrue(
+                result["Content picker [[Content]]"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 2000));
             Assert.IsTrue(
                result["Content picker 2 [[Meta]]"].ToList().Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == 1500));
         }

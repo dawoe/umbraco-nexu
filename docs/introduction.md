@@ -13,6 +13,8 @@ When you try to delete or unpublish a item that is linked to from another item y
 Pages that are unpublished will display in italic and greyed out.
 Pages in the recycle bin will be displayed as strike through
 
+From v1.5.0 you can prevent users from deleting or unpublishing used items. Read the [configuration documentation](configuration) on who to do this.
+
 Delete dialog
 
 ![Delete dialog](images/delete_dialog.png)
@@ -21,9 +23,15 @@ Unpublish dialog
 
 ![Unpublish dialog](images/unpublish_dialog.png)
 
+### Viewing incoming links ###
+
+From v1.5.0 a [property editor](property-editor.md "Property Editor") can be added to documenttypes and mediatypes to allow editors to view the incoming relations.
+
 ### Nexu dashboard ###
 
 In the developer section a dashboard is added that allows you to rebuild all the relations. This happens in a background thread, so once you have pushed the button you can continue working in the backoffice. You can go back to the dashboard to check the status.
+
+From v1.5.0 the dashboard will also list the values from the [configuration options](configuration.md)
 
 ![Dashboard](images/dashboard.png)
 
@@ -43,6 +51,8 @@ In the developer section a dashboard is added that allows you to rebuild all the
 - [Nested Content](https://our.umbraco.org/projects/backoffice-extensions/nested-content/)
 - [Vorto](https://our.umbraco.org/projects/backoffice-extensions/vorto)
 - [Multi Url Picker](https://our.umbraco.org/projects/backoffice-extensions/multi-url-picker/)
+- [ArcheType](https://our.umbraco.org/projects/backoffice-extensions/archetype/)
+- [Stacked Content](https://our.umbraco.org/projects/backoffice-extensions/stacked-content/)
 
 ## Supported grid editors ##
 

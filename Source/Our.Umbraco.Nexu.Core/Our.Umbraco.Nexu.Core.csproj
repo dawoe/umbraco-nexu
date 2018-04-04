@@ -163,6 +163,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.3.0\lib\System.Data.SqlServerCe.dll</HintPath>
@@ -275,6 +276,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootStrapper.cs" />
+    <Compile Include="Constants\AppSettings.cs" />
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Enums\LinkedEntityType.cs" />
     <Compile Include="Interfaces\IGridEditorParser.cs" />
@@ -306,6 +308,7 @@
     <Content Include="Client\controllers\base-delete-controller.js" />
     <Content Include="Client\controllers\content-delete-controller.js" />
     <Content Include="Client\controllers\dashboard-controller.js" />
+    <Content Include="Client\controllers\property-editor-controller.js" />
     <Content Include="Client\directives\nexuDescendantsWarning.js" />
     <Content Include="Client\lang\nl-NL.xml" />
     <Content Include="Client\lang\en-US.xml" />
@@ -318,6 +321,7 @@
     <Content Include="Client\interceptor.js" />
     <Content Include="Client\resource.js" />
     <Content Include="Client\views\content-delete.html" />
+    <Content Include="Client\views\property-editor.html" />
     <Content Include="Client\views\media-delete.html" />
     <Content Include="Client\views\nexu-descendants-warning.html" />
     <Content Include="Client\views\nexu-links.html" />

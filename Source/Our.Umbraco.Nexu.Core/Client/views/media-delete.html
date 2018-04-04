@@ -8,12 +8,23 @@
 
             <nexu-descendants-warning ng-if="descendantsHaveLinks"></nexu-descendants-warning>
 
-            <p class="umb-abstract">
+            <p class="umb-abstract" ng-if="allowDelete">
                 <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?
             </p>
 
-            <umb-confirm on-confirm="performDelete" on-cancel="cancel">
-            </umb-confirm>
+            <div ng-if="allowDelete">
+                <umb-confirm on-confirm="performDelete" on-cancel="cancel">
+                </umb-confirm>
+            </div>
+            
+            <div ng-if="allowDelete === false">                
+    
+                <div class="umb-pane btn-toolbar umb-btn-toolbar">
+                    <div class="control-group umb-control-group">	
+                        <a href class="btn btn-link" ng-click="cancel()"><localize key="general_cancel">Cancel</localize></a>                        
+                    </div>	
+                </div>
+            </div>
 
         </div>
 </div>

@@ -16,9 +16,9 @@
     using Our.Umbraco.Nexu.Core.ObjectResolution;
 
     /// <summary>
-    /// The nested content parser.
+    /// The stacked content parser.
     /// </summary>
-    public class NestedContentParser : IPropertyParser
+    public class StackedContentParser : IPropertyParser
     {
         /// <summary>
         /// The content type service.
@@ -31,24 +31,24 @@
         private readonly IDataTypeService dataTypeService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NestedContentParser"/> class.
+        /// Initializes a new instance of the <see cref="StackedContentParser"/> class.
         /// </summary>
-        public NestedContentParser()
+        public StackedContentParser()
         {
-            this.contentTypeService = ApplicationContext.Current.Services.ContentTypeService;
             this.dataTypeService = ApplicationContext.Current.Services.DataTypeService;
+            this.contentTypeService = ApplicationContext.Current.Services.ContentTypeService;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NestedContentParser"/> class.
+        /// Initializes a new instance of the <see cref="StackedContentParser"/> class.
         /// </summary>
         /// <param name="contentTypeService">
         /// The content type service.
         /// </param>
         /// <param name="dataTypeService">
-        /// The data type service.
+        /// The data Type Service.
         /// </param>
-        public NestedContentParser(IContentTypeService contentTypeService, IDataTypeService dataTypeService)
+        public StackedContentParser(IContentTypeService contentTypeService, IDataTypeService dataTypeService)
         {
             this.contentTypeService = contentTypeService;
             this.dataTypeService = dataTypeService;
@@ -65,7 +65,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return dataTypeDefinition.PropertyEditorAlias.Equals("Our.Umbraco.NestedContent");
+            return dataTypeDefinition.PropertyEditorAlias.Equals("Our.Umbraco.StackedContent");
         }
 
         /// <summary>
@@ -79,7 +79,7 @@
         /// </returns>
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
-            if (propertyValue == null || propertyValue.ToString().IsNullOrWhiteSpace())
+            if (propertyValue == null || string.IsNullOrEmpty(propertyValue.ToString()))
             {
                 return Enumerable.Empty<ILinkedEntity>();
             }
@@ -91,33 +91,34 @@
 
             try
             {
-                var rawValue = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
+                var items = JsonConvert.DeserializeObject<List<object>>(propertyValue.ToString());
 
-                for (var i = 0; i < rawValue.Count; i++)
+                for (var i = 0; i < items.Count; i++)
                 {
-                    var item = (JObject)rawValue[i];
+                    var item = (JObject)items[i];
 
-                    var doctypeAlias = this.GetContentTypeAliasFromItem(item);
+                    var docTypeGuid = this.GetDocTypeGuidFromItem(item);
 
-                    if (!string.IsNullOrEmpty(doctypeAlias))
+                    if (!string.IsNullOrEmpty(docTypeGuid))
                     {
-                        if (!contentTypes.ContainsKey(doctypeAlias))
+                        if (!contentTypes.ContainsKey(docTypeGuid))
                         {
-                            // retreive content type and stash it in dictionary
                             contentTypes.Add(
-                                doctypeAlias,
-                                this.contentTypeService.GetContentType(doctypeAlias));
+                                docTypeGuid,
+                                this.contentTypeService.GetContentType(new Guid(docTypeGuid)));
                         }
 
-                        var contentType = contentTypes[doctypeAlias];
+                        var doctype = contentTypes[docTypeGuid];
 
                         // get all datatypes for this content type
-                        foreach (var propertyType in contentType.PropertyTypes)
+                        foreach (var propertyType in doctype.PropertyTypes)
                         {
                             if (!dataTypes.ContainsKey(propertyType.DataTypeDefinitionId))
                             {
                                 // retreive datatype and stash it in dictionary
-                                dataTypes.Add(propertyType.DataTypeDefinitionId, this.dataTypeService.GetDataTypeDefinitionById(propertyType.DataTypeDefinitionId));
+                                dataTypes.Add(
+                                    propertyType.DataTypeDefinitionId,
+                                    this.dataTypeService.GetDataTypeDefinitionById(propertyType.DataTypeDefinitionId));
                             }
 
                             var dtd = dataTypes[propertyType.DataTypeDefinitionId];
@@ -135,46 +136,26 @@
                                 }
                             }
                         }
-
                     }
                 }
             }
             catch (Exception exception)
-            {                
-                ApplicationContext.Current.ProfilingLogger.Logger.Error<NestedContentParser>("Error parsing nested content", exception);
+            {
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<StackedContentParser>(
+                    "Error parsing stacked content",
+                    exception);
             }
 
             return entities;
         }
 
-        /// <summary>
-        /// Get's content type alias from item.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        private string GetContentTypeAliasFromItem(JObject item)
+        private string GetDocTypeGuidFromItem(JObject item)
         {
-            var contentTypeAliasProperty = item["ncContentTypeAlias"];
+            var guidProperty = item["icContentTypeGuid"];
 
-            return contentTypeAliasProperty?.ToObject<string>();
+            return guidProperty?.ToObject<string>();
         }
 
-        /// <summary>
-        /// Gets the property value from item.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <param name="propertyAlias">
-        /// The property alias.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
         private string GetPropertyValueFromItem(JObject item, string propertyAlias)
         {
             var property = item[propertyAlias];

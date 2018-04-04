@@ -7,6 +7,9 @@
             } else {
                 angular.extend(this, $controller('Umbraco.Editors.Content.DeleteController', { $scope: $scope }));
             }
+
+            $scope.preventDelete = Umbraco.Sys.ServerVariables.Nexu.PreventDelete;
+            $scope.allowDelete = true;
            
 
             $scope.links = {};
@@ -19,9 +22,16 @@
                 if (result.data.length == 0) {
                     nexuResource.checkDescendants($scope.currentNode.id, $scope.isMedia).then(function (result) {
                         $scope.descendantsHaveLinks = result.data;
+                        if ($scope.descendantsHaveLinks === "true" && $scope.preventDelete) {
+                            $scope.allowDelete = false;
+                        }
                         $scope.isLoading = false;
                     });
                 } else {
+                    // we found links, so prevent deleting if set in config
+                    if ($scope.preventDelete) {
+                        $scope.allowDelete = false;
+                    }
                     $scope.isLoading = false;
                 }
 

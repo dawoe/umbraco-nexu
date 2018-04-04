@@ -301,6 +301,7 @@
     <Compile Include="GridEditorParsers\Community\LeBlenderGridEditorParserTests.cs" />
     <Compile Include="GridEditorParsers\Core\MediaGridEditorParserTests.cs" />
     <Compile Include="GridEditorParsers\Core\RteGridEditorParserTests.cs" />
+    <Compile Include="PropertyParsers\Community\StackedContentParserTests.cs" />
     <Compile Include="PropertyParsers\Community\NestedContentParserTests.cs" />
     <Compile Include="PropertyParsers\Community\RjpMultiUrlPickerParserTests.cs" />
     <Compile Include="PropertyParsers\Community\VortoParserTests.cs" />

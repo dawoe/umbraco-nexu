@@ -278,6 +278,8 @@
     <Compile Include="GridEditorParsers\Community\LeBlenderGriddEditorParser.cs" />
     <Compile Include="GridEditorParsers\Core\MediaGridEditorParser.cs" />
     <Compile Include="GridEditorParsers\Core\RteGridEditorParser.cs" />
+    <Compile Include="PropertyParsers\Community\ArchetypeParser.cs" />
+    <Compile Include="PropertyParsers\Community\StackedContentParser.cs" />
     <Compile Include="PropertyParsers\Community\NestedContentParser.cs" />
     <Compile Include="PropertyParsers\Community\RjpMultiUrlPickerParser.cs" />
     <Compile Include="PropertyParsers\Community\VortoParser.cs" />
