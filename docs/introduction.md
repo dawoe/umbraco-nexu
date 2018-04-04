@@ -43,6 +43,8 @@ In the developer section a dashboard is added that allows you to rebuild all the
 - [Nested Content](https://our.umbraco.org/projects/backoffice-extensions/nested-content/)
 - [Vorto](https://our.umbraco.org/projects/backoffice-extensions/vorto)
 - [Multi Url Picker](https://our.umbraco.org/projects/backoffice-extensions/multi-url-picker/)
+- [ArcheType](https://our.umbraco.org/projects/backoffice-extensions/archetype/)
+- [Stacked Content](https://our.umbraco.org/projects/backoffice-extensions/stacked-content/)
 
 ## Supported grid editors ##
 
