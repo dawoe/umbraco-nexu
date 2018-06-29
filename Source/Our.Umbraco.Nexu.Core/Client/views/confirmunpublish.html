@@ -1,0 +1,11 @@
+﻿<div ng-controller="Our.Umbraco.Nexu.ConfirmUnpublishController">
+    <h4><localize key="general_areyousure">Are you sure?</localize></h4>
+    
+    <nexu-links links="links" link-clicked="hide" title="nexu_linksTitleContent"></nexu-links>
+    <nexu-descendants-warning ng-if="descendantsHaveLinks"></nexu-descendants-warning>
+    <p>&nbsp;</p>
+    <p><localize key="prompt_confirmUnpublish">Unpublishing will remove this page and all its descendants from the site</localize></p>
+
+    <button ng-if="!isLoading && allowUnPublish" class="btn btn-warning" ng-click="confirm(notification, true)"><localize key="actions_unpublish">Unpublish</localize></button>
+    <button  ng-if="!isLoading" class="btn btn-default" ng-click="confirm(notification, false)" umb-auto-focus><localize key="general_cancel">Cancel</localize></button>
+</div>
