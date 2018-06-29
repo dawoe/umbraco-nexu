@@ -314,6 +314,7 @@
     <Content Include="Client\lang\en-US.xml" />
     <Content Include="Client\lang\en-GB.xml" />
     <Content Include="Client\nexu.css" />
+    <Content Include="Client\views\confirmunpublish.html" />
     <Content Include="Client\views\dashboard.html" />
     <Content Include="Client\controllers\media-delete-controller.js" />
     <Content Include="Client\controllers\unpublish-confirmation-controller.js" />

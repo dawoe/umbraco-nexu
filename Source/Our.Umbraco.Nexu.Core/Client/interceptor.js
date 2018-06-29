@@ -26,6 +26,11 @@
                            request.url = '/App_Plugins/Nexu/views/media-delete.html';
                        }
 
+                       // Redirect requests to unpublish confirmation to our own (v7.12+)
+                       if (request.url.indexOf("views/common/notifications/confirmunpublish.html") === 0) {
+                           request.url = '/App_Plugins/Nexu/views/confirmunpublish.html';
+                       }
+
                        if (version.major >= 7 && version.minor < 12) {
 
                            var unpublishUrlRegex =
