@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -72,7 +73,7 @@
         {
             foreach (var content in saveEventArgs.SavedEntities)
             {
-                NexuService.Current.ParseContent(content);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(this.ParseContentInBackground), content);
             }
         }
 
@@ -109,6 +110,11 @@
             {
                 e.Add("Nexu", urlDictionairy);
             }
+        }
+
+        private void ParseContentInBackground(object info)
+        {
+            NexuService.Current.ParseContent((IContent)info);
         }
     }
 }
