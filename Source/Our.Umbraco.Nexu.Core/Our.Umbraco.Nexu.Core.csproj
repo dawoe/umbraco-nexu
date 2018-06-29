@@ -306,6 +306,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Client\controllers\base-delete-controller.js" />
+    <Content Include="Client\controllers\confirmunpublish-controller.js" />
     <Content Include="Client\controllers\content-delete-controller.js" />
     <Content Include="Client\controllers\dashboard-controller.js" />
     <Content Include="Client\controllers\property-editor-controller.js" />
