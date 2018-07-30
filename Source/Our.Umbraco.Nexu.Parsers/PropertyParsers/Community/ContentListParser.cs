@@ -42,7 +42,7 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public new bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
+        public override bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
             return dataTypeDefinition.PropertyEditorAlias.Equals("Our.Umbraco.ContentList");
         }
