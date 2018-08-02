@@ -92,31 +92,32 @@
                     var dataTypes = new Dictionary<Guid, IDataTypeDefinition>();
                     var modelFieldSets = model["fieldsets"];
                     if (modelFieldSets.Any())
-                    {
-                        var items = this._aliasToIdMappings[modelFieldSets.First()["alias"].ToString()];
-                        foreach (var prop in items)
-                        {
-                            IDataTypeDefinition dataType = null;
-                            if (dataTypes.ContainsKey(prop.Value))
-                            {
-                                dataType = dataTypes[prop.Value];
-                            }
-                            else
-                            {
-                                dataType = this._dataTypeService.GetDataTypeDefinitionById(prop.Value);
-                                dataTypes.Add(prop.Value, dataType);
-                            }
-                            if (dataType != null)
-                            {
-                                var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dataType));
-                                if (parser != null)
-                                {
-                                    parsers.Add(prop.Key, parser);
-                                }
-                            }
-                        }
+                    {                       
                         foreach (var fieldset in modelFieldSets)
                         {
+                            var items = this._aliasToIdMappings[fieldset["alias"].ToString()];
+                            foreach (var prop in items)
+                            {
+                                IDataTypeDefinition dataType = null;
+                                if (dataTypes.ContainsKey(prop.Value))
+                                {
+                                    dataType = dataTypes[prop.Value];
+                                }
+                                else
+                                {
+                                    dataType = this._dataTypeService.GetDataTypeDefinitionById(prop.Value);
+                                    dataTypes.Add(prop.Value, dataType);
+                                }
+                                if (dataType != null)
+                                {
+                                    var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dataType));
+                                    if (parser != null)
+                                    {
+                                        parsers.Add(prop.Key, parser);
+                                    }
+                                }
+                            }
+
                             foreach (var alias in parsers.Keys)
                             {
                                 var item = fieldset["properties"].FirstOrDefault(x => x["alias"].ToString() == alias);
