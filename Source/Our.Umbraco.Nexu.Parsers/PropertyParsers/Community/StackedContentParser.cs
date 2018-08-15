@@ -63,7 +63,7 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
+        public virtual bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
             return dataTypeDefinition.PropertyEditorAlias.Equals("Our.Umbraco.StackedContent");
         }

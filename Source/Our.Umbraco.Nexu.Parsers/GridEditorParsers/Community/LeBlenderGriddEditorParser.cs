@@ -119,7 +119,7 @@ namespace Our.Umbraco.Nexu.Parsers.GridEditorParsers.Community
             }
             catch (Exception exception)
             {
-                ApplicationContext.Current.ProfilingLogger.Logger.Error<LeBlenderGridEditorParser>("Error parsing le blender grid editor", exception);
+                ApplicationContext.Current.ProfilingLogger.Logger.Error<LeBlenderGridEditorParser>("Error parsing le blender grid editor. Property data : " + value, exception);
             }
 
             return linkedEntities;
