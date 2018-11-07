@@ -85,7 +85,7 @@
                 var vortoDataType = this.dataTypeService.GetDataTypeDefinitionById(new Guid(vortoDataTypeGuid));
 
                 var preValues =
-                    this.dataTypeService.GetPreValuesCollectionByDataTypeId(vortoDataType.Id).PreValuesAsDictionary;
+                    this.dataTypeService.GetPreValuesCollectionByDataTypeId(vortoDataType.Id).FormatAsDictionary();
 
                 var editorDataTypeGuid = JsonConvert.DeserializeObject<JObject>(preValues["dataType"].Value).Value<string>("guid");
 
