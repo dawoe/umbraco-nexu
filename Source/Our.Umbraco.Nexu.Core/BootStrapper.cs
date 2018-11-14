@@ -1,4 +1,6 @@
-﻿namespace Our.Umbraco.Nexu.Core
+﻿using Umbraco.Core.Logging;
+
+namespace Our.Umbraco.Nexu.Core
 {
     using System;
     using System.Collections.Generic;
@@ -114,7 +116,14 @@
 
         private void ParseContentInBackground(object info)
         {
-            NexuService.Current.ParseContent((IContent)info);
+            try
+            {
+                NexuService.Current.ParseContent((IContent)info);
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error<BootStrapper>("An unhandled exception occurred while parsing content", e);
+            }
         }
     }
 }

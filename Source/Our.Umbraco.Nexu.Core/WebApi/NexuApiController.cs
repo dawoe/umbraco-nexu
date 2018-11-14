@@ -1,4 +1,7 @@
-﻿namespace Our.Umbraco.Nexu.Core.WebApi
+﻿using System;
+using Umbraco.Core.Logging;
+
+namespace Our.Umbraco.Nexu.Core.WebApi
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -188,56 +191,63 @@
         /// </param>
         internal void RebuildJob(object id)
         {
-            var rootLevelItems = new List<IContent>();
-
-
-            var attempInt = id.TryConvertTo<int>();
-
-            if (!attempInt.Success)
+            try
             {
-                return;
-            }
+                var rootLevelItems = new List<IContent>();
 
-            // mark rebuild in progress
-            NexuContext.Current.IsProcessing = true;
 
-            if (attempInt.Result == Constants.System.Root)
-            {
-                // get the root level content items
-                rootLevelItems = this.contentService.GetRootContent().ToList();
-            }
-            else
-            {
-                // get the indicated start item
-                var startItem = this.contentService.GetById(attempInt.Result);
+                var attempInt = id.TryConvertTo<int>();
 
-                if (startItem != null)
+                if (!attempInt.Success)
                 {
-                    rootLevelItems.Add(startItem);
+                    return;
                 }
-            }
 
-            // parse content tree
-            foreach (var item in rootLevelItems)
-            {
-                this.ParseContent(item);
-            }
+                // mark rebuild in progress
+                NexuContext.Current.IsProcessing = true;
 
-            // parser recyle bin
-            if (attempInt.Result == Constants.System.Root)
-            {
-                rootLevelItems = this.contentService.GetChildren(Constants.System.RecycleBinContent).ToList();
+                if (attempInt.Result == Constants.System.Root)
+                {
+                    // get the root level content items
+                    rootLevelItems = this.contentService.GetRootContent().ToList();
+                }
+                else
+                {
+                    // get the indicated start item
+                    var startItem = this.contentService.GetById(attempInt.Result);
 
+                    if (startItem != null)
+                    {
+                        rootLevelItems.Add(startItem);
+                    }
+                }
+
+                // parse content tree
                 foreach (var item in rootLevelItems)
                 {
                     this.ParseContent(item);
                 }
-            }
 
-            // reset context variables after processing
-            NexuContext.Current.IsProcessing = false;
-            NexuContext.Current.ItemsProcessed = 0;
-            NexuContext.Current.ItemInProgress = string.Empty;
+                // parser recyle bin
+                if (attempInt.Result == Constants.System.Root)
+                {
+                    rootLevelItems = this.contentService.GetChildren(Constants.System.RecycleBinContent).ToList();
+
+                    foreach (var item in rootLevelItems)
+                    {
+                        this.ParseContent(item);
+                    }
+                }
+
+                // reset context variables after processing
+                NexuContext.Current.IsProcessing = false;
+                NexuContext.Current.ItemsProcessed = 0;
+                NexuContext.Current.ItemInProgress = string.Empty;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error<NexuApiController>("An unhandled exception occurred while parsing content", e);
+            }
         }
 
         /// <summary>
