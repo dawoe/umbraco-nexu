@@ -88,11 +88,11 @@
             {
                 try
                 {
-                    var parsers = new Dictionary<string, IPropertyParser>();
+                    var parsers = new Dictionary<KeyValuePair<string,string>, IPropertyParser>();
                     var dataTypes = new Dictionary<Guid, IDataTypeDefinition>();
                     var modelFieldSets = model["fieldsets"];
                     if (modelFieldSets.Any())
-                    {                       
+                    {
                         foreach (var fieldset in modelFieldSets)
                         {
                             var items = this._aliasToIdMappings[fieldset["alias"].ToString()];
@@ -112,18 +112,18 @@
                                 {
                                     var parser = PropertyParserResolver.Current.Parsers.FirstOrDefault(x => x.IsParserFor(dataType));
                                     if (parser != null)
-                                    {
-                                        parsers.Add(prop.Key, parser);
+                                    {                                       
+                                       parsers.Add(new KeyValuePair<string, string>(prop.Key,fieldset["id"].ToString()), parser);                                            
                                     }
                                 }
                             }
 
-                            foreach (var alias in parsers.Keys)
+                            foreach (var keyValuePair in parsers.Keys)
                             {
-                                var item = fieldset["properties"].FirstOrDefault(x => x["alias"].ToString() == alias);
+                                var item = fieldset["properties"].FirstOrDefault(x=>x["alias"].ToString() == keyValuePair.Key);
                                 if (item != null)
                                 {
-                                    entities.AddRange(parsers[alias].GetLinkedEntities(item["value"]));
+                                    entities.AddRange(parsers[keyValuePair].GetLinkedEntities(item["value"]));
                                 }
                             }
                         }
