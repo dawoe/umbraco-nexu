@@ -53,7 +53,7 @@ From v1.5.0 the dashboard will also list the values from the [configuration opti
 - [Multi Url Picker](https://our.umbraco.org/projects/backoffice-extensions/multi-url-picker/)
 - [ArcheType](https://our.umbraco.org/projects/backoffice-extensions/archetype/)
 - [Stacked Content](https://our.umbraco.org/projects/backoffice-extensions/stacked-content/)
-
+- [Content List](https://our.umbraco.com/projects/backoffice-extensions/content-list/)
 ## Supported grid editors ##
 
 ### Core grid editors ###

@@ -62,7 +62,7 @@
             }
 
             var prevalues =
-                this.dataTypeService.GetPreValuesCollectionByDataTypeId(dataTypeDefinition.Id).PreValuesAsDictionary;
+                this.dataTypeService.GetPreValuesCollectionByDataTypeId(dataTypeDefinition.Id).FormatAsDictionary();
 
             if (!prevalues.ContainsKey("startNode"))
             {

@@ -18,7 +18,7 @@
     /// <summary>
     /// Nexu service
     /// </summary>
-    internal class NexuService : INexuService
+    public class NexuService : INexuService
     {
         /// <summary>
         /// Internal service instance
@@ -60,7 +60,7 @@
         /// <param name="dataTypeService">
         /// The data Type Service.
         /// </param>
-        public NexuService(
+        internal NexuService(
             ProfilingLogger profiler,
             IRelationService relationService,
             PropertyParserResolver propertyParserResolver,

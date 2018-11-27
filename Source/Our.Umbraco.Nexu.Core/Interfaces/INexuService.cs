@@ -9,7 +9,7 @@
     /// <summary>
     /// The NexuService interface.
     /// </summary>
-    internal interface INexuService
+    public interface INexuService
     {
         /// <summary>
         /// Gets all property parsrs

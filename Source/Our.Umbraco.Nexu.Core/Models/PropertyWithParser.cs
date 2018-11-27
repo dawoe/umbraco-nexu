@@ -7,7 +7,7 @@
     /// <summary>
     /// The property with parser.
     /// </summary>
-    internal class PropertyWithParser
+    public class PropertyWithParser
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyWithParser"/> class.
