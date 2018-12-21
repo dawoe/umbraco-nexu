@@ -115,6 +115,7 @@
             var anchors = html.DocumentNode.SelectNodes("//a");
 
             var localLinkRegex = new Regex("/{localLink:(?<id>\\d*)}", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+            var localMediaRegex = new Regex("/{localMedia:(?<id>\\d*)}", RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
             if (anchors != null)
             {
@@ -134,9 +135,9 @@
                     }
 
                     // test if the source is a local link
-                    if (localLinkRegex.IsMatch(href))
+                    if (localLinkRegex.IsMatch(href) || localMediaRegex.IsMatch(href))
                     {
-                        var match = localLinkRegex.Match(href);
+                        var match = localLinkRegex.IsMatch(href) ? localLinkRegex.Match(href) : localMediaRegex.Match(href);
 
                         var attemptId = match.Groups["id"].Value.TryConvertTo<int>();
 
