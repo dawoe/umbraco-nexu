@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core", "..\Our.Umbraco.Nexu.Core\Our.Umbraco.Nexu.Core.csproj", "{FACDDF9F-7AA5-443D-9793-39B299EFEFE7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Web", "Our.Umbraco.Nexu.Web\Our.Umbraco.Nexu.Web.csproj", "{CD53B833-3BDD-4DD1-86B3-27E5E173BCA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core", "Our.Umbraco.Nexu.Core\Our.Umbraco.Nexu.Core.csproj", "{DFE4EE20-8A4C-4F9F-92BD-BB94CBF60940}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FACDDF9F-7AA5-443D-9793-39B299EFEFE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FACDDF9F-7AA5-443D-9793-39B299EFEFE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FACDDF9F-7AA5-443D-9793-39B299EFEFE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FACDDF9F-7AA5-443D-9793-39B299EFEFE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD53B833-3BDD-4DD1-86B3-27E5E173BCA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CD53B833-3BDD-4DD1-86B3-27E5E173BCA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD53B833-3BDD-4DD1-86B3-27E5E173BCA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD53B833-3BDD-4DD1-86B3-27E5E173BCA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE4EE20-8A4C-4F9F-92BD-BB94CBF60940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE4EE20-8A4C-4F9F-92BD-BB94CBF60940}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE4EE20-8A4C-4F9F-92BD-BB94CBF60940}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE4EE20-8A4C-4F9F-92BD-BB94CBF60940}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
