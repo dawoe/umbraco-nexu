@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language alias="sv" intName="Swedish" localName="Svenska" lcid="" culture="sv-SE">
+  <area alias="nexu">
+    <key alias="dashboardRebuild">Byggom nexu relationer</key>
+    <key alias="dashboardRebuildInProgress">Ombyggnad av nexu relationer är pågående</key>
+    <key alias="dashboardItemsProcessed">noder bearbetade</key>
+    <key alias="dashboardAutorefresh">Laddar om var 5:e sekund</key>
+    <key alias="dashboardRefresh">Ladda om</key>
+    <key alias="linksShowProperties">Visa egenskaper</key>
+    <key alias="linksHideProperties">Göm egenskaper</key>
+    <key alias="linksTitleContent">Denna sidan är länkad till av följande noder</key>
+    <key alias="linksTitleMedia">Denna bild är länkad till följande</key>
+    <key alias="unpublishConfirmation">Är du säker på att du vill avpublicera</key>
+    <key alias="descendantsHaveLinksWarning">En av under noderna är länkad av en annan nod</key>
+    <key alias="preventDeleteDescription">Borttagning av använda noder är</key>    
+    <key alias="preventUnplisheDescription">Avpublicering av noder är</key>
+    <key alias="allowed">tillåtet</key>
+    <key alias="prevented">förbjudet</key>
+  </area>
+</language>
