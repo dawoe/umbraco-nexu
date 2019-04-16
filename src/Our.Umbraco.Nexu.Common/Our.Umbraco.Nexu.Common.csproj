@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\RelationTypes.cs" />
+    <Compile Include="Interfaces\Models\IPropertyValueParser.cs" />
     <Compile Include="Interfaces\Models\IRelatedEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
