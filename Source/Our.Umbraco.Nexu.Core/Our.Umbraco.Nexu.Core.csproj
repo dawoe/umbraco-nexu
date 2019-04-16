@@ -314,6 +314,7 @@
     <Content Include="Client\lang\nl-NL.xml" />
     <Content Include="Client\lang\en-US.xml" />
     <Content Include="Client\lang\en-GB.xml" />
+    <Content Include="Client\lang\sv-SE.xml" />
     <Content Include="Client\nexu.css" />
     <Content Include="Client\views\confirmunpublish.html" />
     <Content Include="Client\views\dashboard.html" />
