@@ -37,7 +37,7 @@
             {
                 if (!contentItem.Blueprint)
                 {
-                    
+                    contentItem.Properties[0].Alias
                 }
             }
         }
