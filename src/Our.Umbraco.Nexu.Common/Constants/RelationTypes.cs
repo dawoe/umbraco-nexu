@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// The relation types guids
+    /// Represents the relation type guids
     /// </summary>
     public static class RelationTypes
     {

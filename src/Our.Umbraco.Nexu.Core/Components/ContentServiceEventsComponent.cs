@@ -6,7 +6,7 @@
     using global::Umbraco.Core.Services.Implement;
 
     /// <summary>
-    /// The content service events component.
+    /// Represents a component to hook in to the content service events
     /// </summary>
     internal class ContentServiceEventsComponent : IComponent
     {
@@ -37,7 +37,7 @@
             {
                 if (!contentItem.Blueprint)
                 {
-                    contentItem.Properties[0].Alias
+                    
                 }
             }
         }

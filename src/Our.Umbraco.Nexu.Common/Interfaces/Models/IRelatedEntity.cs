@@ -5,7 +5,7 @@
     using global::Umbraco.Core;
 
     /// <summary>
-    /// The RelatedEntity interface.
+    /// Represents the RelatedEntity interface.
     /// </summary>
     public interface IRelatedEntity
     {
@@ -18,5 +18,10 @@
         /// Gets the relation type.
         /// </summary>
         Guid RelationType { get; }
+
+        /// <summary>
+        /// Gets or sets the culture.
+        /// </summary>
+        string Culture { get; set; }
     }
 }

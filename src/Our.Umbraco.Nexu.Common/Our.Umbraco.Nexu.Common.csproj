@@ -142,6 +142,8 @@
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Interfaces\Models\IPropertyValueParser.cs" />
     <Compile Include="Interfaces\Models\IRelatedEntity.cs" />
+    <Compile Include="Models\RelatedDocumentEntity.cs" />
+    <Compile Include="Models\RelatedMediaEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

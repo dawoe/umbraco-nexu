@@ -5,7 +5,7 @@
     using global::Umbraco.Core.Models;
 
     /// <summary>
-    /// The PropertyValueParser interface.
+    /// Represents the PropertyValueParser interface.
     /// </summary>
     public interface IPropertyValueParser
     {
