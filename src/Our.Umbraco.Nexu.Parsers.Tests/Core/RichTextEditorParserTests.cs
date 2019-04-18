@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
 
     using global::Umbraco.Core;
 
@@ -51,7 +50,7 @@
         public void When_Value_Is_Not_Set_GetRelatedEntities_Return_Empty_List()
         {
             // arrange
-            var prop = this.CreatePropertyWithValues(Constants.PropertyEditors.Aliases.Boolean, new Dictionary<string, object>());
+            var prop = this.CreatePropertyWithValues(Constants.PropertyEditors.Aliases.TinyMce, new Dictionary<string, object>());
 
             var parser = new RichTextEditorParser();
 

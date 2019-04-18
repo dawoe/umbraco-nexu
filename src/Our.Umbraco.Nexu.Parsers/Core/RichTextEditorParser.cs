@@ -31,30 +31,33 @@
 
                 var utilities = new ParserUtilities();
 
-                foreach (var value in property.Values)
+                foreach (var value in property.Values.WhereNotNull())
                 {
-                    var documentUdis = utilities.GetDocumentUdiFromText(value.EditedValue.ToString());
-
-                    foreach (var documentUdi in documentUdis.DistinctBy(x => x.ToString()))
+                    if (!string.IsNullOrWhiteSpace(value.EditedValue?.ToString()))
                     {
-                        relatedEntities.Add(new RelatedDocumentEntity
-                                                {
-                                                    Culture = value.Culture,
-                                                    RelatedEntityUdi = documentUdi
-                                                });
+                        var documentUdis = utilities.GetDocumentUdiFromText(value.EditedValue.ToString());
+
+                        foreach (var documentUdi in documentUdis.DistinctBy(x => x.ToString()))
+                        {
+                            relatedEntities.Add(new RelatedDocumentEntity
+                                                    {
+                                                        Culture = value.Culture,
+                                                        RelatedEntityUdi = documentUdi
+                                                    });
+                        }
+
+                        var mediaUdis = utilities.GetMediaUdiFromText(value.EditedValue.ToString());
+
+                        foreach (var mediaUdi in mediaUdis.DistinctBy(x => x.ToString()))
+                        {
+                            relatedEntities.Add(new RelatedMediaEntity()
+                                                    {
+                                                        Culture = value.Culture,
+                                                        RelatedEntityUdi = mediaUdi
+                                                    });
+                        }
                     }
-
-                    var mediaUdis = utilities.GetMediaUdiFromText(value.EditedValue.ToString());
-
-                    foreach (var mediaUdi in mediaUdis.DistinctBy(x => x.ToString()))
-                    {
-                        relatedEntities.Add(new RelatedMediaEntity()
-                                                {
-                                                    Culture = value.Culture,
-                                                    RelatedEntityUdi = mediaUdi
-                                                });
-                    }
-
+                
                 }
 
                 return relatedEntities;
