@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
 
+    using global::Umbraco.Core.Composing;
     using global::Umbraco.Core.Models;
 
     /// <summary>
     /// Represents the PropertyValueParser interface.
     /// </summary>
-    public interface IPropertyValueParser
+    public interface IPropertyValueParser : IDiscoverable
     {
         /// <summary>
         /// Checks if this is the parser for the current property
