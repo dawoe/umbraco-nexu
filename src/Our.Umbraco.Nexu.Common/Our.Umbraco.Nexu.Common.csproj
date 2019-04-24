@@ -142,6 +142,7 @@
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Interfaces\Models\IPropertyValueParser.cs" />
     <Compile Include="Interfaces\Models\IRelatedEntity.cs" />
+    <Compile Include="Interfaces\Services\IContentParsingService.cs" />
     <Compile Include="Models\RelatedDocumentEntity.cs" />
     <Compile Include="Models\RelatedMediaEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,9 +151,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
