@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Core.Components
+﻿namespace Our.Umbraco.Nexu.Core.Composing.Components
 {
     using global::Umbraco.Core.Composing;
     using global::Umbraco.Core.Events;

@@ -9,7 +9,6 @@
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
     using Our.Umbraco.Nexu.Common.Models;
-    using Our.Umbraco.Nexu.Parsers.Helpers;
 
     /// <summary>
     /// Represents content picker parser.

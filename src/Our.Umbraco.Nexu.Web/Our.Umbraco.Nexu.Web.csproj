@@ -245,6 +245,10 @@
       <Project>{dfe4ee20-8a4c-4f9f-92bd-bb94cbf60940}</Project>
       <Name>Our.Umbraco.Nexu.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Our.Umbraco.Nexu.Parsers\Our.Umbraco.Nexu.Parsers.csproj">
+      <Project>{6797e59c-5528-4f3c-baf4-b2ac32185101}</Project>
+      <Name>Our.Umbraco.Nexu.Parsers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />

@@ -1,9 +1,9 @@
-﻿namespace Our.Umbraco.Nexu.Core.Composers
+﻿namespace Our.Umbraco.Nexu.Core.Composing.Composers
 {
     using global::Umbraco.Core;
     using global::Umbraco.Core.Composing;
 
-    using Our.Umbraco.Nexu.Core.Components;
+    using Our.Umbraco.Nexu.Core.Composing.Components;
 
     /// <summary>
     /// Represents the composer to handle all registrations for nexu

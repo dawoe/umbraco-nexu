@@ -139,8 +139,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ContentServiceEventsComponent.cs" />
-    <Compile Include="Composers\NexuComposer.cs" />
+    <Compile Include="Composing\Collections\PropertyValueParserCollection.cs" />
+    <Compile Include="Composing\Collections\PropertyValueParserCollectionBuilder.cs" />
+    <Compile Include="Composing\Components\ContentServiceEventsComponent.cs" />
+    <Compile Include="Composing\Composers\CollectionsComposer.cs" />
+    <Compile Include="Composing\Composers\NexuComposer.cs" />
+    <Compile Include="Composing\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -152,7 +156,12 @@
       <Project>{f16a67cc-0f13-45e6-b493-d6c10f742214}</Project>
       <Name>Our.Umbraco.Nexu.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Our.Umbraco.Nexu.Parsers\Our.Umbraco.Nexu.Parsers.csproj">
+      <Project>{6797e59c-5528-4f3c-baf4-b2ac32185101}</Project>
+      <Name>Our.Umbraco.Nexu.Parsers</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
