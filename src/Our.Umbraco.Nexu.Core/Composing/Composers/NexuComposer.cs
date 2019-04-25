@@ -3,7 +3,9 @@
     using global::Umbraco.Core;
     using global::Umbraco.Core.Composing;
 
+    using Our.Umbraco.Nexu.Common.Interfaces.Services;
     using Our.Umbraco.Nexu.Core.Composing.Components;
+    using Our.Umbraco.Nexu.Core.Services;
 
     /// <summary>
     /// Represents the composer to handle all registrations for nexu
@@ -14,6 +16,7 @@
         /// <inheritdoc />
         public void Compose(Composition composition)
         {          
+            composition.Register<IEntityParsingService, NexuEntityParsingService>();
             composition.Components().Append<ContentServiceEventsComponent>();
         }
     }

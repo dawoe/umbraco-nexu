@@ -5,11 +5,29 @@
     using global::Umbraco.Core.Services;
     using global::Umbraco.Core.Services.Implement;
 
+    using Our.Umbraco.Nexu.Common.Interfaces.Services;
+
     /// <summary>
     /// Represents a component to hook in to the content service events
     /// </summary>
     internal class ContentServiceEventsComponent : IComponent
     {
+        /// <summary>
+        /// Represents entity parsing service.
+        /// </summary>
+        private readonly IEntityParsingService entityParsingService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentServiceEventsComponent"/> class.
+        /// </summary>
+        /// <param name="entityParsingService">
+        /// The entity parsing service.
+        /// </param>
+        public ContentServiceEventsComponent(IEntityParsingService entityParsingService)
+        {
+            this.entityParsingService = entityParsingService;
+        }
+
         /// <inheritdoc />
         public void Initialize()
         {
@@ -37,7 +55,7 @@
             {
                 if (!contentItem.Blueprint)
                 {
-                    
+                    this.entityParsingService.ParseContent(contentItem);
                 }
             }
         }

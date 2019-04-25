@@ -9,9 +9,10 @@
     /// </summary>
     internal class NexuEntityParsingService : IEntityParsingService
     {
+        /// <inheritdoc />
         public void ParseContent(IContent content)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
