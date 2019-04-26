@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the entity parsing service
     /// </summary>
-    public interface IEntityParsingService
+    internal interface IEntityParsingService
     {
         /// <summary>
         /// Parses a content item for related entities
