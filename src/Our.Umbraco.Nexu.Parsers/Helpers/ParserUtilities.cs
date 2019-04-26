@@ -63,7 +63,7 @@
                 udiList.Add(new StringUdi(new Uri(match.Value)));
             }
 
-            return udiList;
+            return udiList.DistinctBy(x => x.ToString());
         }
     }
 }

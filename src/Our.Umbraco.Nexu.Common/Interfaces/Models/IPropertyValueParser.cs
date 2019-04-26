@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     using global::Umbraco.Core.Composing;
-    using global::Umbraco.Core.Models;
 
     /// <summary>
     /// Represents the PropertyValueParser interface.
@@ -11,25 +10,25 @@
     public interface IPropertyValueParser : IDiscoverable
     {
         /// <summary>
-        /// Checks if this is the parser for the current property
+        /// Checks if this is the parser for the current property editor
         /// </summary>
-        /// <param name="property">
-        /// The property.
+        /// <param name="propertyEditorAlias">
+        /// The property Editor Alias.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool IsParserFor(Property property);
+        bool IsParserFor(string propertyEditorAlias);
 
         /// <summary>
         /// Gets the related entities from the property value
         /// </summary>
-        /// <param name="property">
-        /// The property.
+        /// <param name="value">
+        /// The property value
         /// </param>
         /// <returns>
         /// The <see cref="IEnumerable{IRelatedEntity}"/>.
         /// </returns>
-        IEnumerable<IRelatedEntity> GetRelatedEntities(Property property);
+        IEnumerable<IRelatedEntity> GetRelatedEntities(string value);
     }
 }

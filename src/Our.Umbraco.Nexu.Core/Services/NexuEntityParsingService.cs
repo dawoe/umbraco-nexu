@@ -43,11 +43,14 @@
 
             foreach (var prop in content.Properties)
             {
-                var parser = this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(prop));
+                var parser = this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(prop.PropertyType.PropertyEditorAlias));
 
                 if (parser != null)
                 {
-                    var entities = parser.GetRelatedEntities(prop);
+                    foreach (var propValue in prop.Values)
+                    {
+                        parser.GetRelatedEntities(propValue.EditedValue.ToString());
+                    }                  
                 }
             }
         }

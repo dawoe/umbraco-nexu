@@ -5,7 +5,6 @@
     using System.Linq;
 
     using global::Umbraco.Core;
-    using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
     using Our.Umbraco.Nexu.Common.Models;
@@ -16,30 +15,23 @@
     public class ContentPickerParser : IPropertyValueParser
     {
         /// <inheritdoc />
-        public bool IsParserFor(Property property)
+        public bool IsParserFor(string propertyEditorAlias)
         {
-            return property.PropertyType.PropertyEditorAlias.Equals(Constants.PropertyEditors.Aliases.ContentPicker);
+            return propertyEditorAlias.Equals(Constants.PropertyEditors.Aliases.ContentPicker);
         }
 
         /// <inheritdoc />
-        public IEnumerable<IRelatedEntity> GetRelatedEntities(Property property)
+        public IEnumerable<IRelatedEntity> GetRelatedEntities(string value)
         {
-            if (property.Values != null && property.Values.Any())
+            if (!string.IsNullOrWhiteSpace(value))
             {
-                var relatedEntities = new List<IRelatedEntity>();
-                                
-                foreach (var value in property.Values.WhereNotNull())
-                {
-                    if (!string.IsNullOrWhiteSpace(value.EditedValue?.ToString()))
-                    {
-                        relatedEntities.Add(new RelatedDocumentEntity
-                                                {
-                                                    Culture = value.Culture,
-                                                    RelatedEntityUdi = new StringUdi(new Uri(value.EditedValue.ToString()))
-                                                });
-                    }
-
-                }
+                var relatedEntities = new List<IRelatedEntity>
+                                          {
+                                              new RelatedDocumentEntity
+                                                  {
+                                                      RelatedEntityUdi = new StringUdi(new Uri(value))
+                                                  }
+                                          };
 
                 return relatedEntities;
             }

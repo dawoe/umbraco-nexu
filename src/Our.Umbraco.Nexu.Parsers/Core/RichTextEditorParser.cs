@@ -2,10 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
 
     using global::Umbraco.Core;
-    using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
     using Our.Umbraco.Nexu.Common.Models;
@@ -17,53 +15,40 @@
     public class RichTextEditorParser : IPropertyValueParser
     {
         /// <inheritdoc />
-        public bool IsParserFor(Property property)
+        public bool IsParserFor(string propertyEditorAlias)
         {
-            return property.PropertyType.PropertyEditorAlias.Equals(Constants.PropertyEditors.Aliases.TinyMce);
+            return propertyEditorAlias.Equals(Constants.PropertyEditors.Aliases.TinyMce);
         }
 
         /// <inheritdoc />
-        public IEnumerable<IRelatedEntity> GetRelatedEntities(Property property)
+        public IEnumerable<IRelatedEntity> GetRelatedEntities(string value)
         {
-            if (property.Values != null && property.Values.Any())
+            if (string.IsNullOrWhiteSpace(value))
             {
-                var relatedEntities = new List<IRelatedEntity>();
-
-                var utilities = new ParserUtilities();
-
-                foreach (var value in property.Values.WhereNotNull())
-                {
-                    if (!string.IsNullOrWhiteSpace(value.EditedValue?.ToString()))
-                    {
-                        var documentUdis = utilities.GetDocumentUdiFromText(value.EditedValue.ToString());
-
-                        foreach (var documentUdi in documentUdis.DistinctBy(x => x.ToString()))
-                        {
-                            relatedEntities.Add(new RelatedDocumentEntity
-                                                    {
-                                                        Culture = value.Culture,
-                                                        RelatedEntityUdi = documentUdi
-                                                    });
-                        }
-
-                        var mediaUdis = utilities.GetMediaUdiFromText(value.EditedValue.ToString());
-
-                        foreach (var mediaUdi in mediaUdis.DistinctBy(x => x.ToString()))
-                        {
-                            relatedEntities.Add(new RelatedMediaEntity()
-                                                    {
-                                                        Culture = value.Culture,
-                                                        RelatedEntityUdi = mediaUdi
-                                                    });
-                        }
-                    }
-                
-                }
-
-                return relatedEntities;
+                return Enumerable.Empty<IRelatedEntity>();
             }
 
-            return Enumerable.Empty<IRelatedEntity>();
+            var relatedEntities = new List<IRelatedEntity>();
+            var utilities = new ParserUtilities();
+                      
+
+            foreach (var documentUdi in utilities.GetDocumentUdiFromText(value))
+            {
+                relatedEntities.Add(new RelatedDocumentEntity
+                                        {
+                                            RelatedEntityUdi = documentUdi
+                                        });
+            }
+
+            foreach (var mediaUdi in utilities.GetMediaUdiFromText(value))
+            {
+                relatedEntities.Add(new RelatedMediaEntity()
+                                        {
+                                            RelatedEntityUdi = mediaUdi
+                                        });
+            }
+
+            return relatedEntities;
         }
     }
 }

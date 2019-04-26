@@ -16,9 +16,6 @@
         public Udi RelatedEntityUdi { get; set; }
 
         /// <inheritdoc />
-        public Guid RelationType => RelationTypes.DocumentToMedia;
-
-        /// <inheritdoc />
-        public string Culture { get; set; }
+        public Guid RelationType => RelationTypes.DocumentToMedia;       
     }
 }

@@ -17,11 +17,6 @@
         /// <summary>
         /// Gets the relation type.
         /// </summary>
-        Guid RelationType { get; }
-
-        /// <summary>
-        /// Gets or sets the culture.
-        /// </summary>
-        string Culture { get; set; }
+        Guid RelationType { get; }       
     }
 }

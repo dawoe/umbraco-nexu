@@ -24,8 +24,8 @@
         {
             // arrange
             var parser = new Mock<IPropertyValueParser>();
-            parser.Setup(x => x.IsParserFor(It.IsAny<Property>()));
-            parser.Setup(x => x.GetRelatedEntities(It.IsAny<Property>()));
+            parser.Setup(x => x.IsParserFor(It.IsAny<string>()));
+            parser.Setup(x => x.GetRelatedEntities(It.IsAny<string>()));
 
             var parserCollection = new PropertyValueParserCollection(new []{ parser.Object});
 
@@ -38,8 +38,8 @@
             service.ParseContent(content);
 
             // assert
-            parser.Verify(x => x.IsParserFor(It.IsAny<Property>()), Times.Never);
-            parser.Verify(x => x.GetRelatedEntities(It.IsAny<Property>()), Times.Never);
+            parser.Verify(x => x.IsParserFor(It.IsAny<string>()), Times.Never);
+            parser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Never);
         }
 
         [Test]
@@ -47,8 +47,8 @@
         {
             // arrange
             var parser = new Mock<IPropertyValueParser>();
-            parser.Setup(x => x.IsParserFor(It.IsAny<Property>()));
-            parser.Setup(x => x.GetRelatedEntities(It.IsAny<Property>()));
+            parser.Setup(x => x.IsParserFor(It.IsAny<string>()));
+            parser.Setup(x => x.GetRelatedEntities(It.IsAny<string>()));
 
             var parserCollection = new PropertyValueParserCollection(new[] { parser.Object });
 
@@ -61,8 +61,8 @@
             service.ParseContent(content);
 
             // assert
-            parser.Verify(x => x.IsParserFor(It.IsAny<Property>()), Times.Never);
-            parser.Verify(x => x.GetRelatedEntities(It.IsAny<Property>()), Times.Never);
+            parser.Verify(x => x.IsParserFor(It.IsAny<string>()), Times.Never);
+            parser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Never);
         }
 
         [Test]
@@ -83,8 +83,9 @@
                 cultureValues);
 
             var parser = new Mock<IPropertyValueParser>();
-            parser.Setup(x => x.IsParserFor(contentPickerProperty)).Returns(true);
-            parser.Setup(x => x.GetRelatedEntities(contentPickerProperty));
+            parser.Setup(x => x.IsParserFor(contentPickerProperty.PropertyType.PropertyEditorAlias)).Returns(true);
+            parser.Setup(x => x.GetRelatedEntities(nlValue));
+            parser.Setup(x => x.GetRelatedEntities(enValue));
 
             var parserCollection = new PropertyValueParserCollection(new[] { parser.Object });
 
@@ -99,8 +100,9 @@
             service.ParseContent(content, false);
 
             // assert
-            parser.Verify(x => x.IsParserFor(It.IsAny<Property>()), Times.AtLeastOnce);
-            parser.Verify(x => x.GetRelatedEntities(It.IsAny<Property>()), Times.AtLeastOnce);
+            parser.Verify(x => x.IsParserFor(contentPickerProperty.PropertyType.PropertyEditorAlias), Times.AtLeastOnce);
+            parser.Verify(x => x.GetRelatedEntities(nlValue), Times.AtLeastOnce);
+            parser.Verify(x => x.GetRelatedEntities(enValue), Times.AtLeastOnce);
         }
 
         /// <summary>
