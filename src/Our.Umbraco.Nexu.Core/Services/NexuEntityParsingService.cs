@@ -1,5 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Services
 {
+    using System.Linq;
+
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
@@ -29,10 +31,40 @@
         /// <inheritdoc />
         public void ParseContent(IContent content, bool parseEditedContentOnly = true, bool parseAllCultures = false)
         {
-            if (content.Blueprint)
+            var contentNeedsToBeParsed = this.CheckIfContentNeedsToBeParsed(
+                content,
+                parseEditedContentOnly,
+                parseAllCultures);
+
+            if (contentNeedsToBeParsed == false)
             {
                 return;
             }
+
+            foreach (var prop in content.Properties)
+            {
+                var parser = this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(prop));
+
+                if (parser != null)
+                {
+                    var entities = parser.GetRelatedEntities(prop);
+                }
+            }
+        }
+
+        public bool CheckIfContentNeedsToBeParsed(IContent content, bool parseEditedContentOnly, bool parseAllCultures)
+        {
+            if (content.Blueprint)
+            {
+                return false;
+            }
+
+            if (content.Edited == false && parseEditedContentOnly)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
