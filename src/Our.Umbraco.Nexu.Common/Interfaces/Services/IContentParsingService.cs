@@ -11,8 +11,14 @@
         /// Parses a content item for related entities
         /// </summary>
         /// <param name="content">
-        /// The content.
+        /// The content item that needs to be parsed
         /// </param>
-        void ParseContent(IContent content);
+        /// <param name="parseEditedContentOnly">
+        /// Indicate if only edited content needs to be parsed
+        /// </param>
+        /// <param name="parseAllCultures">
+        /// Indicates if all cultures need to be parsed
+        /// </param>
+        void ParseContent(IContent content, bool parseEditedContentOnly = true, bool parseAllCultures = false);
     }
 }
