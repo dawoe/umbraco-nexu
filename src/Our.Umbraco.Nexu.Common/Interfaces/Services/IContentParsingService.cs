@@ -12,13 +12,18 @@
         /// </summary>
         /// <param name="content">
         /// The content item that needs to be parsed
+        /// </param>       
+        void ParseContent(IContent content);
+
+        /// <summary>
+        /// The parse content.
+        /// </summary>
+        /// <param name="content">
+        /// The content item that needs to be parsed
         /// </param>
-        /// <param name="parseEditedContentOnly">
-        /// Indicate if only edited content needs to be parsed
+        /// <param name="editedContentOnly">
+        ///  Indicates that only edited content will be parsed
         /// </param>
-        /// <param name="parseAllCultures">
-        /// Indicates if all cultures need to be parsed
-        /// </param>
-        void ParseContent(IContent content, bool parseEditedContentOnly = true, bool parseAllCultures = false);
+        void ParseContent(IContent content, bool editedContentOnly);
     }
 }

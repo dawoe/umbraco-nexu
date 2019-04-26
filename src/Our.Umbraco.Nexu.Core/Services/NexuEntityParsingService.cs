@@ -26,17 +26,18 @@
         public NexuEntityParsingService(PropertyValueParserCollection propertyValueParserCollection)
         {
             this.propertyValueParserCollection = propertyValueParserCollection;
+        }        
+        
+        /// <inheritdoc />
+        public void ParseContent(IContent content)
+        {
+            this.ParseContent(content, true);
         }
 
         /// <inheritdoc />
-        public void ParseContent(IContent content, bool parseEditedContentOnly = true, bool parseAllCultures = false)
+        public void ParseContent(IContent content, bool editedContentOnly)
         {
-            var contentNeedsToBeParsed = this.CheckIfContentNeedsToBeParsed(
-                content,
-                parseEditedContentOnly,
-                parseAllCultures);
-
-            if (contentNeedsToBeParsed == false)
+            if (!this.CheckIfContentNeedsToBeParsed(content, editedContentOnly))
             {
                 return;
             }
@@ -50,12 +51,24 @@
                     foreach (var propValue in prop.Values)
                     {
                         parser.GetRelatedEntities(propValue.EditedValue.ToString());
-                    }                  
+                    }
                 }
             }
         }
 
-        public bool CheckIfContentNeedsToBeParsed(IContent content, bool parseEditedContentOnly, bool parseAllCultures)
+        /// <summary>
+        /// Checks  if the content needs to be parsed.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="parseEditedContentOnly">
+        /// Indicates that edited content only needs to be parsed
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        internal virtual bool CheckIfContentNeedsToBeParsed(IContent content, bool parseEditedContentOnly)
         {
             if (content.Blueprint)
             {
