@@ -53,10 +53,7 @@
         {
             foreach (var contentItem in e.SavedEntities)
             {
-                if (!contentItem.Blueprint)
-                {
-                    this.entityParsingService.ParseContent(contentItem);
-                }
+                this.entityParsingService.ParseContent(contentItem);
             }
         }
     }
