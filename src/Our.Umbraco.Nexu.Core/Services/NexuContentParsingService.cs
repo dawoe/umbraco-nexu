@@ -29,7 +29,10 @@
         /// <inheritdoc />
         public void ParseContent(IContent content, bool parseEditedContentOnly = true, bool parseAllCultures = false)
         {
-            
+            if (content.Blueprint)
+            {
+                return;
+            }
         }
     }
 }
