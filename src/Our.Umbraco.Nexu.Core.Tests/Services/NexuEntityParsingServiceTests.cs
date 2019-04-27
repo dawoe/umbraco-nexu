@@ -27,7 +27,7 @@
             parser.Setup(x => x.IsParserFor(It.IsAny<string>()));
             parser.Setup(x => x.GetRelatedEntities(It.IsAny<string>()));
 
-            var parserCollection = new PropertyValueParserCollection(new []{ parser.Object});
+            var parserCollection = new PropertyValueParserCollection(new[] { parser.Object });
 
             var service = new NexuEntityParsingService(parserCollection);
 
@@ -43,30 +43,7 @@
         }
 
         [Test]
-        public void When_Content_Is_Not_Edited_No_Parsing_Should_Happen_When_Not_Indicated_To_Parse_All_Content()
-        {
-            // arrange
-            var parser = new Mock<IPropertyValueParser>();
-            parser.Setup(x => x.IsParserFor(It.IsAny<string>()));
-            parser.Setup(x => x.GetRelatedEntities(It.IsAny<string>()));
-
-            var parserCollection = new PropertyValueParserCollection(new[] { parser.Object });
-
-            var service = new NexuEntityParsingService(parserCollection);
-
-            var content = Mock.Of<IContent>();
-            content.Edited = false;
-
-            // act
-            service.ParseContent(content);
-
-            // assert
-            parser.Verify(x => x.IsParserFor(It.IsAny<string>()), Times.Never);
-            parser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Never);
-        }
-
-        [Test]
-        public void When_Content_Is_Not_Edited_Parsing_Should_Happen_When_Indicated_To_Parse_All_Content()
+        public void When_Content_Is_Not_Blue_Print_Parsing_Should_Happen()
         {
             // arrange
             var cultureValues = new Dictionary<string, object>();
@@ -97,7 +74,7 @@
             content.Properties = new PropertyCollection(new []{contentPickerProperty});
 
             // act
-            service.ParseContent(content, false);
+            service.ParseContent(content);
 
             // assert
             parser.Verify(x => x.IsParserFor(contentPickerProperty.PropertyType.PropertyEditorAlias), Times.AtLeastOnce);

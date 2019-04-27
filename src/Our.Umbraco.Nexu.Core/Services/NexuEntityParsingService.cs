@@ -31,17 +31,11 @@
         /// <inheritdoc />
         public void ParseContent(IContent content)
         {
-            this.ParseContent(content, true);
-        }
-
-        /// <inheritdoc />
-        public void ParseContent(IContent content, bool editedContentOnly)
-        {
-            if (!this.CheckIfContentNeedsToBeParsed(content, editedContentOnly))
+            if (content.Blueprint)
             {
                 return;
             }
-
+            
             foreach (var prop in content.Properties)
             {
                 var parser = this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(prop.PropertyType.PropertyEditorAlias));
@@ -54,33 +48,6 @@
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Checks  if the content needs to be parsed.
-        /// </summary>
-        /// <param name="content">
-        /// The content.
-        /// </param>
-        /// <param name="parseEditedContentOnly">
-        /// Indicates that edited content only needs to be parsed
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        internal virtual bool CheckIfContentNeedsToBeParsed(IContent content, bool parseEditedContentOnly)
-        {
-            if (content.Blueprint)
-            {
-                return false;
-            }
-
-            if (content.Edited == false && parseEditedContentOnly)
-            {
-                return false;
-            }
-
-            return true;
-        }
+        }           
     }
 }

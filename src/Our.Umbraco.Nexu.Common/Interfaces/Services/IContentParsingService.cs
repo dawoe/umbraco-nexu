@@ -13,17 +13,6 @@
         /// <param name="content">
         /// The content item that needs to be parsed
         /// </param>       
-        void ParseContent(IContent content);
-
-        /// <summary>
-        /// The parse content.
-        /// </summary>
-        /// <param name="content">
-        /// The content item that needs to be parsed
-        /// </param>
-        /// <param name="editedContentOnly">
-        ///  Indicates that only edited content will be parsed
-        /// </param>
-        void ParseContent(IContent content, bool editedContentOnly);
+        void ParseContent(IContent content);        
     }
 }
