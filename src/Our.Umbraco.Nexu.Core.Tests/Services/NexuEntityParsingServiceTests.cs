@@ -1,11 +1,15 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Tests.Services
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
     using Moq;
+
+    using NPoco;
 
     using NUnit.Framework;
 
@@ -19,67 +23,79 @@
     [TestFixture]
     public class NexuEntityParsingServiceTests
     {
+        /// <summary>
+        /// The content used in tests
+        /// </summary>
+        private IContent content;
+
+        /// <summary>
+        /// The property value parse collection used in tests
+        /// </summary>
+        private PropertyValueParserCollection propertyValueParserCollection;
+
+        /// <summary>
+        /// The mocked content picker parser used in tests
+        /// </summary>
+        private Mock<IPropertyValueParser> contentPickerParser;
+
+        /// <summary>
+        /// The parsers used in the test
+        /// </summary>
+        private Property contentPickerProperty;
+
+
+        private List<IPropertyValueParser> parsers;
+
+        private NexuEntityParsingService service;
+
+        /// <summary>
+        /// Setup up used for all tests
+        /// </summary>
+        [SetUp]
+        public void Setup()
+        {
+            this.SetupTestData();
+        }
+
+        /// <summary>
+        /// Tears down all tests
+        /// </summary>
+        [TearDown]
+        public void TearDown()
+        {
+            this.contentPickerProperty = null;
+            this.contentPickerParser = null;
+            this.parsers = null;
+            this.propertyValueParserCollection = null;
+            this.content = null;
+        }
+
         [Test]
         public void When_Content_Is_Blue_Print_No_Parsing_Should_Happen()
         {
             // arrange
-            var parser = new Mock<IPropertyValueParser>();
-            parser.Setup(x => x.IsParserFor(It.IsAny<string>()));
-            parser.Setup(x => x.GetRelatedEntities(It.IsAny<string>()));
-
-            var parserCollection = new PropertyValueParserCollection(new[] { parser.Object });
-
-            var service = new NexuEntityParsingService(parserCollection);
-
-            var content = Mock.Of<IContent>();
-            content.Blueprint = true;
+            this.content.Blueprint = true;
 
             // act
-            service.ParseContent(content);
+            this.service.ParseContent(this.content);
 
             // assert
-            parser.Verify(x => x.IsParserFor(It.IsAny<string>()), Times.Never);
-            parser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Never);
+            this.contentPickerParser.Verify(x => x.IsParserFor(It.IsAny<string>()), Times.Never);
+            this.contentPickerParser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Never);
         }
 
         [Test]
         public void When_Content_Is_Not_Blue_Print_Parsing_Should_Happen()
         {
             // arrange
-            var cultureValues = new Dictionary<string, object>();
-
-            var nlValue = "umb://document/ca4249ed2b234337b52263cabe5587d1";
-
-            var enValue = "umb://document/ec4aafcc0c254f25a8fe705bfae1d324";
-
-            cultureValues.Add("nl-NL", nlValue);
-            cultureValues.Add("en-US", enValue);
-
-            var contentPickerProperty = this.CreatePropertyWithValues(
-                Constants.PropertyEditors.Aliases.ContentPicker,
-                cultureValues);
-
-            var parser = new Mock<IPropertyValueParser>();
-            parser.Setup(x => x.IsParserFor(contentPickerProperty.PropertyType.PropertyEditorAlias)).Returns(true);
-            parser.Setup(x => x.GetRelatedEntities(nlValue));
-            parser.Setup(x => x.GetRelatedEntities(enValue));
-
-            var parserCollection = new PropertyValueParserCollection(new[] { parser.Object });
-
-            var service = new NexuEntityParsingService(parserCollection);
-
-            var content = Mock.Of<IContent>();
-            content.Edited = false;
-
-            content.Properties = new PropertyCollection(new []{contentPickerProperty});
+            this.content.Blueprint = false;
 
             // act
-            service.ParseContent(content);
+            this.service.ParseContent(this.content);
 
             // assert
-            parser.Verify(x => x.IsParserFor(contentPickerProperty.PropertyType.PropertyEditorAlias), Times.AtLeastOnce);
-            parser.Verify(x => x.GetRelatedEntities(nlValue), Times.AtLeastOnce);
-            parser.Verify(x => x.GetRelatedEntities(enValue), Times.AtLeastOnce);
+            this.contentPickerParser.Verify(x => x.IsParserFor(this.contentPickerProperty.PropertyType.PropertyEditorAlias), Times.AtLeastOnce);
+            this.contentPickerParser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Exactly(2));
         }
 
         /// <summary>
@@ -124,6 +140,41 @@
             }
 
             return propertyWithValues;
+        }
+
+        private void SetupTestData()
+        {
+            // arrange
+            this.content = Mock.Of<IContent>();
+
+            var cultureValues = new Dictionary<string, object>();
+
+            var nlValue = "umb://document/ca4249ed2b234337b52263cabe5587d1";
+
+            var enValue = "umb://document/ec4aafcc0c254f25a8fe705bfae1d324";
+
+            cultureValues.Add("nl-NL", nlValue);
+            cultureValues.Add("en-US", enValue);
+
+            this.contentPickerProperty = this.CreatePropertyWithValues(
+                Constants.PropertyEditors.Aliases.ContentPicker,
+                cultureValues);
+
+            this.content.Properties = new PropertyCollection(new[] { this.contentPickerProperty });
+
+            this.contentPickerParser = new Mock<IPropertyValueParser>();
+            this.contentPickerParser.Setup(x => x.IsParserFor(Constants.PropertyEditors.Aliases.ContentPicker))
+                .Returns(true);
+            this.contentPickerParser.Setup(x => x.GetRelatedEntities(nlValue));
+            this.contentPickerParser.Setup(x => x.GetRelatedEntities(enValue));
+
+            this.parsers = new List<IPropertyValueParser>();
+
+            this.parsers.Add(this.contentPickerParser.Object);
+
+            this.propertyValueParserCollection = new PropertyValueParserCollection(this.parsers);
+
+            this.service = new NexuEntityParsingService(this.propertyValueParserCollection);
         }
     }
 }
