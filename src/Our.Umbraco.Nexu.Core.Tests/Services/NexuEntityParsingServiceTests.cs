@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Web.ModelBinding;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
@@ -94,8 +95,12 @@
             this.service.ParseContent(this.content);
 
             // assert
-            this.contentPickerParser.Verify(x => x.IsParserFor(this.contentPickerProperty.PropertyType.PropertyEditorAlias), Times.AtLeastOnce);
-            this.contentPickerParser.Verify(x => x.GetRelatedEntities(It.IsAny<string>()), Times.Exactly(2));
+            this.contentPickerParser.Verify(x => x.IsParserFor(this.contentPickerProperty.PropertyType.PropertyEditorAlias), Times.Once);
+
+            foreach (var value in this.contentPickerProperty.Values)
+            {
+                this.contentPickerParser.Verify(x => x.GetRelatedEntities(value.EditedValue.ToString()), Times.Once);
+            }           
         }
 
         /// <summary>
@@ -142,6 +147,9 @@
             return propertyWithValues;
         }
 
+        /// <summary>
+        /// Sets up mocks and test data
+        /// </summary>
         private void SetupTestData()
         {
             // arrange
