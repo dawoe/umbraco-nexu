@@ -1,5 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Common.Interfaces.Services
 {
+    using System.Collections.Generic;
+
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
@@ -27,5 +29,19 @@
         /// The <see cref="IPropertyValueParser"/>.
         /// </returns>
         IPropertyValueParser GetParserForPropertyEditor(string propertyEditorAlias);
+
+        /// <summary>
+        /// Gets the related entities from property editor value.
+        /// </summary>
+        /// <param name="propertyEditorAlias">
+        /// The property editor alias.
+        /// </param>
+        /// <param name="propertyValue">
+        /// The property value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IRelatedEntity}"/>.
+        /// </returns>
+        IEnumerable<IRelatedEntity> GetRelatedEntitiesFromPropertyEditorValue(string propertyEditorAlias, object propertyValue);
     }
 }

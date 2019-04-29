@@ -1,7 +1,9 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Services
 {
+    using System.Collections.Generic;
     using System.Linq;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
@@ -52,9 +54,25 @@
         }
 
         /// <inheritdoc />
-        public IPropertyValueParser GetParserForPropertyEditor(string propertyEditorAlias)
+        public virtual IPropertyValueParser GetParserForPropertyEditor(string propertyEditorAlias)
         {
             return this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(propertyEditorAlias));
+        }
+
+        /// <inheritdoc />
+        public virtual IEnumerable<IRelatedEntity> GetRelatedEntitiesFromPropertyEditorValue(string propertyEditorAlias, object propertyValue)
+        {
+            if (!string.IsNullOrWhiteSpace(propertyValue?.ToString()))
+            {
+                var parser = this.GetParserForPropertyEditor(propertyEditorAlias);
+
+                if (parser != null)
+                {
+                    return parser.GetRelatedEntities(propertyValue.ToString()).DistinctBy(x => x.RelatedEntityUdi.ToString());
+                }
+            }
+            
+            return Enumerable.Empty<IRelatedEntity>();
         }
     }
 }
