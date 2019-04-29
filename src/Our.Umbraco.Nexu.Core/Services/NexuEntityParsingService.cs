@@ -4,6 +4,7 @@
 
     using global::Umbraco.Core.Models;
 
+    using Our.Umbraco.Nexu.Common.Interfaces.Models;
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
     using Our.Umbraco.Nexu.Core.Composing.Collections;
 
@@ -48,6 +49,12 @@
                     }
                 }
             }
-        }           
+        }
+
+        /// <inheritdoc />
+        public IPropertyValueParser GetParserForPropertyEditor(string propertyEditorAlias)
+        {
+            return this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(propertyEditorAlias));
+        }
     }
 }

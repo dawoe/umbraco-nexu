@@ -161,6 +161,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\NexuEntityParsingServiceTests.cs" />
+    <Compile Include="Services\NexuEntityParsingService_GetParserForPropertyEditor_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
