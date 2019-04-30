@@ -43,5 +43,16 @@
         /// The <see cref="IEnumerable{IRelatedEntity}"/>.
         /// </returns>
         IEnumerable<IRelatedEntity> GetRelatedEntitiesFromPropertyEditorValue(string propertyEditorAlias, object propertyValue);
+
+        /// <summary>
+        /// Gets related entities from a content property.
+        /// </summary>
+        /// <param name="property">
+        /// The property.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IDictionary{T,U}"/>.
+        /// </returns>
+        IDictionary<string, IEnumerable<IRelatedEntity>> GetRelatedEntitiesFromProperty(Property property);
     }
 }

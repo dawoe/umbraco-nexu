@@ -70,9 +70,29 @@
                 {
                     return parser.GetRelatedEntities(propertyValue.ToString()).DistinctBy(x => x.RelatedEntityUdi.ToString());
                 }
-            }
-            
+            }           
+
             return Enumerable.Empty<IRelatedEntity>();
+        }
+
+        /// <inheritdoc />
+        public virtual IDictionary<string, IEnumerable<IRelatedEntity>> GetRelatedEntitiesFromProperty(Property property)
+        {
+            var relationsByCulture = new Dictionary<string, IEnumerable<IRelatedEntity>>();
+
+
+            var editorAlias = property.PropertyType.PropertyEditorAlias;
+
+            foreach (var cultureValue in property.Values)
+            {
+                var entities = this.GetRelatedEntitiesFromPropertyEditorValue(
+                    editorAlias,
+                    cultureValue.EditedValue);
+
+                relationsByCulture.Add(cultureValue.Culture, entities);
+            }
+
+            return relationsByCulture;
         }
     }
 }

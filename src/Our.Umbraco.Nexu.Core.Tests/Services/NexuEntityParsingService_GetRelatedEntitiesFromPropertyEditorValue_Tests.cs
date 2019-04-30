@@ -15,16 +15,11 @@
     using Our.Umbraco.Nexu.Core.Services;
 
     /// <summary>
-    /// The nexu entity parsing service_ get related entities from property editor value_ tests.
-    /// </summary>
+    ///  Represents the tests for GetRelatedEntitiesFromPropertyEditorValue method on the NexuEntityParsingService
+    /// </summary>    
     [TestFixture]
-    public class NexuEntityParsingService_GetRelatedEntitiesFromPropertyEditorValue_Tests
+    public class NexuEntityParsingService_GetRelatedEntitiesFromPropertyEditorValue_Tests 
     {
-        /// <summary>
-        /// The property value parser collection used in all tests
-        /// </summary>
-        private PropertyValueParserCollection propertyValueParserCollection;
-
         /// <summary>
         /// The service instance used in all tests
         /// </summary>
