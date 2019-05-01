@@ -53,13 +53,32 @@
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the parser for a property editor
+        /// </summary>
+        /// <param name="propertyEditorAlias">
+        /// The property editor alias.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IPropertyValueParser"/>.
+        /// </returns>
         public virtual IPropertyValueParser GetParserForPropertyEditor(string propertyEditorAlias)
         {
             return this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(propertyEditorAlias));
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the related entities from property editor value.
+        /// </summary>
+        /// <param name="propertyEditorAlias">
+        /// The property editor alias.
+        /// </param>
+        /// <param name="propertyValue">
+        /// The property value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IRelatedEntity}"/>.
+        /// </returns>
         public virtual IEnumerable<IRelatedEntity> GetRelatedEntitiesFromPropertyEditorValue(string propertyEditorAlias, object propertyValue)
         {
             if (!string.IsNullOrWhiteSpace(propertyValue?.ToString()))
@@ -75,7 +94,15 @@
             return Enumerable.Empty<IRelatedEntity>();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets related entities from a content property.
+        /// </summary>
+        /// <param name="property">
+        /// The property.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IDictionary{T,U}"/>.
+        /// </returns>
         public virtual IDictionary<string, IEnumerable<IRelatedEntity>> GetRelatedEntitiesFromProperty(Property property)
         {
             var relationsByCulture = new Dictionary<string, IEnumerable<IRelatedEntity>>();
