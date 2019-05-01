@@ -45,6 +45,11 @@
         public int PropertyId { get; set; }
 
         /// <summary>
+        /// Gets or sets the culture.
+        /// </summary>
+        public string Culture { get; set; }
+
+        /// <summary>
         /// Gets the udi.
         /// </summary>
         public Udi Udi
