@@ -4,7 +4,6 @@
     using System.Linq;
 
     using global::Umbraco.Core;
-    using global::Umbraco.Core.Composing;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
@@ -40,19 +39,8 @@
             {
                 return;
             }
-            
-            foreach (var prop in content.Properties)
-            {
-                var parser = this.propertyValueParserCollection.FirstOrDefault(x => x.IsParserFor(prop.PropertyType.PropertyEditorAlias));
 
-                if (parser != null)
-                {
-                    foreach (var propValue in prop.Values)
-                    {
-                        parser.GetRelatedEntities(propValue.EditedValue.ToString());
-                    }                    
-                }
-            }
+            var relations = this.GetRelatedEntitiesFromContent(content);
         }
 
         /// <summary>
@@ -116,9 +104,12 @@
             {
                 var entities = this.GetRelatedEntitiesFromPropertyEditorValue(
                     editorAlias,
-                    cultureValue.EditedValue);
+                    cultureValue.EditedValue).ToList();
 
-                relationsByCulture.Add(cultureValue.Culture, entities);
+                if (entities.Any())
+                {
+                    relationsByCulture.Add(cultureValue.Culture ?? "invariant", entities);
+                }                
             }
 
             return relationsByCulture;
@@ -136,6 +127,26 @@
         public virtual IEnumerable<NexuRelation> GetRelatedEntitiesFromContent(IContent content)
         {
             var entities = new List<NexuRelation>();
+
+            foreach (var prop in content.Properties.ToList())
+            {
+                var relatedEntities = this.GetRelatedEntitiesFromProperty(prop);
+
+                foreach (var language in relatedEntities.Keys.ToList())
+                {
+                    foreach (var entity in relatedEntities[language].ToList())
+                    {
+                        entities.Add(new NexuRelation
+                                         {
+                                             Parent = content.GetUdi(),
+                                             Child = entity.RelatedEntityUdi,
+                                             RelationType = entity.RelationType,
+                                             Culture = language,
+                                             PropertyId = prop.Id
+                                         });
+                    }
+                }
+            }
 
             return entities;
         }
