@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Core.Tests.Services
+﻿namespace Our.Umbraco.Nexu.Core.Tests.Services.NexuEntityParsingService
 {
     using System.Collections.Generic;
 
@@ -15,7 +15,7 @@
     /// <summary>
     /// Represents the tests for GetParserForPropertyEditor method on the NexuEntityParsingService
     /// </summary>
-    public class NexuEntityParsingService_GetParserForPropertyEditor_Tests
+    public class GetParserForPropertyEditor_Tests
     {
         /// <summary>
         /// The property value parser collection used in all tests

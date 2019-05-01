@@ -47,7 +47,7 @@
 
         private List<IPropertyValueParser> parsers;
 
-        private NexuEntityParsingService service;
+        private Core.Services.NexuEntityParsingService service;
 
         /// <summary>
         /// Setup up used for all tests
@@ -182,7 +182,7 @@
 
             this.propertyValueParserCollection = new PropertyValueParserCollection(this.parsers);
 
-            this.service = new NexuEntityParsingService(this.propertyValueParserCollection);
+            this.service = new Core.Services.NexuEntityParsingService(this.propertyValueParserCollection);
         }
     }
 }

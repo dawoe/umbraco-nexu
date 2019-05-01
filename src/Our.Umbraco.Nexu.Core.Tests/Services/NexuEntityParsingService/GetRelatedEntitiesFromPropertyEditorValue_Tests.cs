@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Core.Tests.Services
+﻿namespace Our.Umbraco.Nexu.Core.Tests.Services.NexuEntityParsingService
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +18,7 @@
     ///  Represents the tests for GetRelatedEntitiesFromPropertyEditorValue method on the NexuEntityParsingService
     /// </summary>    
     [TestFixture]
-    public class NexuEntityParsingService_GetRelatedEntitiesFromPropertyEditorValue_Tests 
+    public class GetRelatedEntitiesFromPropertyEditorValue_Tests 
     {
         /// <summary>
         /// The service instance used in all tests

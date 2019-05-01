@@ -4,11 +4,13 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Composing;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
     using Our.Umbraco.Nexu.Core.Composing.Collections;
+    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// Represents the nexu entity parsing service
@@ -48,7 +50,7 @@
                     foreach (var propValue in prop.Values)
                     {
                         parser.GetRelatedEntities(propValue.EditedValue.ToString());
-                    }
+                    }                    
                 }
             }
         }
@@ -120,6 +122,22 @@
             }
 
             return relationsByCulture;
+        }
+
+        /// <summary>
+        /// Gets the related entities from a content item
+        /// </summary>
+        /// <param name="content">
+        /// The content item to get the relations from
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        public virtual IEnumerable<NexuRelation> GetRelatedEntitiesFromContent(IContent content)
+        {
+            var entities = new List<NexuRelation>();
+
+            return entities;
         }
     }
 }

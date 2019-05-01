@@ -162,9 +162,9 @@
     <Compile Include="Models\NexuRelationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\NexuEntityParsingServiceTests.cs" />
-    <Compile Include="Services\NexuEntityParsingService_GetParserForPropertyEditor_Tests.cs" />
-    <Compile Include="Services\NexuEntityParsingService_GetRelatedEntitiesFromPropertyEditorValue_Tests.cs" />
-    <Compile Include="Services\NexuEntityParsingService_GetRelatedEntitiesFromProperty_Tests.cs" />
+    <Compile Include="Services\NexuEntityParsingService\GetParserForPropertyEditor_Tests.cs" />
+    <Compile Include="Services\NexuEntityParsingService\GetRelatedEntitiesFromPropertyEditorValue_Tests.cs" />
+    <Compile Include="Services\NexuEntityParsingService\GetRelatedEntitiesFromProperty_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
