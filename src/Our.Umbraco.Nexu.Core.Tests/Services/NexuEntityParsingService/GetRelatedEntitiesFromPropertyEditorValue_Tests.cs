@@ -5,66 +5,35 @@
     using System.Linq;
 
     using global::Umbraco.Core;
-    using global::Umbraco.Core.Logging;
 
     using Moq;
 
     using NUnit.Framework;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
-    using Our.Umbraco.Nexu.Core.Composing.Collections;
-    using Our.Umbraco.Nexu.Core.Services;
 
     /// <summary>
     ///  Represents the tests for GetRelatedEntitiesFromPropertyEditorValue method on the NexuEntityParsingService
     /// </summary>    
     [TestFixture]
-    public class GetRelatedEntitiesFromPropertyEditorValue_Tests 
+    public class GetRelatedEntitiesFromPropertyEditorValue_Tests : NexuEntityParsingServiceBaseTest
     {
-        /// <summary>
-        /// The service instance used in all tests
-        /// </summary>
-        private NexuEntityParsingService service;
-
-        /// <summary>
-        /// The logger mock.
-        /// </summary>
-        private Mock<ILogger> loggerMock;
-
-        /// <summary>
-        /// The setup that is run for all tests
-        /// </summary>
-        [SetUp]
-        public void SetUp()
-        {            
-            this.loggerMock = new Mock<ILogger>();
-
-            var serviceMock = new Mock<NexuEntityParsingService>(
-                                 new PropertyValueParserCollection(new List<IPropertyValueParser>()), this.loggerMock.Object)
-                                  {
-                                      CallBase = true
-                                  };
-                                   
-
-            this.service = serviceMock.Object;
-        }
-
         [Test]
         public void When_No_Parser_Found_GetRelatedEntitiesFromPropertyEditorValue_Should_Return_Empty_List()
         {
             // arrange
             var editorAlias = "Bla";
 
-            Mock.Get(this.service).Setup(x => x.GetParserForPropertyEditor(editorAlias));
+            Mock.Get(this.Service).Setup(x => x.GetParserForPropertyEditor(editorAlias));
 
             // act
-            var result = this.service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, "bla");
+            var result = this.Service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, "bla");
 
             // assert
             Assert.IsNotNull(result);
             Assert.That(!result.Any());
 
-            Mock.Get(this.service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Once);
+            Mock.Get(this.Service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Once);
         }
 
         [Test]
@@ -74,16 +43,16 @@
             var editorAlias = "Bla";
             object propertyValue = null;
 
-            Mock.Get(this.service).Setup(x => x.GetParserForPropertyEditor(editorAlias));
+            Mock.Get(this.Service).Setup(x => x.GetParserForPropertyEditor(editorAlias));
 
             // act
-            var result = this.service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, propertyValue);
+            var result = this.Service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, propertyValue);
 
             // assert
             Assert.IsNotNull(result);
             Assert.That(!result.Any());
 
-            Mock.Get(this.service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Never);            
+            Mock.Get(this.Service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Never);            
         }
 
         [Test]
@@ -96,16 +65,16 @@
             var parser = new Mock<IPropertyValueParser>();
             parser.Setup(x => x.GetRelatedEntities(propertyValue)).Returns(new List<IRelatedEntity>());
 
-            Mock.Get(this.service).Setup(x => x.GetParserForPropertyEditor(editorAlias)).Returns(parser.Object);
+            Mock.Get(this.Service).Setup(x => x.GetParserForPropertyEditor(editorAlias)).Returns(parser.Object);
 
             // act
-            var result = this.service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, propertyValue);
+            var result = this.Service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, propertyValue);
 
             // assert
             Assert.IsNotNull(result);
             Assert.That(!result.Any());
 
-            Mock.Get(this.service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Once);
+            Mock.Get(this.Service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Once);
             parser.Verify(x => x.GetRelatedEntities(propertyValue), Times.Once);
         }
 
@@ -130,16 +99,16 @@
           
             parser.Setup(x => x.GetRelatedEntities(propertyValue)).Returns(relatedEntities);
 
-            Mock.Get(this.service).Setup(x => x.GetParserForPropertyEditor(editorAlias)).Returns(parser.Object);
+            Mock.Get(this.Service).Setup(x => x.GetParserForPropertyEditor(editorAlias)).Returns(parser.Object);
 
             // act
-            var result = this.service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, propertyValue);
+            var result = this.Service.GetRelatedEntitiesFromPropertyEditorValue(editorAlias, propertyValue);
 
             // assert
             Assert.IsNotNull(result);
             Assert.That(result.Count() == 1);
 
-            Mock.Get(this.service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Once);
+            Mock.Get(this.Service).Verify(x => x.GetParserForPropertyEditor(editorAlias), Times.Once);
             parser.Verify(x => x.GetRelatedEntities(propertyValue), Times.Once);
         }
     }

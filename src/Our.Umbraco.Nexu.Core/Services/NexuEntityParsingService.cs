@@ -9,6 +9,7 @@
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
+    using Our.Umbraco.Nexu.Common.Interfaces.Repositories;
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
     using Our.Umbraco.Nexu.Common.Models;
     using Our.Umbraco.Nexu.Core.Composing.Collections;
@@ -29,6 +30,11 @@
         private readonly ILogger logger;
 
         /// <summary>
+        /// The relation repository.
+        /// </summary>
+        private readonly IRelationRepository relationRepository;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NexuEntityParsingService"/> class.
         /// </summary>
         /// <param name="propertyValueParserCollection">
@@ -37,10 +43,14 @@
         /// <param name="logger">
         /// The logger.
         /// </param>
-        public NexuEntityParsingService(PropertyValueParserCollection propertyValueParserCollection, ILogger logger)
+        /// <param name="relationRepository">
+        /// The relation Repository.
+        /// </param>
+        public NexuEntityParsingService(PropertyValueParserCollection propertyValueParserCollection, ILogger logger, IRelationRepository relationRepository)
         {
             this.propertyValueParserCollection = propertyValueParserCollection;
             this.logger = logger;
+            this.relationRepository = relationRepository;
         }        
         
         /// <inheritdoc />
