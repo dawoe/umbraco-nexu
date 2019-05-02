@@ -10,8 +10,8 @@
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
+    using Our.Umbraco.Nexu.Common.Models;
     using Our.Umbraco.Nexu.Core.Composing.Collections;
-    using Our.Umbraco.Nexu.Core.Models;
 
     /// <summary>
     /// Represents the nexu entity parsing service

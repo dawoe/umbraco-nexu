@@ -4,7 +4,7 @@
 
     using NUnit.Framework;
 
-    using Our.Umbraco.Nexu.Core.Models;
+    using Our.Umbraco.Nexu.Common.Models;
 
     /// <summary>
     /// Represents nexu relation model tests.

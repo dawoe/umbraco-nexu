@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Core.Models
+﻿namespace Our.Umbraco.Nexu.Common.Models
 {
     using System;
 
