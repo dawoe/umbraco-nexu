@@ -5,6 +5,7 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
 
     using Moq;
@@ -27,14 +28,18 @@
         /// </summary>
         private NexuEntityParsingService service;
 
+        private Mock<ILogger> loggerMock;
+
         /// <summary>
         /// The setup that is run for all tests
         /// </summary>
         [SetUp]
         public void SetUp()
         {
+            this.loggerMock = new Mock<ILogger>();
+
             var serviceMock = new Mock<NexuEntityParsingService>(
-                                  new PropertyValueParserCollection(new List<IPropertyValueParser>()))
+                                  new PropertyValueParserCollection(new List<IPropertyValueParser>()), this.loggerMock.Object)
                                   {
                                       CallBase = true
                                   };

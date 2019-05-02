@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
 
     using Moq;
 
@@ -27,6 +28,8 @@
         /// </summary>
         private NexuEntityParsingService service;
 
+        private Mock<ILogger> loggerMock;
+
         /// <summary>
         /// The setup that is run for all tests
         /// </summary>
@@ -49,7 +52,9 @@
 
             this.propertyValueParserCollection = new PropertyValueParserCollection(parsers);
 
-            this.service = new NexuEntityParsingService(this.propertyValueParserCollection);
+            this.loggerMock = new Mock<ILogger>();
+
+            this.service = new NexuEntityParsingService(this.propertyValueParserCollection, this.loggerMock.Object);
         }
 
         [Test]

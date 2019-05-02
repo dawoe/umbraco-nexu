@@ -1,9 +1,11 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Models;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Models;
@@ -22,14 +24,23 @@
         private readonly PropertyValueParserCollection propertyValueParserCollection;
 
         /// <summary>
+        /// The logger.
+        /// </summary>
+        private readonly ILogger logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NexuEntityParsingService"/> class.
         /// </summary>
         /// <param name="propertyValueParserCollection">
         /// The property value parser collection.
         /// </param>
-        public NexuEntityParsingService(PropertyValueParserCollection propertyValueParserCollection)
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        public NexuEntityParsingService(PropertyValueParserCollection propertyValueParserCollection, ILogger logger)
         {
             this.propertyValueParserCollection = propertyValueParserCollection;
+            this.logger = logger;
         }        
         
         /// <inheritdoc />
@@ -40,7 +51,16 @@
                 return;
             }
 
-            var relations = this.GetRelatedEntitiesFromContent(content);
+            var relations = new List<NexuRelation>();
+
+            try
+            {
+                relations.AddRange(this.GetRelatedEntitiesFromContent(content));
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error<NexuEntityParsingService>($"Something went wrong parsing content with id {content.Id}", ex);
+            }
         }
 
         /// <summary>
