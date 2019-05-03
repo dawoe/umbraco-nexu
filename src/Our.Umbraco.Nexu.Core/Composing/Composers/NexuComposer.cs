@@ -20,6 +20,8 @@
         {          
             composition.Register<IEntityParsingService, NexuEntityParsingService>();
             composition.Register<IRelationRepository, NexuRelationRepository>();
+
+            composition.Components().Append<MigrationComponent>();
             composition.Components().Append<ContentServiceEventsComponent>();
         }
     }

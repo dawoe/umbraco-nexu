@@ -44,5 +44,15 @@
         /// The culture column.
         /// </summary>
         public const string CultureColumn = "culture_column";
+
+        /// <summary>
+        /// The parent udi index.
+        /// </summary>
+        public const string ParentUdiIndex = "IX_" + TableName + "_" + ParentUdiColumn;
+
+        /// <summary>
+        /// The child udi index.
+        /// </summary>
+        public const string ChildUdiIndex = "IX_" + TableName + "_" + ChildUdiColumn;
     }
 }

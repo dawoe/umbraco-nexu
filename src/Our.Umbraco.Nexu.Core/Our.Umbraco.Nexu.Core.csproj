@@ -142,9 +142,12 @@
     <Compile Include="Composing\Collections\PropertyValueParserCollection.cs" />
     <Compile Include="Composing\Collections\PropertyValueParserCollectionBuilder.cs" />
     <Compile Include="Composing\Components\ContentServiceEventsComponent.cs" />
+    <Compile Include="Composing\Components\MigrationComponent.cs" />
     <Compile Include="Composing\Composers\CollectionsComposer.cs" />
     <Compile Include="Composing\Composers\NexuComposer.cs" />
     <Compile Include="Composing\Extensions.cs" />
+    <Compile Include="Migrations\NexuMigrationPlan.cs" />
+    <Compile Include="Migrations\Version_2_0_0\CreateRelationTableMigration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\NexuRelationRepository.cs" />
     <Compile Include="Services\NexuEntityParsingService.cs" />
