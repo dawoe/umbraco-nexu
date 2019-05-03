@@ -69,7 +69,17 @@
             }
             catch (Exception ex)
             {
-                this.logger.Error<NexuEntityParsingService>($"Something went wrong parsing content with id {content.Id}", ex);
+                this.logger.Error<NexuEntityParsingService>($"Something went wrong parsing content with id {content.Id.ToString()}", ex);
+                return;
+            }
+
+            try
+            {
+                this.SaveRelationsForContentItem(content, relations);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error<NexuEntityParsingService>($"Something went wrong saving relations for content with id {content.Id.ToString()}", ex);
             }
         }
 
