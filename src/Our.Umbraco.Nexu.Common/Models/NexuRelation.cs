@@ -4,9 +4,12 @@
 
     using global::Umbraco.Core;
 
+    using NPoco;
+
     /// <summary>
     /// Represents a nexu relation
     /// </summary>
+    [TableName("Nexu_Relations")]
     internal class NexuRelation
     {
         private Udi udi;
@@ -27,12 +30,12 @@
         /// <summary>
         /// Gets or sets the parent udi
         /// </summary>
-        public Udi Parent { get; set; }
+        public string ParentUdi { get; set; }
 
         /// <summary>
         /// Gets or sets the child udi
         /// </summary>
-        public Udi Child { get; set; }
+        public string ChildUdi { get; set; }
 
         /// <summary>
         /// Gets or sets the relation type.

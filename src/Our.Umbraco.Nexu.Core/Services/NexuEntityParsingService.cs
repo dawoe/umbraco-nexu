@@ -178,8 +178,8 @@
                     {
                         entities.Add(new NexuRelation
                                          {
-                                             Parent = content.GetUdi(),
-                                             Child = entity.RelatedEntityUdi,
+                                             ParentUdi = content.GetUdi().ToString(),
+                                             ChildUdi = entity.RelatedEntityUdi.ToString(),
                                              RelationType = entity.RelationType,
                                              Culture = language,
                                              PropertyId = prop.Id
