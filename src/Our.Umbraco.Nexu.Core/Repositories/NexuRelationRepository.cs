@@ -40,8 +40,10 @@
             {
                 var db = scope.Database;
 
+                var udiString = contentItemUdi.ToString();
+
                 var deleteSql = new Sql<ISqlContext>(scope.SqlContext);
-                deleteSql.From<NexuRelation>().Where<NexuRelation>(x => x.ParentUdi == contentItemUdi.ToString());
+                deleteSql.Where<NexuRelation>(x => x.ParentUdi == udiString);
 
                 db.Delete<NexuRelation>(deleteSql);
 
