@@ -180,5 +180,19 @@
 
             return entities;
         }
+
+        /// <summary>
+        /// Saves relations for content item.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="relations">
+        /// The relations.
+        /// </param>
+        public virtual void SaveRelationsForContentItem(IContent content, IEnumerable<NexuRelation> relations)
+        {
+            this.relationRepository.PersistRelationsForContentItem(content.GetUdi(), relations);
+        }
     }
 }

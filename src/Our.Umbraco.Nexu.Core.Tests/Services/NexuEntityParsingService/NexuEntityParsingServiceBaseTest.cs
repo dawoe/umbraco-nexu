@@ -40,9 +40,10 @@
         public void SetUp()
         {
             this.LoggerMock = new Mock<ILogger>();
+            this.RelationRepositoryMock = new Mock<IRelationRepository>();
 
             var serviceMock = new Mock<NexuEntityParsingService>(
-                                  new PropertyValueParserCollection(this.GetParsers()), this.LoggerMock.Object, this.RelationRepositoryMock)
+                                  new PropertyValueParserCollection(this.GetParsers()), this.LoggerMock.Object, this.RelationRepositoryMock.Object)
                                   {
                                       CallBase = true
                                   };
