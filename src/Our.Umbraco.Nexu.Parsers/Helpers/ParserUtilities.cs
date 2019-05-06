@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text.RegularExpressions;
 
     using global::Umbraco.Core;
@@ -10,7 +9,7 @@
     /// <summary>
     /// Represents the parser utilities. This objects has useful methods for helping to parse content
     /// </summary>
-    internal class ParserUtilities
+    internal static class ParserUtilities
     {
         /// <summary>
         /// Gets all the document udi from a text
@@ -21,9 +20,9 @@
         /// <returns>
         /// The <see cref="IEnumerable{Udi}"/>.
         /// </returns>
-        public IEnumerable<Udi> GetDocumentUdiFromText(string text)
+        public static IEnumerable<Udi> GetDocumentUdiFromText(string text)
         {
-            return this.GetUdiFromText(text, "umb://document/(.{32})");
+            return GetUdiFromText(text, "umb://document/(.{32})");
         }
 
         /// <summary>
@@ -35,9 +34,9 @@
         /// <returns>
         /// The <see cref="IEnumerable{Udi}"/>.
         /// </returns>
-        public IEnumerable<Udi> GetMediaUdiFromText(string text)
+        public static IEnumerable<Udi> GetMediaUdiFromText(string text)
         {
-            return this.GetUdiFromText(text, "umb://media/(.{32})");
+            return GetUdiFromText(text, "umb://media/(.{32})");
         }
 
         /// <summary>
@@ -52,7 +51,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{Udi}"/>.
         /// </returns>
-        private IEnumerable<Udi> GetUdiFromText(string text, string regex)
+        private static IEnumerable<Udi> GetUdiFromText(string text, string regex)
         {
             var udiList = new List<Udi>();
 

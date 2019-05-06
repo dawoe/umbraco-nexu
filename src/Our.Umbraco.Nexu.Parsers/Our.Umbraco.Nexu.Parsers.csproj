@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ContentPickerParser.cs" />
+    <Compile Include="Core\GridParser.cs" />
     <Compile Include="Core\RichTextEditorParser.cs" />
     <Compile Include="Helpers\ParserUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

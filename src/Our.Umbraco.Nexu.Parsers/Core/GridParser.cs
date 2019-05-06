@@ -10,14 +10,14 @@
     using Our.Umbraco.Nexu.Parsers.Helpers;
 
     /// <summary>
-    /// Represents the rich text editor parser
+    /// Represents the parser for the grid editor
     /// </summary>
-    public class RichTextEditorParser : IPropertyValueParser
+    public class GridParser : IPropertyValueParser
     {
         /// <inheritdoc />
         public bool IsParserFor(string propertyEditorAlias)
         {
-            return propertyEditorAlias.Equals(Constants.PropertyEditors.Aliases.TinyMce);
+            return propertyEditorAlias.Equals(Constants.PropertyEditors.Aliases.Grid);
         }
 
         /// <inheritdoc />
@@ -28,7 +28,7 @@
                 return Enumerable.Empty<IRelatedEntity>();
             }
 
-            var relatedEntities = new List<IRelatedEntity>();          
+            var relatedEntities = new List<IRelatedEntity>();
 
             foreach (var documentUdi in ParserUtilities.GetDocumentUdiFromText(value).ToList())
             {
