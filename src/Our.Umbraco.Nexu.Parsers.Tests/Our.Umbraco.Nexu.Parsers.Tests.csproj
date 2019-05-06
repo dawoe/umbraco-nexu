@@ -161,6 +161,7 @@
   <ItemGroup>
     <Compile Include="Core\ContentPickerParserTests.cs" />
     <Compile Include="Core\GridParserTests.cs" />
+    <Compile Include="Core\MultiNodeTreePickerParserTests.cs" />
     <Compile Include="Core\RichTextEditorParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
