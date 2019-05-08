@@ -21,5 +21,16 @@
         /// The relations.
         /// </param>
         void PersistRelationsForContentItem(Udi contentItemUdi, IEnumerable<NexuRelation> relations);
+
+        /// <summary>
+        /// Gets the incoming relations for a item
+        /// </summary>
+        /// <param name="udi">
+        /// The udi.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}"/>.
+        /// </returns>
+        IEnumerable<NexuRelation> GetIncomingRelationsForItem(Udi udi);
     }
 }

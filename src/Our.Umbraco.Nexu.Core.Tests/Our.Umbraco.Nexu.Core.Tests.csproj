@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\NexuRelationTests.cs" />
+    <Compile Include="NexuRelationRepository\GetIncomingRelationsForItem_Tests.cs" />
     <Compile Include="NexuRelationRepository\PersistRelationsForContentItem_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NexuRelationRepository\RepositoryBaseTest.cs" />

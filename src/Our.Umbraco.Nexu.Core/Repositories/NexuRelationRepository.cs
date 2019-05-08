@@ -52,5 +52,21 @@
                 scope.Complete();
             }
         }
+
+        /// <inheritdoc />
+        public IEnumerable<NexuRelation> GetIncomingRelationsForItem(Udi udi)
+        {
+            using (var scope = this.scopeProvider.CreateScope())
+            {
+                var db = scope.Database;
+
+                var udiString = udi.ToString();
+
+                var sql = new Sql<ISqlContext>(scope.SqlContext);
+                sql.Where<NexuRelation>(x => x.ChildUdi == udiString);
+
+                return db.Fetch<NexuRelation>(sql);
+            }
+        }
     }
 }
