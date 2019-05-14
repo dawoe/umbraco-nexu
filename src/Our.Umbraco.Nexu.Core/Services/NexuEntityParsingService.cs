@@ -202,7 +202,17 @@
         /// </param>
         public virtual void SaveRelationsForContentItem(IContent content, IEnumerable<NexuRelation> relations)
         {
-            this.relationRepository.PersistRelationsForContentItem(content.GetUdi(), relations);
+            var relationList = relations.ToList();
+
+            foreach (var relation in relationList)
+            {
+                if (relation.Culture == "invariant")
+                {
+                    relation.Culture = null;
+                }
+            }
+
+            this.relationRepository.PersistRelationsForContentItem(content.GetUdi(), relationList);
         }
     }
 }
