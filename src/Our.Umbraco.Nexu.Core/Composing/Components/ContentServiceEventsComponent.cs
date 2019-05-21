@@ -1,10 +1,13 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Composing.Components
 {
+    using global::Umbraco.Core;
     using global::Umbraco.Core.Composing;
     using global::Umbraco.Core.Events;
+    using global::Umbraco.Core.Persistence.Repositories;
     using global::Umbraco.Core.Services;
     using global::Umbraco.Core.Services.Implement;
 
+    using Our.Umbraco.Nexu.Common.Interfaces.Factories;
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
 
     /// <summary>
@@ -15,7 +18,7 @@
         /// <summary>
         /// Represents entity parsing service.
         /// </summary>
-        private readonly IEntityParsingService entityParsingService;
+        private readonly IEntityParsingService entityParsingService;        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentServiceEventsComponent"/> class.
@@ -37,7 +40,7 @@
         /// <inheritdoc />
         public void Terminate()
         {
-            ContentService.Saved -= this.ContentServiceOnSaved;
+            ContentService.Saved -= this.ContentServiceOnSaved;            
         }
 
         /// <summary>
@@ -54,7 +57,18 @@
             foreach (var contentItem in e.SavedEntities)
             {
                 this.entityParsingService.ParseContent(contentItem);
+
+                var repo = Current.Factory.GetInstance(typeof(Common.Interfaces.Repositories.IRelationRepository)) as Common.Interfaces.Repositories.IRelationRepository;
+                var factory = Current.Factory.GetInstance(typeof(IDisplayModelFactory)) as IDisplayModelFactory;
+
+                var relations = repo.GetIncomingRelationsForItem(contentItem.GetUdi());
+
+                var model = factory.ConvertRelationsToDisplayModels(relations);
             }
+
+            
+
+           
         }
     }
 }

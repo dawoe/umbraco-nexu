@@ -33,6 +33,6 @@
         /// <summary>
         /// Gets or sets the properties.
         /// </summary>
-        public IEnumerable<NexuRelationPropertyDisplay> Properties { get; set; }
+        public IList<NexuRelationPropertyDisplay> Properties { get; set; }
     }
 }
