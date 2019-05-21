@@ -38,7 +38,7 @@
         /// <summary>
         /// The property id column.
         /// </summary>
-        public const string PropertyIdColumn = "property_id";
+        public const string PropertyAlias = "property_alias";
 
         /// <summary>
         /// The culture column.

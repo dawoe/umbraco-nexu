@@ -221,22 +221,22 @@
             {
                 ParentUdi = "umb://document/3cce2545e3ac44ecbf55a52cc5965db3",
                 Culture = "nl",
-                PropertyId = 11
+                PropertyAlias = "alias1"
             });
 
             relations.Add(new NexuRelation
                               {
                                   ParentUdi = "umb://document/3cce2545e3ac44ecbf55a52cc5965db3",
                                   Culture = "nl",
-                                  PropertyId = 12
-                              });
+                                    PropertyAlias = "alias2"
+            });
 
             relations.Add(new NexuRelation
                               {
                                   ParentUdi = "umb://document/3cce2545e3ac44ecbf55a52cc5965db3",
                                   Culture = "nl",
-                                  PropertyId = 13
-                              });
+                                  PropertyAlias = "alias3"
+            });
 
             relations.Add(new NexuRelation
             {

@@ -91,7 +91,7 @@
                                 displayModels.Add(model);
                             }
 
-                            var prop = contentItem.Properties.FirstOrDefault(x => x.Id == relation.PropertyId);
+                            var prop = contentItem.Properties.FirstOrDefault(x => x.Alias == relation.PropertyAlias);
                            
 
                             if (prop != null)

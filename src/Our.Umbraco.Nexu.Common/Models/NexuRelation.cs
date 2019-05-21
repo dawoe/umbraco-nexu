@@ -54,8 +54,8 @@
         /// <summary>
         /// Gets or sets the property id.
         /// </summary>
-        [Column(DatabaseConstants.PropertyIdColumn)]
-        public int PropertyId { get; set; }
+        [Column(DatabaseConstants.PropertyAlias)]
+        public string PropertyAlias { get; set; }
 
         /// <summary>
         /// Gets or sets the culture.

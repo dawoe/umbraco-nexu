@@ -182,7 +182,7 @@
                                              ChildUdi = entity.RelatedEntityUdi.ToString(),
                                              RelationType = entity.RelationType,
                                              Culture = language,
-                                             PropertyId = prop.Id
+                                             PropertyAlias = prop.Alias
                                          });
                     }
                 }

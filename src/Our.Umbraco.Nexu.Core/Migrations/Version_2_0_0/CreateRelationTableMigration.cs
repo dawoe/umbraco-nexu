@@ -28,7 +28,7 @@
                 .WithColumn(DatabaseConstants.ParentUdiColumn).AsString(100).NotNullable().Indexed(DatabaseConstants.ParentUdiIndex)
                 .WithColumn(DatabaseConstants.ChildUdiColumn).AsString(100).NotNullable().Indexed(DatabaseConstants.ChildUdiIndex)
                 .WithColumn(DatabaseConstants.RelationTypeColumn).AsGuid().NotNullable()
-                .WithColumn(DatabaseConstants.PropertyIdColumn).AsInt32().NotNullable()
+                .WithColumn(DatabaseConstants.PropertyAlias).AsString(100).NotNullable()
                 .WithColumn(DatabaseConstants.CultureColumn).AsString(32).Nullable()
                 .Do();
         }
