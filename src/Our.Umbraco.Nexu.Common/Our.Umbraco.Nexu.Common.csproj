@@ -151,6 +151,7 @@
     <Compile Include="Models\NexuRelationPropertyDisplay.cs" />
     <Compile Include="Models\RelatedDocumentEntity.cs" />
     <Compile Include="Models\RelatedMediaEntity.cs" />
+    <Compile Include="NexuContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
