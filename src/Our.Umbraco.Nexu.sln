@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Parsers.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Core.Tests", "Our.Umbraco.Nexu.Core.Tests\Our.Umbraco.Nexu.Core.Tests.csproj", "{E9328CD1-BC6D-4A5E-97F7-6FCC6A41211C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Umbraco.Nexu.Web.Tests", "Our.Umbraco.Nexu.Web.Tests\Our.Umbraco.Nexu.Web.Tests.csproj", "{7DEDD335-C295-4F35-AC92-721A6E6B05CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{E9328CD1-BC6D-4A5E-97F7-6FCC6A41211C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9328CD1-BC6D-4A5E-97F7-6FCC6A41211C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9328CD1-BC6D-4A5E-97F7-6FCC6A41211C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DEDD335-C295-4F35-AC92-721A6E6B05CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DEDD335-C295-4F35-AC92-721A6E6B05CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DEDD335-C295-4F35-AC92-721A6E6B05CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DEDD335-C295-4F35-AC92-721A6E6B05CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E5026F75-7C2B-4A90-ADEA-8D79D191405F} = {5DF9E272-5FA7-4ED2-AAE7-D203E271CA12}
 		{E9328CD1-BC6D-4A5E-97F7-6FCC6A41211C} = {5DF9E272-5FA7-4ED2-AAE7-D203E271CA12}
+		{7DEDD335-C295-4F35-AC92-721A6E6B05CA} = {5DF9E272-5FA7-4ED2-AAE7-D203E271CA12}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FCEAA47-44E2-46A6-80DB-C8E2C387B924}
