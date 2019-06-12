@@ -36,4 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("Our.Umbraco.Nexu.Core.Tests")]
+[assembly: InternalsVisibleTo("Our.Umbraco.Nexu.Web")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
