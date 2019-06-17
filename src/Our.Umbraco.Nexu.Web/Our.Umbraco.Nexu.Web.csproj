@@ -256,6 +256,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\Nexu\lang\en-us.xml" />
     <Content Include="App_Plugins\Nexu\views\dashboard.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
