@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App_Plugins\Nexu\package.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Plugins\Nexu\lang\en-us.xml" />
+    <Content Include="App_Plugins\Nexu\resources\rebuild-resource.js" />
     <Content Include="App_Plugins\Nexu\views\dashboard.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

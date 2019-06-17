@@ -1,0 +1,5 @@
+﻿{
+  "javascript": [
+    "~/App_Plugins/Nexu/resources/rebuild-resource.js"
+  ]
+}
