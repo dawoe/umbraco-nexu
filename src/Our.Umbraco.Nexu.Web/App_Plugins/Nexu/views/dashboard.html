@@ -1,1 +1,22 @@
-﻿Dashboard
+﻿    
+<div ng-controller="Our.Umbraco.Nexu.Controllers.DashboardController as vm">
+    <umb-box>
+        <umb-box-header            
+            title="Rebuild"             
+            description="Rebuild nexu relations database"></umb-box-header>
+
+        <umb-box-content>
+            <umb-button
+                action="vm.startRebuild()"
+                type="button"
+                button-style="danger"
+                state="vm.buttonState"
+                label="Start rebuild"                        
+                icon="icon-axis-rotation"
+                disabled="vm.buttonState === 'busy' || vm.status.IsRunning"
+            >
+            </umb-button> 
+            <p>{{vm.status.Status}}</p>
+        </umb-box-content>
+    </umb-box>
+</div>

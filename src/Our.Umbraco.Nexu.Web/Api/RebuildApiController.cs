@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading;
+    using System.Web.Http;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Logging;
@@ -62,6 +63,7 @@
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
+        [HttpGet]
         public HttpResponseMessage GetRebuildStatus()
         {
             var model = new RebuildStatus
@@ -80,6 +82,7 @@
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
+        [HttpGet]
         public HttpResponseMessage Rebuild()
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback(this.RebuildJob));

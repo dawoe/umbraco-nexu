@@ -257,6 +257,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\Nexu\controllers\dashboard-controller.js" />
     <Content Include="App_Plugins\Nexu\lang\en-us.xml" />
     <Content Include="App_Plugins\Nexu\resources\rebuild-resource.js" />
     <Content Include="App_Plugins\Nexu\views\dashboard.html" />
