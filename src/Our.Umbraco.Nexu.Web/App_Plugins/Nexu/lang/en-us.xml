@@ -3,4 +3,11 @@
   <area alias="dashboardTabs">
     <key alias="Our.Umbraco.Nexu.RebuildDashboard">Nexu</key>
   </area>
+  <area alias="nexuDashboard">
+    <key alias="rebuildBoxTitle">Rebuild relations</key>
+    <key alias="rebuildBoxDescription">Rebuild entire relations database. Depending on the number of content items this may take a while.</key>
+    <key alias="rebuildButtonLabel">Rebuild</key>
+    <key alias="rebuildIdleStatusLabel">Idle</key>
+    <key alias="rebuildProcessingStatusLabelFormat">Currently processing item %0%. %1% total items processed</key>
+  </area>
 </language>

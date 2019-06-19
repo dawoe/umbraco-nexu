@@ -1,5 +1,5 @@
 ﻿(function () {
-    "use strict";
+    'use strict';
 
     function RebuildResource($http, umbRequestHelper) {
 
@@ -15,21 +15,21 @@
         function startRebuild() {
 
             return umbRequestHelper.resourcePromise(
-                $http.get(apiUrl + "Rebuild"),
-                "Failed starting rebuild"
+                $http.get(apiUrl + 'Rebuild'),
+                'Failed starting rebuild'
             );
         };
 
         function getStatus() {
 
             return umbRequestHelper.resourcePromise(
-                $http.get(apiUrl + "GetRebuildStatus"),
-                "Failed getting rebuild status"
+                $http.get(apiUrl + 'GetRebuildStatus'),
+                'Failed getting rebuild status'
             );
         };
 
     }
 
-    angular.module("umbraco.resources").factory("Our.Umbraco.Nexu.Resources.RebuildResource", RebuildResource);
+    angular.module('umbraco.resources').factory('Our.Umbraco.Nexu.Resources.RebuildResource', RebuildResource);
 
 })();
