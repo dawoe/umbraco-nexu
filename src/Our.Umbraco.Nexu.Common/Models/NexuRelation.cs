@@ -14,7 +14,7 @@
     /// </summary>
     [TableName(DatabaseConstants.TableName)]
     [PrimaryKey(DatabaseConstants.IdColumn, AutoIncrement = false)]
-    internal class NexuRelation
+    public class NexuRelation
     {
         private Udi udi;
 

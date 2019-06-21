@@ -110,12 +110,9 @@
                         }
                     }
                 }
-                
             }
 
             return displayModels;
         }
-
-
     }
 }

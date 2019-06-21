@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the DisplayModelFactory interface.
     /// </summary>
-    internal interface IDisplayModelFactory
+    public interface IDisplayModelFactory
     {
         /// <summary>
         /// Converts relations to display models.

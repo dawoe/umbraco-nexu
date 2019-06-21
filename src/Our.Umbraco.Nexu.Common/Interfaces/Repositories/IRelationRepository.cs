@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the RelationRepository interface.
     /// </summary>
-    internal interface IRelationRepository
+    public interface IRelationRepository
     {
         /// <summary>
         /// Persists the relations for a content item
