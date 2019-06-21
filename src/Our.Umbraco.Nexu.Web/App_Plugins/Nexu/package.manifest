@@ -1,6 +1,7 @@
 ﻿{
   "javascript": [
     "~/App_Plugins/Nexu/resources/rebuild-resource.js",
-    "~/App_Plugins/Nexu/controllers/dashboard-controller.js"
+    "~/App_Plugins/Nexu/controllers/dashboard-controller.js",
+    "~/App_Plugins/Nexu/controllers/related-links-app-controller.js"
   ]
 }

@@ -232,6 +232,7 @@
   <ItemGroup>
     <Compile Include="Api\RebuildApiController.cs" />
     <Compile Include="Composing\Components\RebuildDashboard.cs" />
+    <Compile Include="Composing\Components\RelatedLinksContentAppFactory.cs" />
     <Compile Include="Composing\Components\ServerVariablesComponent.cs" />
     <Compile Include="Composing\Composers\NexuWebComposer.cs" />
     <Compile Include="Models\RebuildStatus.cs" />
@@ -258,9 +259,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Plugins\Nexu\controllers\dashboard-controller.js" />
+    <Content Include="App_Plugins\Nexu\controllers\related-links-app-controller.js" />
     <Content Include="App_Plugins\Nexu\lang\en-us.xml" />
     <Content Include="App_Plugins\Nexu\resources\rebuild-resource.js" />
     <Content Include="App_Plugins\Nexu\views\dashboard.html" />
+    <Content Include="App_Plugins\Nexu\views\related-links-app.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />
