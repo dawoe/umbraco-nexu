@@ -152,6 +152,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\NexuRelationRepository.cs" />
     <Compile Include="Services\NexuEntityParsingService.cs" />
+    <Compile Include="Services\NexuEntityRelationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

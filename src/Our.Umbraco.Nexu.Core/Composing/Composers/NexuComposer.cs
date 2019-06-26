@@ -22,6 +22,7 @@
         {                     
             composition.Register<IEntityParsingService, NexuEntityParsingService>();
             composition.Register<IRelationRepository, NexuRelationRepository>();
+            composition.Register<IEntityRelationService, NexuEntityRelationService>();
             composition.Register<IDisplayModelFactory, NexuDisplayModelFactory>();
 
             composition.Components().Append<MigrationComponent>();
