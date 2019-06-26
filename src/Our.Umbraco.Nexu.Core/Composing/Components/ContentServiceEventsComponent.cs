@@ -1,13 +1,10 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Composing.Components
 {
-    using global::Umbraco.Core;
     using global::Umbraco.Core.Composing;
     using global::Umbraco.Core.Events;
-    using global::Umbraco.Core.Persistence.Repositories;
     using global::Umbraco.Core.Services;
     using global::Umbraco.Core.Services.Implement;
 
-    using Our.Umbraco.Nexu.Common.Interfaces.Factories;
     using Our.Umbraco.Nexu.Common.Interfaces.Services;
 
     /// <summary>

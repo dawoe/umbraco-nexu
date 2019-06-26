@@ -159,7 +159,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\NexuDisplayModelFactoryTests.cs" />
     <Compile Include="Models\NexuRelationTests.cs" />
     <Compile Include="NexuRelationRepository\GetIncomingRelationsForItem_Tests.cs" />
     <Compile Include="NexuRelationRepository\PersistRelationsForContentItem_Tests.cs" />

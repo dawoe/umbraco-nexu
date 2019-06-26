@@ -141,15 +141,12 @@
   <ItemGroup>
     <Compile Include="Constants\DatabaseConstants.cs" />
     <Compile Include="Constants\RelationTypes.cs" />
-    <Compile Include="Interfaces\Factories\IDisplayModelFactory.cs" />
     <Compile Include="Interfaces\Repositories\IRelationRepository.cs" />
     <Compile Include="Interfaces\Models\IPropertyValueParser.cs" />
     <Compile Include="Interfaces\Models\IRelatedEntity.cs" />
     <Compile Include="Interfaces\Services\IEntityParsingService.cs" />
     <Compile Include="Interfaces\Services\IEntityRelationService.cs" />
     <Compile Include="Models\NexuRelation.cs" />
-    <Compile Include="Models\NexuRelationDisplay.cs" />
-    <Compile Include="Models\NexuRelationPropertyDisplay.cs" />
     <Compile Include="Models\RelatedDocumentEntity.cs" />
     <Compile Include="Models\RelatedMediaEntity.cs" />
     <Compile Include="NexuContext.cs" />
