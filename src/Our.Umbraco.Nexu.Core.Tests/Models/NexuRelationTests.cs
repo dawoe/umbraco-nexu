@@ -2,6 +2,12 @@
 {
     using System;
 
+    using ApprovalTests;
+    using ApprovalTests.Reporters;
+    using ApprovalTests.Reporters.ContinuousIntegration;
+
+    using Newtonsoft.Json;
+
     using NUnit.Framework;
 
     using Our.Umbraco.Nexu.Common.Models;
@@ -9,7 +15,8 @@
     /// <summary>
     /// Represents nexu relation model tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture]    
+    [UseReporter(typeof(DiffReporter), typeof(AppVeyorReporter))]
     public class NexuRelationTests
     {
         [Test]
@@ -26,11 +33,13 @@
         public void Nexu_Relation_Udi_Should_Match_Id()
         {
             // act
-            var result = new NexuRelation();
+            var result = new NexuRelation
+                             {
+                                 Id= new Guid("9a935375-6c89-4dda-ae83-b9207e19a3ee")
+                             };
 
             // assert
-            Assert.That(result.Udi.EntityType == "nexurelation");
-            Assert.That(result.Udi.ToString() == $"umb://nexurelation/{result.Id.ToString("N")}");
+            Approvals.VerifyJson(JsonConvert.SerializeObject(result));           
         }
     }
 }
