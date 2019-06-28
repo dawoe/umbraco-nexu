@@ -148,6 +148,7 @@
     <Compile Include="Interfaces\Services\IEntityRelationService.cs" />
     <Compile Include="Models\NexuRelation.cs" />
     <Compile Include="Models\RelatedDocumentEntity.cs" />
+    <Compile Include="Models\NexuRelationDisplayModel.cs" />
     <Compile Include="Models\RelatedMediaEntity.cs" />
     <Compile Include="NexuContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
