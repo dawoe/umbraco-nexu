@@ -199,6 +199,7 @@
     <Compile Include="Services\NexuEntityParsingService\ParseContent_Tests.cs" />
     <Compile Include="Services\NexuEntityParsingService\SaveRelationsForContentItem_Tests.cs" />
     <Compile Include="Services\NexuEntityRelationService\NoRelationsTest.cs" />
+    <Compile Include="Services\NexuEntityRelationService\RelationsFoundTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

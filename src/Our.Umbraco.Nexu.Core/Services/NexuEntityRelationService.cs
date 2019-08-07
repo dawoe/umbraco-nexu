@@ -1,6 +1,8 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Services;
@@ -51,7 +53,15 @@
         /// <inheritdoc />
         public IList<NexuRelationDisplayModel> GetRelationsForItem(Udi udi)
         {
-            var relations = this.relationRepository.GetIncomingRelationsForItem(udi);
+            var relations = this.relationRepository.GetIncomingRelationsForItem(udi).ToList();
+
+            if (relations.Any())
+            {
+                var defaultLanguage = this.localizationService.GetDefaultLanguageIsoCode().ToLowerInvariant();
+
+                var contentItems = this.contentService
+                    .GetByIds(relations.Select(x => new GuidUdi(new Uri(x.ParentUdi))).Distinct()).ToList();
+            }
 
             return new List<NexuRelationDisplayModel>();
         }

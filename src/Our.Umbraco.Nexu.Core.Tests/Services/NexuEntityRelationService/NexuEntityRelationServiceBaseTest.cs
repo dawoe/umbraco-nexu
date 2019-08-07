@@ -1,8 +1,10 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Tests.Services.NexuEntityRelationService
 {
+    using System;
     using System.Collections.Generic;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
     using Moq;
@@ -49,8 +51,12 @@
             this.ContentServiceMock = new Mock<IContentService>();
 
             this.LocalizationServiceMock.Setup(x => x.GetDefaultLanguageIsoCode()).Returns("en-US");
+
+            var relations = this.GetRelations();
+
             this.RelationRepositoryMock.Setup(x => x.GetIncomingRelationsForItem(It.IsAny<Udi>()))
-                .Returns(this.GetRelations);
+                .Returns(relations);
+            this.ContentServiceMock.Setup(x => x.GetByIds(It.IsAny<IEnumerable<Guid>>())).Returns(this.GetContentItems);
 
             this.Service = new NexuEntityRelationService(this.RelationRepositoryMock.Object, this.LocalizationServiceMock.Object, this.ContentServiceMock.Object);
         }
@@ -76,6 +82,17 @@
         public virtual List<NexuRelation> GetRelations()
         {
             return new List<NexuRelation>();
+        }
+
+        /// <summary>
+        /// Gets the content items
+        /// </summary>
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        public virtual List<IContent> GetContentItems()
+        {
+            return new List<IContent>();
         }
     }
 }
