@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
+    using System.Web.Hosting;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Cache;
@@ -69,9 +70,14 @@
         /// </returns>
         public static string MapPath(string virtualPath)
         {
-            return HttpContext.Current == null
-                        ? Path.Combine(Directory.GetCurrentDirectory(), virtualPath)
-                        : HttpContext.Current.Server.MapPath(virtualPath);
+            if (HttpContext.Current == null)
+            {
+                return HostingEnvironment.IsHosted
+                    ? HostingEnvironment.MapPath(virtualPath)
+                    : Path.Combine(Directory.GetCurrentDirectory(), virtualPath);
+            }
+
+            return HttpContext.Current.Server.MapPath(virtualPath);
         }
 
         public static IEnumerable<ILinkedEntity> ParseRichText(string value)
