@@ -53,6 +53,8 @@
         /// <inheritdoc />
         public IList<NexuRelationDisplayModel> GetRelationsForItem(Udi udi)
         {
+            var nexuRelationDisplayModels = new List<NexuRelationDisplayModel>();
+
             var relations = this.relationRepository.GetIncomingRelationsForItem(udi).ToList();
 
             if (relations.Any())
@@ -61,9 +63,36 @@
 
                 var contentItems = this.contentService
                     .GetByIds(relations.Select(x => new GuidUdi(new Uri(x.ParentUdi))).Distinct()).ToList();
+
+                foreach (var relation in relations)
+                {
+                    var culture = !string.IsNullOrWhiteSpace(relation.Culture) ? relation.Culture : defaultLanguage;
+                    var content = contentItems.Find(x => x.GetUdi().ToString() == relation.ParentUdi);
+
+                    if (content != null)
+                    {
+                        var model = nexuRelationDisplayModels.FirstOrDefault(x => x.Culture == culture && x.Id == content.Id);
+
+                        if (model == null)
+                        {
+                            model = new NexuRelationDisplayModel
+                                        {
+                                            IsTrashed = content.Trashed,
+                                            Key = content.Key,
+                                            Id = content.Id,
+                                            Culture = culture,
+                                            IsPublished = content.IsCulturePublished(culture),
+                                            Name = content.GetCultureName(culture)
+                                        };
+
+                            nexuRelationDisplayModels.Add(model);
+                        }                                              
+                    }
+
+                }
             }
 
-            return new List<NexuRelationDisplayModel>();
+            return nexuRelationDisplayModels;
         }
     }
 }
