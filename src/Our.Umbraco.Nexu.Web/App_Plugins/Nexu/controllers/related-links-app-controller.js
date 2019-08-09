@@ -1,11 +1,16 @@
 ﻿(function () {
     'use strict';
 
-    function RelatedLinksAppController($scope, editorState, localizationService) {
+    function RelatedLinksAppController($scope) {
         var vm = this;
 
-        console.log($scope.model);
-        console.log(editorState.current);
+        vm.relations = $scope.model.viewModel;     
+        var currentVariant = _.find($scope.content.variants, function(v) { return v.active });
+        vm.culture = currentVariant.language.culture;
+        console.log(vm.relations);
+        vm.cultureRelations = _.filter(vm.relations, function (r) { return r.Culture.toLowerCase() === vm.culture.toLowerCase() });
+        console.log(vm.cultureRelations)
+        
     }
 
     angular.module('umbraco').controller('Our.Umbraco.Nexu.Controllers.RelatedLinksAppController',
