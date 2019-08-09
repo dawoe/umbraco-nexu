@@ -58,7 +58,7 @@
                 .Returns(relations);
             this.ContentServiceMock.Setup(x => x.GetByIds(It.IsAny<IEnumerable<Guid>>())).Returns(this.GetContentItems);
 
-            this.Service = new NexuEntityRelationService(this.RelationRepositoryMock.Object, this.LocalizationServiceMock.Object, this.ContentServiceMock.Object);
+            this.Service = new NexuEntityRelationService(this.RelationRepositoryMock.Object, this.LocalizationServiceMock.Object, this.ContentServiceMock.Object,  new Mock<IContentTypeService>().Object);
         }
 
         /// <summary>

@@ -5,6 +5,7 @@
     using System.Linq;
 
     using global::Umbraco.Core;
+    using global::Umbraco.Core.Models;
     using global::Umbraco.Core.Services;
 
     using Our.Umbraco.Nexu.Common.Interfaces.Repositories;
@@ -31,6 +32,8 @@
         /// </summary>
         private readonly IContentService contentService;
 
+        private readonly IContentTypeService contentTypeService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NexuEntityRelationService"/> class.
         /// </summary>
@@ -43,17 +46,20 @@
         /// <param name="contentService">
         /// The content Service.
         /// </param>
-        public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService)
+        public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService, IContentTypeService contentTypeService)
         {
             this.relationRepository = relationRepository;
             this.localizationService = localizationService;
             this.contentService = contentService;
+            this.contentTypeService = contentTypeService;
         }
 
         /// <inheritdoc />
         public IList<NexuRelationDisplayModel> GetRelationsForItem(Udi udi)
         {
             var nexuRelationDisplayModels = new List<NexuRelationDisplayModel>();
+
+            var contentTypes = new Dictionary<int, IContentType>();
 
             var relations = this.relationRepository.GetIncomingRelationsForItem(udi).ToList();
 
@@ -86,7 +92,28 @@
                                         };
 
                             nexuRelationDisplayModels.Add(model);
-                        }                                              
+                        }
+
+                        var prop = content.Properties.FirstOrDefault(x => x.Alias == relation.PropertyAlias);                        
+
+                        if (prop != null)
+                        {
+                            if (contentTypes.ContainsKey(content.ContentTypeId) == false)
+                            {
+                                contentTypes.Add(content.ContentTypeId, this.contentTypeService.Get(content.ContentTypeId));
+                            }
+
+                            var currentContentType = contentTypes[content.ContentTypeId];
+
+                            var tabName = currentContentType.CompositionPropertyGroups.FirstOrDefault(
+                                cpg => cpg.PropertyTypes.Any(pt => pt.Alias == relation.PropertyAlias))?.Name;
+
+                            model.Properties.Add(new NexuRelationPropertyDisplay
+                                                     {
+                                                         PropertyName = prop.PropertyType.Name,
+                                                         TabName = tabName
+                                                     });
+                        }
                     }
 
                 }
