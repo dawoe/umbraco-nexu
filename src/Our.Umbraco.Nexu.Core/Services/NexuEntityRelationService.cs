@@ -77,6 +77,15 @@
 
                     if (content != null)
                     {
+                        var contentName = content.Name;
+                        var published = content.Published;
+
+                        if (content.AvailableCultures.Any())
+                        {
+                            contentName = content.GetCultureName(culture);
+                            published = content.IsCulturePublished(culture);
+                        }
+
                         var model = nexuRelationDisplayModels.FirstOrDefault(x => x.Culture == culture && x.Id == content.Id);
 
                         if (model == null)
@@ -87,8 +96,8 @@
                                             Key = content.Key,
                                             Id = content.Id,
                                             Culture = culture,
-                                            IsPublished = content.IsCulturePublished(culture),
-                                            Name = content.GetCultureName(culture)
+                                            IsPublished = published,
+                                            Name = contentName
                                         };
 
                             nexuRelationDisplayModels.Add(model);
