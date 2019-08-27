@@ -7,7 +7,7 @@
         vm.relations = $scope.model.viewModel;     
         var currentVariant = _.find($scope.content.variants, function (v) { return v.active });
 
-        if (currentVariant.language) {
+        if (currentVariant && currentVariant.language) {
             vm.culture = currentVariant.language.culture;
             vm.cultureRelations = _.filter(vm.relations,
                 function(r) { return r.Culture.toLowerCase() === vm.culture.toLowerCase() });
