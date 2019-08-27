@@ -27,7 +27,9 @@
                     id: relation.Id,
                     name: relation.Name,
                     propertyname: relation.Properties[j].PropertyName,
-                    tabname: relation.Properties[j].TabName
+                    tabname: relation.Properties[j].TabName,
+                    published: relation.IsPublished,
+                    trashed: relation.IsTrashed
                 });
             }
         }
