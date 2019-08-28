@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function RelatedLinksAppController($scope) {
+    function RelatedLinksAppController($scope, $location) {
         var vm = this;
 
         vm.relations = $scope.model.viewModel;     
@@ -15,7 +15,7 @@
             vm.cultureRelations = vm.relations;
         }
       
-      
+        
 
         vm.ungrouped = [];
 
@@ -24,23 +24,25 @@
             
             for (var j = 0; j < relation.Properties.length; j++) {
                 vm.ungrouped.push({
-                    id: relation.Id,
                     name: relation.Name,
                     propertyname: relation.Properties[j].PropertyName,
                     tabname: relation.Properties[j].TabName,
                     published: relation.IsPublished,
-                    trashed: relation.IsTrashed
+                    trashed: relation.IsTrashed,
+                    editlink: '/content/content/edit/' + relation.Id + '?mculture=' + relation.Culture
                 });
             }
         }
 
+        vm.openContent = function(link) {
+            $location.url(link);
+        }
     }
 
     angular.module('umbraco').controller('Our.Umbraco.Nexu.Controllers.RelatedLinksAppController',
         [
             '$scope',
-            'editorState',
-            'localizationService',
+            '$location',
             RelatedLinksAppController
         ]);
 

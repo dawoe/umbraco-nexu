@@ -21,7 +21,7 @@
 
                     <div class="umb-table-body" ng-if="vm.ungrouped">
 
-                        <div class="umb-table-row" ng-repeat="item in vm.ungrouped">
+                        <div class="umb-table-row" ng-repeat="item in vm.ungrouped" ng-click="vm.openContent(item.editlink)">
                             <div class="umb-table-cell not-fixed">
                                 {{item.name}}
                             </div>
