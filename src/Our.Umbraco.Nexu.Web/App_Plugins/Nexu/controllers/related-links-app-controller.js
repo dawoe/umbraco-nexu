@@ -23,12 +23,20 @@
             var relation = vm.cultureRelations[i];
             
             for (var j = 0; j < relation.Properties.length; j++) {
+                var status = 'Unpublished';
+
+                if (relation.IsTrashed) {
+                    status = 'Recycle bin';
+                }
+                else if (relation.IsPublished) {
+                    status = 'Published';
+                }
+
                 vm.ungrouped.push({
                     name: relation.Name,
                     propertyname: relation.Properties[j].PropertyName,
                     tabname: relation.Properties[j].TabName,
-                    published: relation.IsPublished,
-                    trashed: relation.IsTrashed,
+                    status : status,
                     editlink: '/content/content/edit/' + relation.Id + '?mculture=' + relation.Culture
                 });
             }
