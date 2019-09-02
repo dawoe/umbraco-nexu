@@ -1,0 +1,38 @@
+﻿Hello
+<div class="umb-table" ng-if="vm.ungrouped">
+    <div class="umb-table-head">
+        <div class="umb-table-row">
+            <div class="umb-table-cell not-fixed">
+                Item
+            </div>
+            <div class="umb-table-cell">
+                Property
+            </div>
+            <div class="umb-table-cell">
+                Group
+            </div>
+            <div class="umb-table-cell">
+                Status
+            </div>
+        </div>
+    </div>
+
+    <div class="umb-table-body" ng-if="vm.ungrouped">
+
+        <div class="umb-table-row" ng-repeat="item in vm.ungrouped" ng-click="vm.openContent(item.editlink)">
+            <div class="umb-table-cell not-fixed">
+                {{item.name}}
+            </div>
+            <div class="umb-table-cell">
+                {{item.propertyname}}
+            </div>
+            <div class="umb-table-cell">
+                {{item.tabname}}
+            </div>
+            <div class="umb-table-cell">
+                {{item.status}}
+            </div>
+        </div>
+
+    </div>
+</div>
