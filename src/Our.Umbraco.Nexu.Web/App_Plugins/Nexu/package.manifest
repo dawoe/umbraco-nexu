@@ -5,6 +5,7 @@
     "~/App_Plugins/Nexu/services/relation-check-service.js",
     "~/App_Plugins/Nexu/controllers/dashboard-controller.js",
     "~/App_Plugins/Nexu/controllers/related-links-app-controller.js",
+    "~/App_Plugins/Nexu/controllers/unpublish-controller.js",
     "~/App_Plugins/Nexu/components/relation-list-component.js",
     "~/App_Plugins/Nexu/interceptors/interceptors.js"
   ]
