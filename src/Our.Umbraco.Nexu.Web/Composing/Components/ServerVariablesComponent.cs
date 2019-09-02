@@ -50,7 +50,7 @@
             var urlDictionairy = new Dictionary<string, object>();
 
             urlDictionairy.Add("RebuildApi", urlHelper.GetUmbracoApiServiceBaseUrl<RebuildApiController>(c => c.GetRebuildStatus()));
-            
+            urlDictionairy.Add("RelationCheckApi", urlHelper.GetUmbracoApiServiceBaseUrl<RelationCheckApiController>(c => c.GetIncomingLinks(null)));
 
             if (!e.Keys.Contains("Nexu"))
             {
