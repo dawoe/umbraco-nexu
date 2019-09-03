@@ -240,6 +240,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\Nexu\controllers\unpublish-controller.js" />
+    <Content Include="App_Plugins\Nexu\views\unpublish.html" />
     <None Include="app.config" />
     <Content Include="App_Plugins\Nexu\components\relation-list-component.js" />
     <None Include="App_Plugins\Nexu\package.manifest" />
