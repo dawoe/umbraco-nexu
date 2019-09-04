@@ -29,7 +29,8 @@
                         propertyname: relation.Properties[j].PropertyName,
                         tabname: relation.Properties[j].TabName,
                         status: status,
-                        editlink: '/content/content/edit/' + relation.Id + '?mculture=' + relation.Culture
+                        editlink: '/content/content/edit/' + relation.Id + '?mculture=' + relation.Culture,
+                        language : relation.Culture
                     });
                 }
             }
