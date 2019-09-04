@@ -4,7 +4,7 @@
     function RelationCheckServive($q, resource) {
 
         var service = {
-            checkRelations: checkRelations
+            checkRelations: getIncheckRelationscomingLinks
         };
 
         return service;
