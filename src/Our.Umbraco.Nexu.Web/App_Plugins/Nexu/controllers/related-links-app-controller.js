@@ -1,8 +1,10 @@
 ﻿(function () {
     'use strict';
 
-    function RelatedLinksAppController($scope, $location) {
+    function RelatedLinksAppController($scope, $location, appState) {
         var vm = this;
+
+        vm.showLanguage = appState.getSectionState("currentSection") === 'media';
 
         vm.relations = $scope.model.viewModel;     
         var currentVariant = _.find($scope.content.variants, function (v) { return v.active });
@@ -21,6 +23,7 @@
         [
             '$scope',
             '$location',
+            'appState',
             RelatedLinksAppController
         ]);
 

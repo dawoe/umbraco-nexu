@@ -34,6 +34,7 @@
                     });
                 }
             }
+            vm.showLanguageColumn = this.showLanguage;
         }
 
     }
@@ -43,7 +44,8 @@
             controller: RelationListComponentController,
         	controllerAs: "vm",
             bindings: {
-                relations: '<'
+                relations: '<',
+                showLanguage : '<'
             },
             templateUrl: '/App_Plugins/Nexu/views/relation-list-component.html'
         });

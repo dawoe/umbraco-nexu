@@ -19,7 +19,7 @@
             <div class="umb-table-cell">
                 Status
             </div>
-            <div class="umb-table-cell">
+            <div class="umb-table-cell" ng-if="vm.showLanguageColumn">
                 Language
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="umb-table-cell">
                 {{item.status}}
             </div>
-            <div class="umb-table-cell">
+            <div class="umb-table-cell" ng-if="vm.showLanguageColumn">
                 {{item.language}}
             </div>
         </div>
