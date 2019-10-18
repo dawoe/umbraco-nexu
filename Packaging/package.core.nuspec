@@ -16,9 +16,7 @@
         <language></language>
         <tags></tags>
         <dependencies>
-            <dependency id="UmbracoCms.Web" version="8.1.0" />
-            <dependency id="Our.Umbraco.Nexu.Core" version="2.0.0" />
-			<dependency id="Our.Umbraco.Nexu.Parsers" version="2.0.0" />
+            <dependency id="UmbracoCms.Core" version="8.1.0" />
         </dependencies>
     </metadata>
 </package>

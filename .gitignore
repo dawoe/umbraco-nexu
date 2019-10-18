@@ -39,3 +39,5 @@ Packaging/Package/
 Packaging/UmbracoBuild/
 artifacts/
 .vs
+Packaging/NugetCoreBuild/
+Packaging/NugetParserBuild/
