@@ -100,6 +100,7 @@
 		<MakeDir Directories="$(BuildNuGetDir)" />
 		<MakeDir Directories="$(ArtifactsDir)" />
 		<MakeDir Directories="$(BuildNuGetCoreDir)" />
+		<MakeDir Directories="$(BuildNuGetParsersDir)" />
 	</Target>
 
 	<!-- PREPARE FILES -->
@@ -170,8 +171,8 @@
 		<ItemGroup>
 			<ManifestFiles Include="$(BuildNuGetParsersDir)\**\*" Exclude="$(BuildNuGetParsersDir)\package.nuspec" />
 		</ItemGroup>
-		<MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetParsersDir)\package.nuspec" WorkingDirectory="$(BuildNuGetParsersDir)" Title="$(PackageName).Core" Description="$(Description)" Summary="$(Readme)" Version="$(ProductVersion)"
-      MinimumRequiredUmbracoVersion ="$(MinUmbracoVersion)" Authors="$(AuthorName)" Owners="$(Owners)" Copyright="$(Copyright)" LicenseUrl="$(PackageLicenseUrl)" ProjectUrl="$(ProjectUrl)" Id="$(PackageId).Core" IconUrl="$(IconUrl)" Language="$(Language)" RequireLicenseAcceptance="$(RequireLicenseAcceptance)" Tags="$(Tags)" Files="@(ManifestFiles)" />
+		<MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetParsersDir)\package.nuspec" WorkingDirectory="$(BuildNuGetParsersDir)" Title="$(PackageName).Parsers" Description="$(Description)" Summary="$(Readme)" Version="$(ProductVersion)"
+      MinimumRequiredUmbracoVersion ="$(MinUmbracoVersion)" Authors="$(AuthorName)" Owners="$(Owners)" Copyright="$(Copyright)" LicenseUrl="$(PackageLicenseUrl)" ProjectUrl="$(ProjectUrl)" Id="$(PackageId).Parsers" IconUrl="$(IconUrl)" Language="$(Language)" RequireLicenseAcceptance="$(RequireLicenseAcceptance)" Tags="$(Tags)" Files="@(ManifestFiles)" />
 		<XmlUpdate Prefix="nu" Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd" XmlFileName="$(BuildNuGetParsersDir)\package.nuspec" XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='$(PackageId).Core']/@version" Value="$(ProductVersion)" />
 	</Target>
 
