@@ -6,6 +6,12 @@
     "~/App_Plugins/Nexu/controllers/dashboard-controller.js",
     "~/App_Plugins/Nexu/controllers/related-links-app-controller.js",
     "~/App_Plugins/Nexu/controllers/unpublish-controller.js",
+    "~/App_Plugins/Nexu/controllers/dashboard-controller.js",
+    "~/App_Plugins/Nexu/controllers/related-links-app-controller.js",
+    "~/App_Plugins/Nexu/controllers/unpublish-controller.js",
+    "~/App_Plugins/Nexu/controllers/base-delete-controller.js",
+    "~/App_Plugins/Nexu/controllers/content-delete-controller.js",
+    "~/App_Plugins/Nexu/controllers/media-delete-controller.js",
     "~/App_Plugins/Nexu/components/relation-list-component.js",
     "~/App_Plugins/Nexu/interceptors/interceptors.js"
   ]
