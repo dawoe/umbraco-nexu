@@ -25,12 +25,18 @@
         {
             this.Create.Table(DatabaseConstants.TableName)
                 .WithColumn(DatabaseConstants.IdColumn).AsGuid().PrimaryKey(DatabaseConstants.PrimaryKey).NotNullable()
-                .WithColumn(DatabaseConstants.ParentUdiColumn).AsString(100).NotNullable().Indexed(DatabaseConstants.ParentUdiIndex)
-                .WithColumn(DatabaseConstants.ChildUdiColumn).AsString(100).NotNullable().Indexed(DatabaseConstants.ChildUdiIndex)
+                .WithColumn(DatabaseConstants.ParentUdiColumn).AsString(100).NotNullable()
+                .WithColumn(DatabaseConstants.ChildUdiColumn).AsString(100).NotNullable()
                 .WithColumn(DatabaseConstants.RelationTypeColumn).AsGuid().NotNullable()
                 .WithColumn(DatabaseConstants.PropertyAlias).AsString(100).NotNullable()
                 .WithColumn(DatabaseConstants.CultureColumn).AsString(32).Nullable()
                 .Do();
+
+            this.Create.Index(DatabaseConstants.ParentUdiIndex).OnTable(DatabaseConstants.TableName).WithOptions().NonClustered()
+                .OnColumn(DatabaseConstants.ParentUdiColumn).Ascending().Do();
+
+            this.Create.Index(DatabaseConstants.ChildUdiIndex).OnTable(DatabaseConstants.TableName).WithOptions().NonClustered()
+                .OnColumn(DatabaseConstants.ChildUdiColumn).Ascending().Do();
         }
     }
 }
