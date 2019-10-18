@@ -134,16 +134,16 @@
 
 
 		<!--NuGet -->
-		<Copy SourceFiles="@(CoreBinFiles)" DestinationFolder="$(BuildNuGetCoreDir)\lib\net45" />
-		<Copy SourceFiles="@(CorePdbFiles)" DestinationFolder="$(BuildNuGetCoreDir)\lib\net45" />
+		<Copy SourceFiles="@(CoreBinFiles)" DestinationFolder="$(BuildNuGetCoreDir)\lib\net472" />
+		<Copy SourceFiles="@(CorePdbFiles)" DestinationFolder="$(BuildNuGetCoreDir)\lib\net472" />
 		<Copy SourceFiles="@(CoreNuSpecFile)" DestinationFiles="$(BuildNuGetCoreDir)\package.nuspec" />
 		
-		<Copy SourceFiles="@(ParsersBinFiles)" DestinationFolder="$(BuildNuGetParsersDir)\lib\net45" />
-		<Copy SourceFiles="@(ParsersPdbFiles)" DestinationFolder="$(BuildNuGetParsersDir)\lib\net45" />
+		<Copy SourceFiles="@(ParsersBinFiles)" DestinationFolder="$(BuildNuGetParsersDir)\lib\net472" />
+		<Copy SourceFiles="@(ParsersPdbFiles)" DestinationFolder="$(BuildNuGetParsersDir)\lib\net472" />
 		<Copy SourceFiles="@(ParsersNuSpecFile)" DestinationFiles="$(BuildNuGetParsersDir)\package.nuspec" />
 
-		<Copy SourceFiles="@(PackageBinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
-		<Copy SourceFiles="@(PackagePdbFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
+		<Copy SourceFiles="@(PackageBinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net472" />
+		<Copy SourceFiles="@(PackagePdbFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net472" />
 		<Copy SourceFiles="@(AppPluginFiles)" DestinationFiles="@(AppPluginFiles->'$(BuildNuGetDir)\Content\App_Plugins\%(RecursiveDir)%(Filename)%(Extension)')" />
 		<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
 
