@@ -36,20 +36,23 @@
         /// <inheritdoc />
         public void PersistRelationsForContentItem(Udi contentItemUdi, IEnumerable<NexuRelation> relations)
         {
-            using (var scope = this.scopeProvider.CreateScope())
+            using (var scope = this.scopeProvider.CreateScope(autoComplete:true))
             {
-                var db = scope.Database;
+                using (var transaction = scope.Database.GetTransaction())
+                {
+                    var db = scope.Database;
 
-                var udiString = contentItemUdi.ToString();
+                    var udiString = contentItemUdi.ToString();
 
-                var deleteSql = new Sql<ISqlContext>(scope.SqlContext);
-                deleteSql.Where<NexuRelation>(x => x.ParentUdi == udiString);
+                    var deleteSql = new Sql<ISqlContext>(scope.SqlContext);
+                    deleteSql.Where<NexuRelation>(x => x.ParentUdi == udiString);
 
-                db.Delete<NexuRelation>(deleteSql);
+                    db.Delete<NexuRelation>(deleteSql);
 
-                db.InsertBulk(relations);
+                    db.InsertBatch(relations);          
 
-                scope.Complete();
+                    transaction.Complete();
+                }      
             }
         }
 
