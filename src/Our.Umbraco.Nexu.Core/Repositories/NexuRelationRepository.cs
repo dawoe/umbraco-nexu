@@ -59,7 +59,7 @@
         /// <inheritdoc />
         public IEnumerable<NexuRelation> GetIncomingRelationsForItem(Udi udi)
         {
-            using (var scope = this.scopeProvider.CreateScope())
+            using (var scope = this.scopeProvider.CreateScope(autoComplete: true))
             {
                 var db = scope.Database;
 

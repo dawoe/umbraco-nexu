@@ -38,6 +38,11 @@
         internal Mock<IScope> ScopeMock { get; set; }
 
         /// <summary>
+        /// Gets or sets the transaction mock.
+        /// </summary>
+        internal Mock<ITransaction> TransactionMock { get; set; }
+
+        /// <summary>
         /// Gets or sets the repository.
         /// </summary>
         internal NexuRelationRepository Repository { get; set; }
@@ -57,6 +62,10 @@
             var pocoMappers = new NPoco.MapperCollection { new PocoMapper() };
             var pocoDataFactory = new FluentPocoDataFactory((type, iPocoDataFactory) => new PocoDataBuilder(type, pocoMappers).Init());
 
+            this.TransactionMock = new Mock<ITransaction>();
+
+            this.UmbracoDatabaseMock.Setup(x => x.GetTransaction()).Returns(this.TransactionMock.Object);
+
             var sqlContextMock = new Mock<ISqlContext>();
             sqlContextMock.SetupGet(x => x.SqlSyntax).Returns(sqlSyntaxMock.Object);
             sqlContextMock.SetupGet(x => x.PocoDataFactory).Returns(pocoDataFactory);
@@ -68,6 +77,8 @@
             
             this.ScopeProviderMock = new Mock<IScopeProvider>();
 
+         
+
             this.ScopeProviderMock
                 .Setup(
                     x => x.CreateScope(
@@ -76,7 +87,9 @@
                         null,
                         null,
                         false,
-                        false)).Returns(this.ScopeMock.Object);
+                        true)).Returns(this.ScopeMock.Object);
+
+            
 
             this.Repository = new NexuRelationRepository(this.ScopeProviderMock.Object);
         }       

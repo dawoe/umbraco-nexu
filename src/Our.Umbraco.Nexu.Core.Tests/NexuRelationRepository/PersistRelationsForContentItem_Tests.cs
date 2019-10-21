@@ -30,15 +30,14 @@
             var relations = Mock.Of<IEnumerable<NexuRelation>>();            
 
             this.UmbracoDatabaseMock.Setup(x => x.Delete<NexuRelation>(It.IsAny<Sql<ISqlContext>>()));
-            this.UmbracoDatabaseMock.Setup(x => x.InsertBulk<NexuRelation>(relations));           
+            this.UmbracoDatabaseMock.Setup(x => x.InsertBatch<NexuRelation>(relations, null));           
 
             // act
             this.Repository.PersistRelationsForContentItem(udi, relations);
 
             // assert
             this.UmbracoDatabaseMock.Verify(x => x.Delete<NexuRelation>(It.IsAny<Sql<ISqlContext>>()), Times.Once);
-            this.UmbracoDatabaseMock.Verify(x => x.InsertBulk<NexuRelation>(It.IsAny<IEnumerable<NexuRelation>>()), Times.Once);
-            this.ScopeMock.Verify(x => x.Complete(), Times.Once);
+            this.UmbracoDatabaseMock.Verify(x => x.InsertBatch<NexuRelation>(It.IsAny<IEnumerable<NexuRelation>>(), null), Times.Once);            
         }
 
         [Test]
@@ -50,15 +49,14 @@
             var relations = Mock.Of<IEnumerable<NexuRelation>>();
 
             this.UmbracoDatabaseMock.Setup(x => x.Delete<NexuRelation>(It.IsAny<Sql<ISqlContext>>())).Throws(new Exception());
-            this.UmbracoDatabaseMock.Setup(x => x.InsertBulk<NexuRelation>(relations));
+            this.UmbracoDatabaseMock.Setup(x => x.InsertBatch<NexuRelation>(relations, null));
 
             // act
             Assert.Throws<Exception>(() => this.Repository.PersistRelationsForContentItem(udi, relations)); 
 
             // assert
             this.UmbracoDatabaseMock.Verify(x => x.Delete<NexuRelation>(It.IsAny<Sql<ISqlContext>>()), Times.Once);
-            this.UmbracoDatabaseMock.Verify(x => x.InsertBulk<NexuRelation>(It.IsAny<IEnumerable<NexuRelation>>()), Times.Never);
-            this.ScopeMock.Verify(x => x.Complete(), Times.Never);
+            this.UmbracoDatabaseMock.Verify(x => x.InsertBatch<NexuRelation>(It.IsAny<IEnumerable<NexuRelation>>(), null), Times.Never);           
         }
 
         [Test]
@@ -70,15 +68,14 @@
             var relations = Mock.Of<IEnumerable<NexuRelation>>();
 
             this.UmbracoDatabaseMock.Setup(x => x.Delete<NexuRelation>(It.IsAny<Sql<ISqlContext>>()));
-            this.UmbracoDatabaseMock.Setup(x => x.InsertBulk<NexuRelation>(relations)).Throws(new Exception()); 
+            this.UmbracoDatabaseMock.Setup(x => x.InsertBatch<NexuRelation>(relations,null)).Throws(new Exception()); 
 
             // act
             Assert.Throws<Exception>(() => this.Repository.PersistRelationsForContentItem(udi, relations));
 
             // assert
             this.UmbracoDatabaseMock.Verify(x => x.Delete<NexuRelation>(It.IsAny<Sql<ISqlContext>>()), Times.Once);
-            this.UmbracoDatabaseMock.Verify(x => x.InsertBulk<NexuRelation>(It.IsAny<IEnumerable<NexuRelation>>()), Times.Once);
-            this.ScopeMock.Verify(x => x.Complete(), Times.Never);
+            this.UmbracoDatabaseMock.Verify(x => x.InsertBatch<NexuRelation>(It.IsAny<IEnumerable<NexuRelation>>(), null), Times.Once);            
         }
     }
 }
