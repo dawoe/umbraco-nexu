@@ -76,7 +76,7 @@
         /// </returns>
         public bool IsParserFor(IDataTypeDefinition dataTypeDefinition)
         {
-            return dataTypeDefinition.PropertyEditorAlias.Equals("RJP.MultiUrlPicker");
+            return dataTypeDefinition.PropertyEditorAlias.Equals("Umbraco.MultiUrlPicker") || dataTypeDefinition.PropertyEditorAlias.Equals("RJP.MultiUrlPicker");
         }
 
         /// <summary>
