@@ -41,6 +41,26 @@
         }
 
         /// <summary>
+        /// The test is parser for valid data type.
+        /// </summary>
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestIsParserForNewDataType()
+        {
+            // arrange
+            var dataTypeDefinition = new DataTypeDefinition("Umbraco.MultiUrlPicker");
+
+            var parser = new RjpMultiUrlPickerParser();
+
+            // act
+            var result = parser.IsParserFor(dataTypeDefinition);
+
+            // verify
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
         /// The test is parser for in valid data type.
         /// </summary>
         [Test]
