@@ -134,7 +134,7 @@
             // setup content types and content service calls
             var contentType1 = new Mock<IContentType>();
 
-            contentType1.SetupGet(x => x.PropertyTypes)
+            contentType1.SetupGet(x => x.CompositionPropertyTypes)
                 .Returns(new List<PropertyType>
                              {
                                  new PropertyType(rteDataTypeDefinition, text),
@@ -143,7 +143,7 @@
 
             var contentType2 = new Mock<IContentType>();
 
-            contentType2.SetupGet(x => x.PropertyTypes)
+            contentType2.SetupGet(x => x.CompositionPropertyTypes)
                 .Returns(new List<PropertyType>
                              {
                                  new PropertyType(contentPickerDataTypeDefinition, link),

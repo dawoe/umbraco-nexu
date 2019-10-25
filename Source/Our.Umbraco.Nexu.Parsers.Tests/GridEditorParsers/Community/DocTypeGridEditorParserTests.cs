@@ -128,7 +128,7 @@
 
             var contentTypeMock = new Mock<IContentType>();
 
-            contentTypeMock.SetupGet(x => x.PropertyTypes)
+            contentTypeMock.SetupGet(x => x.CompositionPropertyTypes)
                 .Returns(
                     new List<PropertyType>
                         {
