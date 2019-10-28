@@ -5,20 +5,20 @@ environment:
 os: Visual Studio 2015
 
 # Version format
-version: 1.7.4.{build}
+version: 1.7.5.{build}
 
 cache:
   - Source\packages -> **\packages.config   # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
 
 branches:
   only:
-    - develop
+    - develop-v7
     - master
     
 # UMBRACO_PACKAGE_PRERELEASE_SUFFIX if a rtm release build this should be blank, otherwise if empty will default to alpha
 # example UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta
 init:
-  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm  
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta  
 
 test: 
     assemblies:
@@ -42,7 +42,7 @@ deploy:
       secure: xuhyqGpLpjeK0tUansB6IVWy89Fw+yqGqCmCpVuAY1fnDjfYrxA/gVGNBh8oU0JA
     artifact: /.*\.nupkg/
     on:
-      branch: develop
+      branch: develop-v7
       
  # GitHub Deployment for releases
   - provider: GitHub
