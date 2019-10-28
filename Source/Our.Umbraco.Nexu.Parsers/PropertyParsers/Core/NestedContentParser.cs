@@ -112,7 +112,7 @@
                         var contentType = contentTypes[doctypeAlias];
 
                         // get all datatypes for this content type
-                        foreach (var propertyType in contentType.PropertyTypes)
+                        foreach (var propertyType in contentType.CompositionPropertyTypes)
                         {
                             if (!dataTypes.ContainsKey(propertyType.DataTypeDefinitionId))
                             {

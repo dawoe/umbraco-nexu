@@ -105,12 +105,12 @@
 
             var ncContentPickerContentType = new Mock<IContentType>();           
 
-            ncContentPickerContentType.SetupGet(x => x.PropertyTypes)
+            ncContentPickerContentType.SetupGet(x => x.CompositionPropertyTypes)
                 .Returns(new List<PropertyType> { new PropertyType(contentPickerDataTypeDefinition,"picker") });
 
             var ncMediaPickerContentType = new Mock<IContentType>();
 
-            ncMediaPickerContentType.SetupGet(x => x.PropertyTypes)
+            ncMediaPickerContentType.SetupGet(x => x.CompositionPropertyTypes)
                 .Returns(new List<PropertyType> { new PropertyType(mediaPickerDataTypeDefinition,"picker") });
 
             contentTypeServiceMock.Setup(x => x.GetContentType("NCContentPicker")).Returns(ncContentPickerContentType.Object);

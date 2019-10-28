@@ -108,7 +108,7 @@
                             {
                                 var propAlias = item.Name;
 
-                                var property = contentType.PropertyTypes.FirstOrDefault(x => x.Alias == propAlias);
+                                var property = contentType.CompositionPropertyTypes.FirstOrDefault(x => x.Alias == propAlias);
 
                                 if (property != null)
                                 {

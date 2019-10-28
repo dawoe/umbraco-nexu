@@ -111,7 +111,7 @@
                         var doctype = contentTypes[docTypeGuid];
 
                         // get all datatypes for this content type
-                        foreach (var propertyType in doctype.PropertyTypes)
+                        foreach (var propertyType in doctype.CompositionPropertyTypes)
                         {
                             if (!dataTypes.ContainsKey(propertyType.DataTypeDefinitionId))
                             {
