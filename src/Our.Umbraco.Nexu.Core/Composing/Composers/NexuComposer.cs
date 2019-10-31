@@ -13,7 +13,7 @@
     /// Represents the composer to handle all registrations for nexu
     /// </summary>
     [RuntimeLevel(MinLevel = RuntimeLevel.Run)]
-    public class NexuComposer : IUserComposer
+    internal class NexuComposer : IUserComposer
     {
         /// <inheritdoc />
         public void Compose(Composition composition)
