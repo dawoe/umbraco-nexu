@@ -38,6 +38,7 @@
             return new ContentApp
                        {
                            Alias = "nexuRelatedLinksApp",
+                           Weight = 99,
                            Icon = "icon-link",
                            Name = "Related links",
                            View = "/App_Plugins/Nexu/views/related-links-app.html",
