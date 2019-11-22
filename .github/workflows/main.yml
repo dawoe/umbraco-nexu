@@ -31,5 +31,5 @@ jobs:
         run: dotnet msbuild  /p:Configuration=Release /restore
       - name: dotnet vstests               # Runs tests
         working-directory: './src'
-        run: dotnet vstest Our.Umbraco.Nexu.Web.Tests\bin\Release\Our.Umbraco.Nexu.Web.Tests.dll Our.Umbraco.Nexu.Core.Tests\bin\Release\Our.Umbraco.Nexu.Core.Tests.dll
+        run: dotnet vstest Our.Umbraco.Nexu.Web.Tests\bin\Release\Our.Umbraco.Nexu.Web.Tests.dll Our.Umbraco.Nexu.Core.Tests\bin\Release\Our.Umbraco.Nexu.Core.Tests.dll Our.Umbraco.Nexu.Parsers.Tests\bin\Release\Our.Umbraco.Nexu.Parsers.Tests.dll
       
