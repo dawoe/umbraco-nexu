@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-dotnet@v1   # Downloads & adds dotnet to PATH
         with:
           dotnet-version: '2.2.103'     # SDK Version to use
+      - name: Echo build number
+        run : echo ${{ env.GITHUB_SHA }}
       - name: Setup Nuget.exe in PATH
         uses: warrenbuckley/Setup-Nuget@v1
       - name : Nuget restore
