@@ -17,6 +17,11 @@ jobs:
       - uses: actions/setup-dotnet@v1   # Downloads & adds dotnet to PATH
         with:
           dotnet-version: '2.2.103'     # SDK Version to use
+      - name: Setup Nuget.exe in PATH
+        uses: warrenbuckley/Setup-Nuget@v1
+      - name : Nuget restore
+        working-directory: './src'    
+        run : nuget restore
       - name: dotnet msbuild               # Build the project
         working-directory: './src'
         run: dotnet msbuild  /p:Configuration=Release /restore
