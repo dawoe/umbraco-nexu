@@ -20,7 +20,7 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT.sha"
+        run: echo "$github.sha"
       - name: Setup Nuget.exe in PATH
         uses: warrenbuckley/Setup-Nuget@v1
       - name : Nuget restore
