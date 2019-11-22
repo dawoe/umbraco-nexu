@@ -1,0 +1,25 @@
+# Umbraco Magical Build Pipeline
+# Worry less about build stuff and code more...
+#
+# 1. Ensure Secret Store has 'UMB_API_KEY' for pushing the ZIP package to our.umbraco.com
+name: Magical Build
+on:
+  push:
+    branches:
+      - develop                          # Push events on master branch.
+jobs:
+  unicorn-dust:                         # Name of Job
+    runs-on: windows-latest             # Make sure we run this on a Windows VM/image
+    env:
+      PKG_VERSION: '2.0.0'              # UPDATE ME
+    steps:
+      - uses: actions/checkout@master   # Go & fetch the REPO & do a git checkout
+      - uses: actions/setup-dotnet@v1   # Downloads & adds dotnet to PATH
+        with:
+          dotnet-version: '2.2.103'     # SDK Version to use
+      - name: dotnet test               # Run the unit test project inside the SLN
+        working-directory: './src'
+        run: dotnet test
+      - name: dotnet pack as Release    # dotnet pack, performs a RESTORE, BUILD & PACK
+        working-directory: src
+        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ../../output
