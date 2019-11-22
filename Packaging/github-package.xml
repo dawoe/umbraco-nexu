@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+    <files>
+       <!-- GitHub Actions build will add file/s here during the build process -->
+    </files>
+    <info>
+        <package>
+            <name>Our.Umbraco.Nexu</name>
+            <version><!-- GitHub Actions build will add version here during the build process --></version>
+            <license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
+            <url>https://github.com/dawoe/umbraco-nexu</url>
+            <requirements type="strict">
+                <major>8</major>
+                <minor>1</minor>
+                <patch>0</patch>
+            </requirements>
+        </package>
+        <author>
+            <name>Dave Woestenborghs</name>
+            <website>https://github.com/dawoe/umbraco-nexu</website>
+        </author>
+        <readme>
+          <![CDATA[
+            After installing this package you will get a Nexu dashboard in the developer section. You can clik the "Rebuild Nexu Relations" button to parse your content for internal links
+          ]]>
+        </readme>
+    </info>
+
+    <DocumentTypes />
+    <Templates />
+    <Stylesheets />
+    <Macros />
+    <DictionaryItems />
+    <Languages />
+    <DataTypes />
+    <Actions />
+    
+</umbPackage>
