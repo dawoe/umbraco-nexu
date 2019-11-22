@@ -6,7 +6,7 @@ name: Magical Build
 on:
   push:
     branches:
-      - master                          # Push events on master branch.
+      - develop                          # Push events on master branch.
 jobs:
   unicorn-dust:                         # Name of Job
     runs-on: windows-latest             # Make sure we run this on a Windows VM/image
