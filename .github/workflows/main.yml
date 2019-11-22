@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '2.2.103'     # SDK Version to use
       - name: dotnet msbuild               # Build the project
         working-directory: './src'
-        run: dotnet msbuild  /p:Configuration=Release
+        run: dotnet msbuild  /p:Configuration=Release /restore
       - name: dotnet vstests               # Runs tests
         working-directory: './src'
         run: dotnet vstest Our.Umbraco.Nexu.Web.Tests\bin\Release\Our.Umbraco.Nexu.Web.Tests.dll Our.Umbraco.Nexu.Core.Tests\bin\Release\Our.Umbraco.Nexu.Core.Tests.dll
