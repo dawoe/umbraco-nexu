@@ -31,7 +31,7 @@ jobs:
       - name: Copy DLL/s into build.tmp.package folder  # All files/folders in build.tmp.package will be added to Umbraco ZIP package
         run: xcopy src\Our.Umbraco.Nexu.Web\bin\Release\Our.Umbraco.Nexu.*.dll build.tmp.package\bin\
       - name: Copy App_Plugins into build.tmp.package folder  # All files/folders in build.tmp.package will be added to Umbraco ZIP package
-        run: xcopy src\Our.Umbraco.Nexu.Web\App_Plugins\ build.tmp.package\App_Plugins\
+        run: xcopy /s /e src\Our.Umbraco.Nexu.Web\App_Plugins\ build.tmp.package\App_Plugins\
       - name: Create Umbraco ZIP package
         uses: warrenbuckley/Create-Umbraco-ZIP-Package@releases/v1
         with:
