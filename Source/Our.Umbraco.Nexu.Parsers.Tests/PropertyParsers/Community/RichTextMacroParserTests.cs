@@ -17,7 +17,7 @@
     /// <summary>
     /// The rich text editor macros parser tests.
     /// </summary>
-    public class RichTextMacrosParserTests : BaseParserTest
+    public class RichTextMacroParserTests : BaseParserTest
     {
 
         private const int Media1Id = 1111;
@@ -136,7 +136,7 @@
             // arrange
             var dataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias);
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
                 _mediaService.Object,
                 _cacheProviderMock.Object);
@@ -159,7 +159,7 @@
             // arrange
             var dataTypeDefinition = new DataTypeDefinition("foo");
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
                 _mediaService.Object,
                 _cacheProviderMock.Object);
@@ -178,7 +178,7 @@
         {
             Assert.DoesNotThrow(() =>
             {
-                var parser = new RichTextEditorMacrosParser(
+                var parser = new RichTextEditorMacroParser(
                     _contentServiceMock.Object,
                     _mediaService.Object,
                     _cacheProviderMock.Object);
@@ -194,7 +194,7 @@
         {
             Assert.DoesNotThrow(() =>
             {
-                var parser = new RichTextEditorMacrosParser(
+                var parser = new RichTextEditorMacroParser(
                     _contentServiceMock.Object,
                     _mediaService.Object,
                     _cacheProviderMock.Object);
@@ -210,7 +210,7 @@
         {
             Assert.DoesNotThrow(() =>
             {
-                var parser = new RichTextEditorMacrosParser(
+                var parser = new RichTextEditorMacroParser(
                     _contentServiceMock.Object,
                     _mediaService.Object,
                     _cacheProviderMock.Object);
@@ -236,7 +236,7 @@
             _mediaService.Setup(x => x.GetById(Media1Id)).Returns(_media1Mock.Object);
             _mediaService.Setup(x => x.GetById(Media2Id)).Returns(_media2Mock.Object);
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                              _contentServiceMock.Object,
                              _mediaService.Object,
                              _cacheProviderMock.Object);
@@ -271,7 +271,7 @@
             _contentServiceMock.Setup(x => x.GetById(Document1Id)).Returns(_document1Mock.Object);
             _contentServiceMock.Setup(x => x.GetById(Document2Id)).Returns(_document2Mock.Object);
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                              _contentServiceMock.Object,
                              _mediaService.Object,
                              _cacheProviderMock.Object);
@@ -309,7 +309,7 @@
             _contentServiceMock.Setup(x => x.GetById(Document1Id)).Returns(_document1Mock.Object);
             _contentServiceMock.Setup(x => x.GetById(Document2Id)).Returns(_document2Mock.Object);
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
                 _mediaService.Object,
                 _cacheProviderMock.Object);
@@ -342,7 +342,7 @@
             nexuContext.MacroMediaAttributeNames = "";
             nexuContext.MacroDocumentAttributeNames = "";
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
                 _mediaService.Object,
                 _cacheProviderMock.Object);
@@ -373,7 +373,7 @@
             nexuContext.MacroMediaAttributeNames = "";
             nexuContext.MacroDocumentAttributeNames = "";
 
-            var parser = new RichTextEditorMacrosParser(
+            var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
                 _mediaService.Object,
                 _cacheProviderMock.Object);

@@ -302,7 +302,7 @@
     <Compile Include="GridEditorParsers\Core\MediaGridEditorParserTests.cs" />
     <Compile Include="GridEditorParsers\Core\RteGridEditorParserTests.cs" />
     <Compile Include="PropertyParsers\Community\ContentListParserTests.cs" />
-    <Compile Include="PropertyParsers\Community\RichTextMacrosParserTests.cs" />
+    <Compile Include="PropertyParsers\Community\RichTextMacroParserTests.cs" />
     <Compile Include="PropertyParsers\Community\StackedContentParserTests.cs" />
     <Compile Include="PropertyParsers\Community\NestedContentParserTests.cs" />
     <Compile Include="PropertyParsers\Community\RjpMultiUrlPickerParserTests.cs" />

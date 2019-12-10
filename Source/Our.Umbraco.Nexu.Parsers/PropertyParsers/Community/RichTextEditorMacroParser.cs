@@ -8,7 +8,6 @@ using Our.Umbraco.Nexu.Core;
 using Our.Umbraco.Nexu.Core.Enums;
 using Our.Umbraco.Nexu.Core.Interfaces;
 using Our.Umbraco.Nexu.Core.Models;
-using Our.Umbraco.Nexu.Parsers.PropertyParsers.Core;
 using Umbraco.Core;
 using Umbraco.Core.Cache;
 using Umbraco.Core.Models;
@@ -16,7 +15,7 @@ using Umbraco.Core.Services;
 
 namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
 {
-    public class RichTextEditorMacrosParser : IPropertyParser
+    public class RichTextEditorMacroParser : IPropertyParser
     {
         /// <summary>
         /// The content service.
@@ -46,9 +45,9 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
                 RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextEditorMacrosParser"/> class.
+        /// Initializes a new instance of the <see cref="RichTextEditorMacroParser"/> class.
         /// </summary>
-        public RichTextEditorMacrosParser()
+        public RichTextEditorMacroParser()
         {
             _mediaService = ApplicationContext.Current.Services.MediaService;
             _cacheProvider = ApplicationContext.Current.ApplicationCache.StaticCache;
@@ -57,7 +56,7 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextEditorMacrosParser"/> class.
+        /// Initializes a new instance of the <see cref="RichTextEditorMacroParser"/> class.
         /// </summary>
         /// <param name="contentService">
         /// The content service.
@@ -68,7 +67,7 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
         /// <param name="cacheProvider">
         /// The cache provider.
         /// </param>
-        public RichTextEditorMacrosParser(IContentService contentService, IMediaService mediaService, ICacheProvider cacheProvider)
+        public RichTextEditorMacroParser(IContentService contentService, IMediaService mediaService, ICacheProvider cacheProvider)
         {
             _contentService = contentService;
             _mediaService = mediaService;

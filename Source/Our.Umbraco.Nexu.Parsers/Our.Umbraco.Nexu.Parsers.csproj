@@ -280,7 +280,7 @@
     <Compile Include="GridEditorParsers\Core\RteGridEditorParser.cs" />
     <Compile Include="PropertyParsers\Community\ArchetypeParser.cs" />
     <Compile Include="PropertyParsers\Community\ContentListParser.cs" />
-    <Compile Include="PropertyParsers\Community\RichTextEditorMacrosParser.cs" />
+    <Compile Include="PropertyParsers\Community\RichTextEditorMacroParser.cs" />
     <Compile Include="PropertyParsers\Community\StackedContentParser.cs" />
     <Compile Include="PropertyParsers\Community\NestedContentParser.cs" />
     <Compile Include="PropertyParsers\Community\RjpMultiUrlPickerParser.cs" />
