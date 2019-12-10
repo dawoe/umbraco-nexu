@@ -14,5 +14,15 @@
         /// Allow unpublish app setting
         /// </summary>
         public const string AllowUnPublish = "nexu:PreventUnPublish";
+
+        /// <summary>
+        /// Macro document attribute names
+        /// </summary>
+        public const string MacroDocumentAttributeNames = "nexu:MacroDocumentAttributeNames";
+
+        /// <summary>
+        /// Macro media attribute names
+        /// </summary>
+        public const string MacroMediaAttributeNames = "nexu:MacroMediaAttributeNames";
     }
 }

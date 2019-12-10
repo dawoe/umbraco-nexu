@@ -26,6 +26,9 @@
             this.DocumentToMediaRelationTypeExists = false;
             this.PreventDelete = this.GetAppSetting<bool>(Constants.AppSettings.AllowDelete);
             this.PreventUnPublish = this.GetAppSetting<bool>(Constants.AppSettings.AllowUnPublish);
+            this.MacroDocumentAttributeNames = this.GetAppSetting<string>(Constants.AppSettings.MacroDocumentAttributeNames)?.ToLower() ?? "";
+            this.MacroMediaAttributeNames = this.GetAppSetting<string>(Constants.AppSettings.MacroMediaAttributeNames)?.ToLower() ?? "";
+
             instance = this;
         }
 
@@ -70,7 +73,17 @@
         public bool PreventUnPublish { get; set; }
 
         /// <summary>
-        /// Gets the value of app setting 
+        /// Gets a value indicating macro document attribute names.
+        /// </summary>
+        public string MacroDocumentAttributeNames { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating macro media attribute names.
+        /// </summary>
+        public string MacroMediaAttributeNames { get; set; }
+
+        /// <summary>
+        /// Gets the value of app setting
         /// </summary>
         /// <param name="key">
         /// The key.
