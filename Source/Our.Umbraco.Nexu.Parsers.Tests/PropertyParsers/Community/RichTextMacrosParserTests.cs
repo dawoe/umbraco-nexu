@@ -123,10 +123,108 @@
                 .Returns((string k, Func<object> action) => action());
         }
 
+        #region General
+
+        /// <summary>
+        /// The test is parser for valid data type.
+        /// </summary>
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestIsParserForValidDataType()
+        {
+            // arrange
+            var dataTypeDefinition = new DataTypeDefinition(global::Umbraco.Core.Constants.PropertyEditors.TinyMCEAlias);
+
+            var parser = new RichTextEditorMacrosParser(
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
+            // act
+            var result = parser.IsParserFor(dataTypeDefinition);
+
+            // verify
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// The test is parser for in valid data type.
+        /// </summary>
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestIsParserForInValidDataType()
+        {
+            // arrange
+            var dataTypeDefinition = new DataTypeDefinition("foo");
+
+            var parser = new RichTextEditorMacrosParser(
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
+            // act
+            var result = parser.IsParserFor(dataTypeDefinition);
+
+            // verify
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestCreatingParser()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                var parser = new RichTextEditorMacrosParser(
+                    _contentServiceMock.Object,
+                    _mediaService.Object,
+                    _cacheProviderMock.Object);
+
+                Assert.IsNotNull(parser);
+            });
+        }
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestParserDoesNotThrowOnEmptyValue()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                var parser = new RichTextEditorMacrosParser(
+                    _contentServiceMock.Object,
+                    _mediaService.Object,
+                    _cacheProviderMock.Object);
+
+                parser.GetLinkedEntities("");
+            });
+        }
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestParserDoesNotThrowOnNonEmptyValue()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                var parser = new RichTextEditorMacrosParser(
+                    _contentServiceMock.Object,
+                    _mediaService.Object,
+                    _cacheProviderMock.Object);
+
+                parser.GetLinkedEntities(TestData);
+            });
+        }
+
+        #endregion
+
         #region Media
         [Test]
         [Category("PropertyParsers")]
-        [Category("CorePropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestGetLinkedEntitiesForMacroMedias()
         {
             // arrange
@@ -160,7 +258,7 @@
         #region Document
         [Test]
         [Category("PropertyParsers")]
-        [Category("CorePropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestGetLinkedEntitiesForMacroDocuments()
         {
             // arrange
@@ -195,7 +293,7 @@
 
         [Test]
         [Category("PropertyParsers")]
-        [Category("CorePropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestGetLinkedEntitiesForMacroMediasAndDocuments()
         {
             // arrange
@@ -234,7 +332,7 @@
 
         [Test]
         [Category("PropertyParsers")]
-        [Category("CorePropertyParsers")]
+        [Category("CommunityPropertyParsers")]
         public void TestGetLinkedEntitiesForNonRegisteredMacroAttributes()
         {
             // arrange
@@ -259,6 +357,36 @@
             Assert.IsEmpty(entities);
         }
 
+
+        /// <summary>
+        /// Test getting linked entities with a empty value
+        /// </summary>
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestGetLinkedEntitiesWithEmptyValue()
+        {
+            // arrange
+            var html = "";
+            var nexuContext = NexuContext.Current;
+
+            nexuContext.MacroMediaAttributeNames = "";
+            nexuContext.MacroDocumentAttributeNames = "";
+
+            var parser = new RichTextEditorMacrosParser(
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
+            // act
+            var result = parser.GetLinkedEntities(html);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            var entities = result.ToList();
+            Assert.IsEmpty(entities);
+        }
         #endregion
     }
 }
