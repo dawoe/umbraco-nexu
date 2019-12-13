@@ -143,7 +143,7 @@
                             {
                                 linkedEntities.Add(key, pp.Parser.GetLinkedEntities(pp.Property.Value).ToList());
                             }
-                            
+
                         });
 
                 return linkedEntities;
@@ -190,23 +190,26 @@
                 // get all parsable properties for content item
                 content.Properties.ForEach(
                     p =>
+                    {
+                        var dtd = this.dataTypeService.GetDataTypeDefinitionById(
+                            p.PropertyType.DataTypeDefinitionId);
+                        var propertyParsers = parsers.Where(x => x.IsParserFor(dtd)).ToList();
+
+                        if (propertyParsers != null && propertyParsers.Any())
                         {
-                            var dtd = this.dataTypeService.GetDataTypeDefinitionById(
-                                p.PropertyType.DataTypeDefinitionId);
-                            var parser = parsers.FirstOrDefault(x => x.IsParserFor(dtd));
-
-                            if (parser != null)
+                            // get the tabname
+                            var tabname = string.Empty;
+                            if (propertyTabDictionairy.ContainsKey(p.Alias))
                             {
-                                // get the tabname
-                                var tabname = string.Empty;
-                                if (propertyTabDictionairy.ContainsKey(p.Alias))
-                                {
-                                    tabname = propertyTabDictionairy[p.Alias];
-                                }
-
-                                properties.Add(new PropertyWithParser(p, parser, tabname));
+                                tabname = propertyTabDictionairy[p.Alias];
                             }
-                        });
+
+                            foreach (var propertyParser in propertyParsers)
+                            {
+                                properties.Add(new PropertyWithParser(p, propertyParser, tabname));
+                            }
+                        }
+                    });
             }
 
             return properties;

@@ -129,13 +129,15 @@
                                         dataTypes.Add(dataTypeDefinitionId, dataType);
                                     }
 
-                                    var parser =
-                                        PropertyParserResolver.Current.Parsers.FirstOrDefault(
-                                            x => x.IsParserFor(dataType));
+                                    var propertyParsers = PropertyParserResolver.Current.Parsers
+                                        .Where(x => x.IsParserFor(dataType))
+                                        .ToList();
 
-                                    if (parser != null)
+                                    if (propertyParsers == null || !propertyParsers.Any()) continue;
+
+                                    foreach (var propertyParser in propertyParsers)
                                     {
-                                        entities.AddRange(parser.GetLinkedEntities(item.Value));
+                                        entities.AddRange(propertyParser.GetLinkedEntities(item.Value));
                                     }
                                 }
                             }
