@@ -1,4 +1,4 @@
-﻿namespace Our.Umbraco.Nexu.Parsers.Tests.PropertyParsers.Community
+namespace Our.Umbraco.Nexu.Parsers.Tests.PropertyParsers.Community
 {
     using System;
     using System.Linq;
@@ -15,7 +15,7 @@
     using Our.Umbraco.Nexu.Parsers.PropertyParsers.Community;
 
     /// <summary>
-    /// The rich text editor macros parser tests.
+    /// The rich text editor macro parser tests.
     /// </summary>
     public class RichTextMacroParserTests : BaseParserTest
     {
@@ -34,10 +34,10 @@
         private Mock<IMediaService> _mediaService;
         private Mock<ICacheProvider> _cacheProviderMock;
 
-
         #region Test data
-        private static readonly string TestData = $@"
-        <p>Test Test</p>
+
+        private static readonly string TestMacroDataWithComments = $@"
+        <p>Test Macro Data With Comments</p>
         <p>First media:</p>
         <div class=""umb-macro-holder Image mceNonEditable umb-macro-mce_1""><!-- <?UMBRACO_MACRO macroAlias=""Image"" imageCrop=""{Media1Id}"" /> --><ins><img class=""article__image"" src=""/media/{Media1Id}/fist_media.png?anchor=center&amp;mode=crop&amp;width=1093&amp;height=350&amp;rnd=132024128040000000"" alt=""First Media"" /></ins></div>
         <p>Second media:</p>
@@ -95,6 +95,25 @@
         </blockquote>
         </ins></div>
 ";
+
+        private static readonly string TestMacroDataWithoutComments = $@"
+        <p>Test Macro Data With Comments</p>
+        <p>First media:</p>
+        <?UMBRACO_MACRO macroAlias=""Image"" imageCrop=""{Media1Id}"" />
+        <p>Second media:</p>
+        <?UMBRACO_MACRO macroAlias=""Image"" imageCrop=""{Media2Id}"" />
+        <p>First document:</p>
+        <?UMBRACO_MACRO macroAlias=""Message"" message=""{Document1Id}"" />
+        <p>Second document:</p>
+        <?UMBRACO_MACRO macroAlias=""Timeline"" timeline=""{Document2Id}"" />
+";
+
+        private static readonly object[] TestData =
+        {
+            new object[] {TestMacroDataWithComments},
+            new object[] { TestMacroDataWithoutComments }
+        };
+
         #endregion
 
         [SetUp]
@@ -206,7 +225,8 @@
         [Test]
         [Category("PropertyParsers")]
         [Category("CommunityPropertyParsers")]
-        public void TestParserDoesNotThrowOnNonEmptyValue()
+        [TestCaseSource(nameof(TestData))]
+        public void TestParserDoesNotThrowOnNonEmptyValue(string input)
         {
             Assert.DoesNotThrow(() =>
             {
@@ -215,33 +235,68 @@
                     _mediaService.Object,
                     _cacheProviderMock.Object);
 
-                parser.GetLinkedEntities(TestData);
+                parser.GetLinkedEntities(input);
             });
         }
 
         #endregion
 
         #region Media
+
         [Test]
         [Category("PropertyParsers")]
         [Category("CommunityPropertyParsers")]
-        public void TestGetLinkedEntitiesForMacroMedias()
+        [TestCaseSource(nameof(TestData))]
+        public void TestGetLinkedEntitiesForMacroMedia(string input)
         {
             // arrange
-            var html = TestData;
             var nexuContext = NexuContext.Current;
             nexuContext.MacroMediaAttributeNames = "imageCrop".ToLower();
-            nexuContext.MacroDocumentAttributeNames = "";
+            nexuContext.MacroDocumentAttributeNames = string.Empty;
 
             _mediaService.Setup(x => x.GetById(Media1Id)).Returns(_media1Mock.Object);
             _mediaService.Setup(x => x.GetById(Media2Id)).Returns(_media2Mock.Object);
 
             var parser = new RichTextEditorMacroParser(
-                             _contentServiceMock.Object,
-                             _mediaService.Object,
-                             _cacheProviderMock.Object);
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
             // act
-            var result = parser.GetLinkedEntities(html);
+            var result = parser.GetLinkedEntities(input);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            var entities = result.ToList();
+            Assert.AreEqual(2, entities.Count);
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == Media1Id));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == Media2Id));
+        }
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestGetLinkedEntitiesForSeparatedMacroMedia()
+        {
+            // arrange
+            var input = $@"<?UMBRACO_MACRO macroAlias=""Image"" imageCrop=""{Media1Id},{Media2Id}"" />";
+            var nexuContext = NexuContext.Current;
+
+            nexuContext.MacroMediaAttributeNames = "imageCrop".ToLower();
+            nexuContext.MacroDocumentAttributeNames = string.Empty;
+
+            _mediaService.Setup(x => x.GetById(Media1Id)).Returns(_media1Mock.Object);
+            _mediaService.Setup(x => x.GetById(Media2Id)).Returns(_media2Mock.Object);
+
+            var parser = new RichTextEditorMacroParser(
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
+            // act
+            var result = parser.GetLinkedEntities(input);
 
             // verify
             Assert.IsNotNull(result);
@@ -256,27 +311,29 @@
         #endregion
 
         #region Document
+
         [Test]
         [Category("PropertyParsers")]
         [Category("CommunityPropertyParsers")]
-        public void TestGetLinkedEntitiesForMacroDocuments()
+        [TestCaseSource(nameof(TestData))]
+        public void TestGetLinkedEntitiesForMacroDocuments(string input)
         {
             // arrange
-            var html = TestData;
             var nexuContext = NexuContext.Current;
 
-            nexuContext.MacroMediaAttributeNames = "";
+            nexuContext.MacroMediaAttributeNames = string.Empty;
             nexuContext.MacroDocumentAttributeNames = "timeline,message".ToLower();
 
             _contentServiceMock.Setup(x => x.GetById(Document1Id)).Returns(_document1Mock.Object);
             _contentServiceMock.Setup(x => x.GetById(Document2Id)).Returns(_document2Mock.Object);
 
             var parser = new RichTextEditorMacroParser(
-                             _contentServiceMock.Object,
-                             _mediaService.Object,
-                             _cacheProviderMock.Object);
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
             // act
-            var result = parser.GetLinkedEntities(html);
+            var result = parser.GetLinkedEntities(input);
 
             // verify
             Assert.IsNotNull(result);
@@ -287,6 +344,40 @@
             Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == Document1Id));
             Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == Document2Id));
         }
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestGetLinkedEntitiesForSeparatedMacroDocument()
+        {
+            // arrange
+            var input = $@"<?UMBRACO_MACRO macroAlias=""Timeline"" timeline=""{Document1Id},{Document2Id}"" />";
+            var nexuContext = NexuContext.Current;
+
+            nexuContext.MacroMediaAttributeNames = string.Empty;
+            nexuContext.MacroDocumentAttributeNames = "timeline,message".ToLower();
+
+            _contentServiceMock.Setup(x => x.GetById(Document1Id)).Returns(_document1Mock.Object);
+            _contentServiceMock.Setup(x => x.GetById(Document2Id)).Returns(_document2Mock.Object);
+
+            var parser = new RichTextEditorMacroParser(
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
+            // act
+            var result = parser.GetLinkedEntities(input);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            var entities = result.ToList();
+            Assert.AreEqual(2, entities.Count);
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == Document1Id));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == Document2Id));
+        }
+
         #endregion
 
         #region Media and Document
@@ -294,10 +385,10 @@
         [Test]
         [Category("PropertyParsers")]
         [Category("CommunityPropertyParsers")]
-        public void TestGetLinkedEntitiesForMacroMediasAndDocuments()
+        [TestCaseSource(nameof(TestData))]
+        public void TestGetLinkedEntitiesForMacroMediasAndDocuments(string input)
         {
             // arrange
-            var html = TestData;
             var nexuContext = NexuContext.Current;
 
             nexuContext.MacroMediaAttributeNames = "imageCrop".ToLower();
@@ -315,7 +406,48 @@
                 _cacheProviderMock.Object);
 
             // act
-            var result = parser.GetLinkedEntities(html);
+            var result = parser.GetLinkedEntities(input);
+
+            // verify
+            Assert.IsNotNull(result);
+
+            var entities = result.ToList();
+            Assert.AreEqual(4, entities.Count);
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == Media1Id));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Media && x.Id == Media2Id));
+
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == Document1Id));
+            Assert.IsTrue(entities.Exists(x => x.LinkedEntityType == LinkedEntityType.Document && x.Id == Document2Id));
+        }
+
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestGetLinkedEntitiesForMacroSeparatedMediasAndDocuments()
+        {
+            var input = $@"<?UMBRACO_MACRO macroAlias=""Timeline"" timeline=""{Document1Id},{Document2Id}"" />";
+            input += $@"<?UMBRACO_MACRO macroAlias=""Image"" imageCrop=""{Media1Id},{Media2Id}"" />";
+            // arrange
+            var nexuContext = NexuContext.Current;
+
+            nexuContext.MacroMediaAttributeNames = "imageCrop".ToLower();
+            nexuContext.MacroDocumentAttributeNames = "timeline,message".ToLower();
+
+            _mediaService.Setup(x => x.GetById(Media1Id)).Returns(_media1Mock.Object);
+            _mediaService.Setup(x => x.GetById(Media2Id)).Returns(_media2Mock.Object);
+
+            _contentServiceMock.Setup(x => x.GetById(Document1Id)).Returns(_document1Mock.Object);
+            _contentServiceMock.Setup(x => x.GetById(Document2Id)).Returns(_document2Mock.Object);
+
+            var parser = new RichTextEditorMacroParser(
+                _contentServiceMock.Object,
+                _mediaService.Object,
+                _cacheProviderMock.Object);
+
+            // act
+            var result = parser.GetLinkedEntities(input);
 
             // verify
             Assert.IsNotNull(result);
@@ -333,14 +465,14 @@
         [Test]
         [Category("PropertyParsers")]
         [Category("CommunityPropertyParsers")]
-        public void TestGetLinkedEntitiesForNonRegisteredMacroAttributes()
+        [TestCaseSource(nameof(TestData))]
+        public void TestGetLinkedEntitiesForNonRegisteredMacroAttributes(string input)
         {
             // arrange
-            var html = TestData;
             var nexuContext = NexuContext.Current;
 
-            nexuContext.MacroMediaAttributeNames = "";
-            nexuContext.MacroDocumentAttributeNames = "";
+            nexuContext.MacroMediaAttributeNames = string.Empty;
+            nexuContext.MacroDocumentAttributeNames = string.Empty;
 
             var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
@@ -348,7 +480,7 @@
                 _cacheProviderMock.Object);
 
             // act
-            var result = parser.GetLinkedEntities(html);
+            var result = parser.GetLinkedEntities(input);
 
             // verify
             Assert.IsNotNull(result);
@@ -367,11 +499,11 @@
         public void TestGetLinkedEntitiesWithEmptyValue()
         {
             // arrange
-            var html = "";
+            var input = string.Empty;
             var nexuContext = NexuContext.Current;
 
-            nexuContext.MacroMediaAttributeNames = "";
-            nexuContext.MacroDocumentAttributeNames = "";
+            nexuContext.MacroMediaAttributeNames = string.Empty;
+            nexuContext.MacroDocumentAttributeNames = string.Empty;
 
             var parser = new RichTextEditorMacroParser(
                 _contentServiceMock.Object,
@@ -379,7 +511,7 @@
                 _cacheProviderMock.Object);
 
             // act
-            var result = parser.GetLinkedEntities(html);
+            var result = parser.GetLinkedEntities(input);
 
             // verify
             Assert.IsNotNull(result);
@@ -387,6 +519,7 @@
             var entities = result.ToList();
             Assert.IsEmpty(entities);
         }
+
         #endregion
     }
 }

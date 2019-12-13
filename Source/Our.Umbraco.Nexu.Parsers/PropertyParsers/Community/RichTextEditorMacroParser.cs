@@ -41,7 +41,7 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
         /// Macro regex persisted format.
         /// </summary>
         private static readonly Regex MacroPersistedFormat =
-            new Regex(@"(<\?UMBRACO_MACRO (?:.+?)??macroAlias=[""']([^""\'\n\r]+?)[""'].+?)(?:/>|>.*?</\?UMBRACO_MACRO>)",
+            new Regex(@"(<\?[Uu][Mm][Bb][Rr][Aa][Cc][Oo]_[Mm][Aa][Cc][Rr][Oo] (?:.+?)??macro[Aa]lias=[""']([^""\'\n\r]+?)[""'].+?)(?:/>|\?>|>.*?</\?[Uu][Mm][Bb][Rr][Aa][Cc][Oo]_[Mm][Aa][Cc][Rr][Oo]>)",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         /// <summary>
@@ -49,6 +49,7 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
         /// </summary>
         public RichTextEditorMacroParser()
         {
+            _contentService = ApplicationContext.Current.Services.ContentService;
             _mediaService = ApplicationContext.Current.Services.MediaService;
             _cacheProvider = ApplicationContext.Current.ApplicationCache.StaticCache;
 
@@ -103,35 +104,51 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
             var html = new HtmlDocument();
             html.LoadHtml(propertyText);
 
-            var macroNodes = html.DocumentNode.SelectNodes("//comment()[contains(., '<?UMBRACO_MACRO')]");
+            var macroNodes = html.DocumentNode.SelectNodes("//comment()[contains(., '<?UMBRACO_MACRO')]")?.ToArray();
+
+            if (macroNodes == null || !macroNodes.Any())
+            {
+                macroNodes = html.DocumentNode.Descendants("?UMBRACO_MACRO")?.ToArray();
+            }
 
             if (macroNodes == null || !macroNodes.Any()) return entitiesResults;
 
             foreach (var macroNode in macroNodes)
             {
-                var attributes = GetMacrosAttributesWithValues(macroNode);
+                var hasInnerHtml = !macroNode.InnerHtml.IsNullOrWhiteSpace();
+                var attributes = GetMacrosAttributesWithValues(macroNode, hasInnerHtml);
                 var documentIds = GetAttributesDocumentIds(attributes);
                 var mediaIds = GetAttributesMediaIds(attributes);
 
-                foreach (var documentId in documentIds)
+                foreach (var documentValueId in documentIds)
                 {
-                    var linkedEntity = GetLinkedEntity(documentId, LinkedEntityType.Document);
-
-                    if (linkedEntity != null && !entitiesResults.Any(x => x.Id == linkedEntity.Id
-                                                 && x.LinkedEntityType == LinkedEntityType.Document))
+                    foreach (var documentId in documentValueId.Split(new[] { Separator },
+                        StringSplitOptions.RemoveEmptyEntries))
                     {
-                        entitiesResults.Add(linkedEntity);
+                        var linkedEntity = GetLinkedEntity(documentId, LinkedEntityType.Document);
+
+                        if (linkedEntity != null && !entitiesResults.Any(x => x.Id == linkedEntity.Id
+                                                                              && x.LinkedEntityType ==
+                                                                              LinkedEntityType.Document))
+                        {
+                            entitiesResults.Add(linkedEntity);
+                        }
                     }
                 }
 
-                foreach (var mediaId in mediaIds)
+                foreach (var mediaValueId in mediaIds)
                 {
-                    var linkedEntity = GetLinkedEntity(mediaId, LinkedEntityType.Media);
-
-                    if (linkedEntity != null && !entitiesResults.Any(x => x.Id == linkedEntity.Id
-                                                 && x.LinkedEntityType == LinkedEntityType.Media))
+                    foreach (var mediaId in mediaValueId.Split(new[] { Separator },
+                        StringSplitOptions.RemoveEmptyEntries))
                     {
-                        entitiesResults.Add(linkedEntity);
+                        var linkedEntity = GetLinkedEntity(mediaId, LinkedEntityType.Media);
+
+                        if (linkedEntity != null && !entitiesResults.Any(x => x.Id == linkedEntity.Id
+                                                                              && x.LinkedEntityType ==
+                                                                              LinkedEntityType.Media))
+                        {
+                            entitiesResults.Add(linkedEntity);
+                        }
                     }
                 }
             }
@@ -166,9 +183,11 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
             return null;
         }
 
-        private static Dictionary<string, string> GetMacrosAttributesWithValues(HtmlNode macroNode)
+        private static Dictionary<string, string> GetMacrosAttributesWithValues(HtmlNode macroNode, bool hasInnerHtml = true)
         {
-            var macroMatch = MacroPersistedFormat.Match(macroNode.InnerHtml);
+            var macroMatch = hasInnerHtml
+                ? MacroPersistedFormat.Match(macroNode.InnerHtml)
+                : MacroPersistedFormat.Match(macroNode.OuterHtml);
 
             return XmlHelper.GetAttributesFromElement(macroMatch.Value)
                 .ToDictionary(x => x.Key, y => y.Value);
