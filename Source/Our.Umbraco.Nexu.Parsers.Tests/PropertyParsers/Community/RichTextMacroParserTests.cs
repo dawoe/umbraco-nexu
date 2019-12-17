@@ -218,7 +218,30 @@ namespace Our.Umbraco.Nexu.Parsers.Tests.PropertyParsers.Community
                     _mediaService.Object,
                     _cacheProviderMock.Object);
 
-                parser.GetLinkedEntities("");
+                var result = parser.GetLinkedEntities("");
+
+                Assert.IsNotNull(result);
+                Assert.IsEmpty(result);
+
+            });
+        }
+
+        [Test]
+        [Category("PropertyParsers")]
+        [Category("CommunityPropertyParsers")]
+        public void TestParserDoesNotThrowOnNullValue()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                var parser = new RichTextEditorMacroParser(
+                    _contentServiceMock.Object,
+                    _mediaService.Object,
+                    _cacheProviderMock.Object);
+
+                var result = parser.GetLinkedEntities(null);
+
+                Assert.IsNotNull(result);
+                Assert.IsEmpty(result);
             });
         }
 

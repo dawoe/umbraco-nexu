@@ -97,6 +97,9 @@ namespace Our.Umbraco.Nexu.Parsers.PropertyParsers.Community
         public IEnumerable<ILinkedEntity> GetLinkedEntities(object propertyValue)
         {
             var entitiesResults = new List<ILinkedEntity>();
+
+            if (propertyValue == null) return entitiesResults;
+
             var propertyText = propertyValue.ToString();
 
             if (propertyText.IsNullOrWhiteSpace()) return entitiesResults;
