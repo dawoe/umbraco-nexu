@@ -34,6 +34,11 @@
                 return null;
             }
 
+            if (contentBase.Id == 0)
+            {
+                return null;
+            }
+
             var nexuRelationDisplayModels = this.entityRelationService.GetRelationsForItem(contentBase.GetUdi());
             return new ContentApp
                        {
