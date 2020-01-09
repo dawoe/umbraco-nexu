@@ -14,5 +14,8 @@
     "~/App_Plugins/Nexu/controllers/media-delete-controller.js",
     "~/App_Plugins/Nexu/components/relation-list-component.js",
     "~/App_Plugins/Nexu/interceptors/interceptors.js"
-  ]
+  ],
+  "css": [
+    "~/App_Plugins/Nexu/styles/nexu.css"
+  ] 
 }
