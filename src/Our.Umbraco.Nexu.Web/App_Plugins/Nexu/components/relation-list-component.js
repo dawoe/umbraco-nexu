@@ -1,13 +1,25 @@
 ﻿(function () {
 	'use strict';
 
-	function RelationListComponentController($scope, $location) {
+	function RelationListComponentController($scope, $location, editorService) {
 		var vm = this;
 		
 		vm.ungrouped = [];
 
-        vm.openContent = function (link) {
-            $location.url(link);
+        vm.openContent = function (item) {
+            var editor = {
+                id: item.id,
+                nexuCulture: item.language,
+                submit: function(model) {
+                    editorService.close();
+                },
+                close: function() {
+                    editorService.close();
+                }
+            };
+
+            //$location.url(item);
+            editorService.contentEditor(editor);
         }
 
         this.$onInit= function() {
@@ -30,7 +42,8 @@
                         tabname: relation.Properties[j].TabName,
                         status: status,
                         editlink: '/content/content/edit/' + relation.Id + '?mculture=' + relation.Culture,
-                        language : relation.Culture
+                        language: relation.Culture,
+                        id : relation.Id
                     });
                 }
             }
