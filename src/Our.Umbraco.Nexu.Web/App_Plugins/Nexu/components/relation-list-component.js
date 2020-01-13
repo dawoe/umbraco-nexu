@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-    function RelationListComponentController($scope, editorService, languageResource) {
+    function RelationListComponentController($scope, editorService, languageResource, navigationService) {
 		var vm = this;
 		
         vm.ungrouped = [];
@@ -19,7 +19,7 @@
                 }
             };
 
-            //$location.url(item);
+            navigationService.hideDialog();
             editorService.contentEditor(editor);
         }
 
