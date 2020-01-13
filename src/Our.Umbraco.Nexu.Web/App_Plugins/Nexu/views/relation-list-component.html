@@ -41,7 +41,7 @@
                 {{item.status}}
             </div>
             <div class="umb-table-cell" ng-if="vm.showLanguageColumn">
-                {{item.language}}
+               <span ng-bind="vm.getLanguageLabel(item.language)"></span>
             </div>
         </div>
 

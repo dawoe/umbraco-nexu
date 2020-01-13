@@ -1,11 +1,12 @@
 ﻿(function () {
 	'use strict';
 
-	function RelationListComponentController($scope, $location, editorService) {
+    function RelationListComponentController($scope, editorService, languageResource) {
 		var vm = this;
 		
-		vm.ungrouped = [];
-
+        vm.ungrouped = [];
+        vm.languages = [];
+       
         vm.openContent = function (item) {
             var editor = {
                 id: item.id,
@@ -22,7 +23,33 @@
             editorService.contentEditor(editor);
         }
 
-        this.$onInit= function() {
+        vm.getLanguageLabel = function (culture) {
+
+            if (vm.languages.length > 0) {
+               
+                var lang = _.find(vm.languages,
+                    function(l) {
+                        return l.culture.toLowerCase() === culture.toLowerCase();
+                    });
+
+                if (lang) {
+                    return lang.name;
+                }
+            }
+
+            return culture;
+        }
+
+        this.$onInit = function () {
+
+            vm.showLanguageColumn = this.showLanguage;
+
+            if (vm.showLanguageColumn) {
+                languageResource.getAll().then(function (data) {
+                    vm.languages = data;
+                });
+            }
+
             for (var i = 0; i < this.relations.length; i++) {
                 var relation = this.relations[i];
 
@@ -47,7 +74,7 @@
                     });
                 }
             }
-            vm.showLanguageColumn = this.showLanguage;
+           
         }
 
     }
