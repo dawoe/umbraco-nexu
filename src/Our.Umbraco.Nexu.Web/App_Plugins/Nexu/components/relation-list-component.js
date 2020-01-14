@@ -4,8 +4,13 @@
     function RelationListComponentController($scope, editorService, languageResource, navigationService) {
 		var vm = this;
 		
-        vm.ungrouped = [];
+        vm.listitems = [];
         vm.languages = [];
+        vm.pageSize = 10;
+        vm.showLanguageColumn = false;
+        vm.pagedListItems = [];
+        vm.currentPage = 1;
+        vm.totalPages = 1;
        
         vm.openContent = function (item) {
             var editor = {
@@ -40,9 +45,32 @@
             return culture;
         }
 
+        vm.nextPage = function() {
+            vm.goToPage(vm.currentPage + 1);
+        };
+
+        vm.prevPage = function() {
+            vm.goToPage(vm.currentPage - 1);
+        };
+        vm.goToPage = function(pageNumber) {
+            vm.currentPage = pageNumber;
+            setPagedList();
+        };
+
+        function setPagedList() {
+            vm.pagedListItems = vm.listitems.slice((vm.currentPage - 1) * vm.pageSize, vm.currentPage * vm.pageSize);
+            
+        }
+
         this.$onInit = function () {
 
-            vm.showLanguageColumn = this.showLanguage;
+            if (this.showLanguage) {
+                vm.showLanguageColumn = this.showLanguage;
+            }
+            
+            if (this.itemsPerPage) {
+                vm.pageSize = this.itemsPerPage;
+            }
 
             if (vm.showLanguageColumn) {
                 languageResource.getAll().then(function (data) {
@@ -63,7 +91,7 @@
                         status = 'Published';
                     }
 
-                    vm.ungrouped.push({
+                    vm.listitems.push({
                         name: relation.Name,
                         propertyname: relation.Properties[j].PropertyName,
                         tabname: relation.Properties[j].TabName,
@@ -72,10 +100,17 @@
                         language: relation.Culture,
                         id : relation.Id
                     });
+
+
                 }
             }
-           
+
+            vm.totalPages = Math.ceil(vm.listitems.length / vm.pageSize);
+
+            setPagedList();
         }
+
+
 
     }
 
@@ -85,7 +120,8 @@
         	controllerAs: "vm",
             bindings: {
                 relations: '<',
-                showLanguage : '<'
+                showLanguage: '<',
+                itemsPerPage : '<'
             },
             templateUrl: '/App_Plugins/Nexu/views/relation-list-component.html'
         });

@@ -13,6 +13,7 @@
             $scope.descendantsHaveLinks = false;
             $scope.isLoading = true;
             $scope.showlanguage = true;
+            $scope.itemsPerPage = 5;
 
             service.checkRelations($scope.currentNode.udi).then(function (result) {
                 $scope.links = result;
