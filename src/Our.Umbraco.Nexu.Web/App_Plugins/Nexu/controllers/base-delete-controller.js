@@ -12,6 +12,7 @@
             $scope.links = {};
             $scope.descendantsHaveLinks = false;
             $scope.isLoading = true;
+            $scope.showlanguage = true;
 
             service.checkRelations($scope.currentNode.udi).then(function (result) {
                 $scope.links = result;
