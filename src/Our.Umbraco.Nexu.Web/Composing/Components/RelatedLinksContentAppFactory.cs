@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Web.Composing.Components
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Models;
@@ -39,7 +40,13 @@
                 return null;
             }
 
-            var nexuRelationDisplayModels = this.entityRelationService.GetRelationsForItem(contentBase.GetUdi());
+            var nexuRelationDisplayModels = this.entityRelationService.GetRelationsForItem(contentBase.GetUdi()).ToList();
+
+            if (!nexuRelationDisplayModels.Any())
+            {
+                return null;
+            }
+
             return new ContentApp
                        {
                            Alias = "nexuRelatedLinksApp",
