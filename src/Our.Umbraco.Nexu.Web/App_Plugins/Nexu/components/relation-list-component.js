@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-    function RelationListComponentController($scope, editorService, languageResource, navigationService) {
+    function RelationListComponentController($scope, editorService, languageResource, navigationService, overlayService) {
 		var vm = this;
 		
         vm.listitems = [];
@@ -25,6 +25,7 @@
             };
 
             navigationService.hideDialog();
+            overlayService.close();
             editorService.contentEditor(editor);
         }
 
