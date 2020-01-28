@@ -21,5 +21,8 @@
         /// The <see cref="IList{T}"/>.
         /// </returns>
         IList<NexuRelationDisplayModel> GetRelationsForItem(Udi udi);
+
+
+        IList<NexuRelationDisplayModel> GetUsedItemsFromList(IList<Udi> udis);
     }
 }

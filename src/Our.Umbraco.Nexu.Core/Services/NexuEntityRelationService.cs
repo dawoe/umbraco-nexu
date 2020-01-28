@@ -32,6 +32,9 @@
         /// </summary>
         private readonly IContentService contentService;
 
+        /// <summary>
+        /// The content type service.
+        /// </summary>
         private readonly IContentTypeService contentTypeService;
 
         /// <summary>
@@ -45,6 +48,9 @@
         /// </param>
         /// <param name="contentService">
         /// The content Service.
+        /// </param>
+        /// <param name="contentTypeService">
+        /// The content Type Service.
         /// </param>
         public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService, IContentTypeService contentTypeService)
         {
@@ -125,6 +131,53 @@
                         }
                     }
 
+                }
+            }
+
+            return nexuRelationDisplayModels;
+        }
+
+        /// <inheritdoc />
+        public IList<NexuRelationDisplayModel> GetUsedItemsFromList(IList<Udi> udis)
+        {
+            var nexuRelationDisplayModels = new List<NexuRelationDisplayModel>();
+
+            if (udis?.Any() != true)
+            {
+               return nexuRelationDisplayModels;
+            }
+
+            var relations = this.relationRepository.GetUsedItemsFromList(udis);
+
+            if (!relations.Any())
+            {
+                return nexuRelationDisplayModels;
+            }
+          
+            foreach (var relation in relations)
+            {
+                var content = this.contentService.GetById(GuidUdi.Parse(relation.Key).Guid);
+
+                if (content != null)
+                {
+                    var contentName = content.Name;
+                    var published = content.Published;
+
+                    if (content.AvailableCultures.Any())
+                    {
+                        contentName = content.GetCultureName(relation.Value);
+                        published = content.IsCulturePublished(relation.Value);
+                    }
+
+                    nexuRelationDisplayModels.Add(new NexuRelationDisplayModel
+                                                      {
+                                                          Culture = relation.Value,
+                                                          Id = content.Id,
+                                                          IsPublished = published,
+                                                          IsTrashed = content.Trashed,
+                                                          Key = content.Key,
+                                                          Name = contentName                                                          
+                                                      });
                 }
             }
 
