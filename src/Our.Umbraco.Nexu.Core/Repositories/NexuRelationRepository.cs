@@ -1,7 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Core.Repositories
 {
     using System.Collections.Generic;
-    using System.Security.Cryptography.X509Certificates;
+    using System.Linq;
 
     using global::Umbraco.Core;
     using global::Umbraco.Core.Persistence;
@@ -70,6 +70,33 @@
 
                 return db.Fetch<NexuRelation>(sql);
             }
+        }
+
+        /// <inheritdoc />
+        public IList<KeyValuePair<string,string>> GetUsedItemsFromList(IList<Udi> udis)
+        {
+            var usedUdis = new List<KeyValuePair<string, string>>();
+
+            using (var scope = this.scopeProvider.CreateScope(autoComplete: true))
+            {
+                var db = scope.Database;
+
+                var udiStrings = udis.Select(x => x.ToString()).ToList();
+
+                var sql = new Sql<ISqlContext>(scope.SqlContext);
+               // sql.Where<NexuRelation>(x => x.ChildUdi.In(udiStrings));
+               sql.Where<NexuRelation>(x => udiStrings.Contains(x.ChildUdi));
+
+                var relations = db.Fetch<NexuRelation>(sql).ToList();
+
+                foreach (var rel in relations)
+                {
+                    usedUdis.Add(new KeyValuePair<string, string>(rel.ChildUdi, rel.Culture));
+                }
+            }
+
+            return usedUdis;
+
         }
     }
 }
