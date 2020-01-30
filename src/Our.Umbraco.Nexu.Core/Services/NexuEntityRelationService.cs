@@ -154,7 +154,7 @@
                 return nexuRelationDisplayModels;
             }
           
-            foreach (var relation in relations)
+            foreach (var relation in relations.Distinct())
             {
                 var content = this.contentService.GetById(GuidUdi.Parse(relation.Key).Guid);
 
