@@ -10,6 +10,7 @@
         vm.pagedListItems = [];
         vm.currentPage = 1;
         vm.totalPages = 1;
+        vm.intro = $scope.model.intro;
 
         vm.openContent = function (item) {
             var editor = {

@@ -1,6 +1,6 @@
 ﻿<div ng-controller="Our.Umbraco.Nexu.Controllers.ListViewDialogController as vm">
     <p>
-        The following you are trying to delete are in use by other content.
+        {{vm.intro}}
     </p>
     <div class="umb-table nexu-table" ng-if="vm.relations">
         <div class="umb-table-head">
