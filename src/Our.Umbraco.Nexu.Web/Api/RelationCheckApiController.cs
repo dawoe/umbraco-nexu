@@ -1,6 +1,7 @@
 ﻿namespace Our.Umbraco.Nexu.Web.Api
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -46,6 +47,33 @@
             var relations = this.entityRelationService.GetRelationsForItem(new GuidUdi(new Uri(udi)));
 
             return this.Request.CreateResponse(HttpStatusCode.OK, relations);
+        }
+
+        /// <summary>
+        /// Checks a list of udi's for linked items
+        /// </summary>
+        /// <param name="udis">
+        /// The udis.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage CheckLinkedItems([FromBody] string[] udis)
+        {
+            var listUdis = new List<Udi>();
+
+            foreach (var stringUdi in udis)
+            {
+                GuidUdi guidUdi;
+
+                if (GuidUdi.TryParse(stringUdi, out guidUdi))
+                {
+                    listUdis.Add(guidUdi);
+                }
+            }
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, this.entityRelationService.GetUsedItemsFromList(listUdis));
         }
     }
 }

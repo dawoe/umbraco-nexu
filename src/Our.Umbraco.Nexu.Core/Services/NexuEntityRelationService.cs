@@ -32,7 +32,12 @@
         /// </summary>
         private readonly IContentService contentService;
 
+        /// <summary>
+        /// The content type service.
+        /// </summary>
         private readonly IContentTypeService contentTypeService;
+
+        private readonly IMediaService mediaService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NexuEntityRelationService"/> class.
@@ -46,12 +51,17 @@
         /// <param name="contentService">
         /// The content Service.
         /// </param>
-        public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService, IContentTypeService contentTypeService)
+        /// <param name="contentTypeService">
+        /// The content Type Service.
+        /// </param>
+        /// <param name="mediaService">The media service</param>
+        public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService, IContentTypeService contentTypeService, IMediaService mediaService)
         {
             this.relationRepository = relationRepository;
             this.localizationService = localizationService;
             this.contentService = contentService;
             this.contentTypeService = contentTypeService;
+            this.mediaService = mediaService;
         }
 
         /// <inheritdoc />
@@ -126,6 +136,79 @@
                     }
 
                 }
+            }
+
+            return nexuRelationDisplayModels;
+        }
+
+        /// <inheritdoc />
+        public IList<NexuRelationDisplayModel> GetUsedItemsFromList(IList<Udi> udis)
+        {
+            var nexuRelationDisplayModels = new List<NexuRelationDisplayModel>();
+
+            if (udis?.Any() != true)
+            {
+               return nexuRelationDisplayModels;
+            }
+
+            var relations = this.relationRepository.GetUsedItemsFromList(udis);
+
+            if (!relations.Any())
+            {
+                return nexuRelationDisplayModels;
+            }
+          
+            foreach (var relation in relations.Distinct())
+            {
+                var guidUdi = GuidUdi.Parse(relation.Key);
+
+                if (guidUdi.EntityType == Constants.UdiEntityType.Document)
+                {
+                    var content = this.contentService.GetById(guidUdi.Guid);
+
+                    if (content != null)
+                    {
+                        var contentName = content.Name;
+                        var published = content.Published;
+
+                        if (content.AvailableCultures.Any())
+                        {
+                            contentName = content.GetCultureName(relation.Value);
+                            published = content.IsCulturePublished(relation.Value);
+                        }
+
+                        nexuRelationDisplayModels.Add(new NexuRelationDisplayModel
+                                                          {
+                                                              Culture = relation.Value,
+                                                              Id = content.Id,
+                                                              IsPublished = published,
+                                                              IsTrashed = content.Trashed,
+                                                              Key = content.Key,
+                                                              Name = contentName
+                                                          });
+                    }
+                }
+                else if (guidUdi.EntityType == Constants.UdiEntityType.Media)
+                {
+                    var media = this.mediaService.GetById(guidUdi.Guid);
+
+                    if (media != null)
+                    {
+                        if (nexuRelationDisplayModels.Any(x => x.Key == media.Key) == false)
+                        {
+                            nexuRelationDisplayModels.Add(new NexuRelationDisplayModel
+                                                              {
+                                                                  Culture = string.Empty,
+                                                                  Id = media.Id,
+                                                                  IsPublished = false,
+                                                                  IsTrashed = media.Trashed,
+                                                                  Key = media.Key,
+                                                                  Name = media.Name
+                                                              });
+                        }
+                        
+                    }
+                }                
             }
 
             return nexuRelationDisplayModels;

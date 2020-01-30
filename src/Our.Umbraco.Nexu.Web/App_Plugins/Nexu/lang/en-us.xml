@@ -10,4 +10,8 @@
     <key alias="rebuildIdleStatusLabel">Idle</key>
     <key alias="rebuildProcessingStatusLabelFormat">Currently processing item %0%. %1% total items processed</key>
   </area>
+  <area alias="nexu">
+    <key alias="listviewDeleteIntro">The following items you are trying to delete are in use by other content.</key>
+    <key alias="listviewUnpublishIntro">The following items you are trying to unpublish are in use by other content.</key>
+  </area>
 </language>

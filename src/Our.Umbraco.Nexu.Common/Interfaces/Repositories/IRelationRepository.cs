@@ -32,5 +32,16 @@
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         IEnumerable<NexuRelation> GetIncomingRelationsForItem(Udi udi);
+
+        /// <summary>
+        /// Gets the items that are in use from a list of unique doc identifier
+        /// </summary>
+        /// <param name="udis">
+        /// The  list of unique doc identifier.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IList{T}"/>.
+        /// </returns>
+        IList<KeyValuePair<string, string>> GetUsedItemsFromList(IList<Udi> udis);
     }
 }

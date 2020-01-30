@@ -3,18 +3,20 @@
     </umb-load-indicator>
 
     <div class="umb-dialog-body" auto-scale="90" ng-hide="isLoading">
-       
+
         <div ng-if="!isLoading && links.length > 0">
-            <nexu-relation-list relations="links" show-language="showlanguage" items-per-page="itemsPerPage"/>
+            <nexu-relation-list relations="links" show-language="showlanguage" items-per-page="itemsPerPage" />
         </div>
 
-        <p class="umb-abstract">
-            <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong> ?
+        <p class="abstract">
+            <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong>?
         </p>
 
+        <div class="umb-alert umb-alert--warning">
+            <localize key="defaultdialogs_variantdeletewarning">This will delete the node and all its languages. If you only want to delete one language go and unpublish it instead.</localize>
+        </div>
 
-        <umb-confirm on-confirm="performDelete" on-cancel="cancel">
-        </umb-confirm>
+        <umb-confirm on-confirm="performDelete" confirm-button-style="danger" on-cancel="cancel"></umb-confirm>
 
 
 
