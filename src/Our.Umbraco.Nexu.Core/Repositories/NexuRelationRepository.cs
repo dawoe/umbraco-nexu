@@ -49,11 +49,11 @@
 
                     db.Delete<NexuRelation>(deleteSql);
 
-                    db.InsertBatch(relations);          
+                    db.BulkInsertRecords(relations);
 
                     transaction.Complete();
                 }      
-            }
+            }            
         }
 
         /// <inheritdoc />
