@@ -84,7 +84,6 @@
                 var udiStrings = udis.Select(x => x.ToString()).ToList();
 
                 var sql = new Sql<ISqlContext>(scope.SqlContext);
-               // sql.Where<NexuRelation>(x => x.ChildUdi.In(udiStrings));
                sql.Where<NexuRelation>(x => udiStrings.Contains(x.ChildUdi));
 
                 var relations = db.Fetch<NexuRelation>(sql).ToList();

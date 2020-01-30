@@ -6,7 +6,8 @@
         var apiUrl = Umbraco.Sys.ServerVariables.Nexu.RelationCheckApi;
 
         var resource = {
-            getIncomingLinks: getIncomingLinks
+            getIncomingLinks: getIncomingLinks,
+            checkLinkedItems: checkLinkedItems
         };
 
         return resource;
@@ -18,6 +19,19 @@
                 'Failed to get incoming links'
             );
         };
+
+        function checkLinkedItems(udis) {
+
+            var udiList = _.map(udis,
+                function (u) {
+                    return 'umb://document/' + u.key.replace(/-/g,'');
+                });
+
+            return umbRequestHelper.resourcePromise(
+                $http.post(apiUrl + 'CheckLinkedItems', JSON.stringify(udiList)),
+                'Failed to checked linked items'
+            );
+        }
 
     }
 
