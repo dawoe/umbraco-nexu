@@ -17,8 +17,7 @@
                     }
                 });
 
-               oldDelete();
-
+               
                 //var dialog = {
                 //    view: "views/propertyeditors/listview/overlays/delete.html",
                 //    deletesVariants: selectionHasVariants(),
