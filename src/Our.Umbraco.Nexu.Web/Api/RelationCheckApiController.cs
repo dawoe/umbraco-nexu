@@ -49,8 +49,17 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, relations);
         }
 
-        [HttpGet]
-        public HttpResponseMessage CheckLinkedItems(string[] udis)
+        /// <summary>
+        /// Checks a list of udi's for linked items
+        /// </summary>
+        /// <param name="udis">
+        /// The udis.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage CheckLinkedItems([FromBody] string[] udis)
         {
             var listUdis = new List<Udi>();
 
