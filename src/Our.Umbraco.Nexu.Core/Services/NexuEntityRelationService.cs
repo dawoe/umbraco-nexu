@@ -37,6 +37,8 @@
         /// </summary>
         private readonly IContentTypeService contentTypeService;
 
+        private readonly IMediaService mediaService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NexuEntityRelationService"/> class.
         /// </summary>
@@ -52,12 +54,14 @@
         /// <param name="contentTypeService">
         /// The content Type Service.
         /// </param>
-        public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService, IContentTypeService contentTypeService)
+        /// <param name="mediaService">The media service</param>
+        public NexuEntityRelationService(IRelationRepository relationRepository, ILocalizationService localizationService, IContentService contentService, IContentTypeService contentTypeService, IMediaService mediaService)
         {
             this.relationRepository = relationRepository;
             this.localizationService = localizationService;
             this.contentService = contentService;
             this.contentTypeService = contentTypeService;
+            this.mediaService = mediaService;
         }
 
         /// <inheritdoc />
@@ -156,29 +160,55 @@
           
             foreach (var relation in relations.Distinct())
             {
-                var content = this.contentService.GetById(GuidUdi.Parse(relation.Key).Guid);
+                var guidUdi = GuidUdi.Parse(relation.Key);
 
-                if (content != null)
+                if (guidUdi.EntityType == Constants.UdiEntityType.Document)
                 {
-                    var contentName = content.Name;
-                    var published = content.Published;
+                    var content = this.contentService.GetById(guidUdi.Guid);
 
-                    if (content.AvailableCultures.Any())
+                    if (content != null)
                     {
-                        contentName = content.GetCultureName(relation.Value);
-                        published = content.IsCulturePublished(relation.Value);
-                    }
+                        var contentName = content.Name;
+                        var published = content.Published;
 
-                    nexuRelationDisplayModels.Add(new NexuRelationDisplayModel
-                                                      {
-                                                          Culture = relation.Value,
-                                                          Id = content.Id,
-                                                          IsPublished = published,
-                                                          IsTrashed = content.Trashed,
-                                                          Key = content.Key,
-                                                          Name = contentName                                                          
-                                                      });
+                        if (content.AvailableCultures.Any())
+                        {
+                            contentName = content.GetCultureName(relation.Value);
+                            published = content.IsCulturePublished(relation.Value);
+                        }
+
+                        nexuRelationDisplayModels.Add(new NexuRelationDisplayModel
+                                                          {
+                                                              Culture = relation.Value,
+                                                              Id = content.Id,
+                                                              IsPublished = published,
+                                                              IsTrashed = content.Trashed,
+                                                              Key = content.Key,
+                                                              Name = contentName
+                                                          });
+                    }
                 }
+                else if (guidUdi.EntityType == Constants.UdiEntityType.Media)
+                {
+                    var media = this.mediaService.GetById(guidUdi.Guid);
+
+                    if (media != null)
+                    {
+                        if (nexuRelationDisplayModels.Any(x => x.Key == media.Key) == false)
+                        {
+                            nexuRelationDisplayModels.Add(new NexuRelationDisplayModel
+                                                              {
+                                                                  Culture = string.Empty,
+                                                                  Id = media.Id,
+                                                                  IsPublished = false,
+                                                                  IsTrashed = media.Trashed,
+                                                                  Key = media.Key,
+                                                                  Name = media.Name
+                                                              });
+                        }
+                        
+                    }
+                }                
             }
 
             return nexuRelationDisplayModels;
