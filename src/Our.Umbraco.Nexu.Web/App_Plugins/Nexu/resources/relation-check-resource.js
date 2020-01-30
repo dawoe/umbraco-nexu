@@ -20,11 +20,11 @@
             );
         };
 
-        function checkLinkedItems(udis) {
+        function checkLinkedItems(udis, isMedia) {
 
             var udiList = _.map(udis,
                 function (u) {
-                    return 'umb://document/' + u.key.replace(/-/g,'');
+                    return 'umb://' + (isMedia ? 'media' : 'document') + '/' + u.key.replace(/-/g,'');
                 });
 
             return umbRequestHelper.resourcePromise(
