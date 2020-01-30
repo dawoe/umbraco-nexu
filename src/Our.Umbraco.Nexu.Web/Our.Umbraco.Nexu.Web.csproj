@@ -248,12 +248,14 @@
   <ItemGroup>
     <Content Include="App_Plugins\Nexu\controllers\base-delete-controller.js" />
     <Content Include="App_Plugins\Nexu\controllers\content-delete-controller.js" />
+    <Content Include="App_Plugins\Nexu\controllers\listview-dialog-controller.js" />
     <Content Include="App_Plugins\Nexu\controllers\listview-controller.js" />
     <Content Include="App_Plugins\Nexu\controllers\media-delete-controller.js" />
     <Content Include="App_Plugins\Nexu\controllers\unpublish-controller.js" />
     <Content Include="App_Plugins\Nexu\decorators\controller-decorator.js" />
     <Content Include="App_Plugins\Nexu\styles\nexu.css" />
     <Content Include="App_Plugins\Nexu\views\content-delete.html" />
+    <Content Include="App_Plugins\Nexu\views\listview-dialog.html" />
     <Content Include="App_Plugins\Nexu\views\media-delete.html" />
     <Content Include="App_Plugins\Nexu\views\unpublish.html" />
     <None Include="app.config" />

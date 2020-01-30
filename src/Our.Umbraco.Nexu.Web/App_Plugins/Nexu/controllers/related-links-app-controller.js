@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function RelatedLinksAppController($scope, $location, appState) {
+    function RelatedLinksAppController($scope, appState) {
         var vm = this;
 
         vm.showLanguage = appState.getSectionState("currentSection") === 'media';
@@ -21,8 +21,7 @@
 
     angular.module('umbraco').controller('Our.Umbraco.Nexu.Controllers.RelatedLinksAppController',
         [
-            '$scope',
-            '$location',
+            '$scope',            
             'appState',
             RelatedLinksAppController
         ]);

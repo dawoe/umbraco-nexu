@@ -4,39 +4,29 @@
             // inherit core delete controller
             angular.extend(this, $controller('Umbraco.PropertyEditors.ListViewController', { $scope: $scope }));
 
-            oldDelete = $scope.delete;
+            var oldDelete = $scope.delete;
+
+            var dialog = {
+                view: "/App_Plugins/Nexu/views/listview-dialog.html",               
+                close: function () {
+                    overlayService.close();
+                }
+            };
 
             $scope.delete = function () {
 
                 
                 relationCheckResource.checkLinkedItems($scope.selection).then(function(data) {
                     if (data.length > 0) {
-
+                        localizationService.localize("general_delete").then(value => {
+                            dialog.title = value;
+                            dialog.items = data;
+                            overlayService.open(dialog);
+                        });
                     } else {
                         oldDelete();
                     }
-                });
-
-               
-                //var dialog = {
-                //    view: "views/propertyeditors/listview/overlays/delete.html",
-                //    deletesVariants: selectionHasVariants(),
-                //    isTrashed: $scope.isTrashed,
-                //    submitButtonLabelKey: "contentTypeEditor_yesDelete",
-                //    submitButtonStyle: "danger",
-                //    submit: function (model) {
-                //        performDelete();
-                //        overlayService.close();
-                //    },
-                //    close: function () {
-                //        overlayService.close();
-                //    }
-                //};
-
-                //localizationService.localize("general_delete").then(value => {
-                //    dialog.title = value;
-                //    overlayService.open(dialog);
-                //});
+                });                             
 
             };
 

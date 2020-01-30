@@ -13,6 +13,7 @@
     "~/App_Plugins/Nexu/controllers/content-delete-controller.js",
     "~/App_Plugins/Nexu/controllers/media-delete-controller.js",
     "~/App_Plugins/Nexu/controllers/listview-controller.js",
+    "~/App_Plugins/Nexu/controllers/listview-dialog-controller.js",
     "~/App_Plugins/Nexu/components/relation-list-component.js",
     "~/App_Plugins/Nexu/interceptors/interceptors.js",
     "~/App_Plugins/Nexu/decorators/controller-decorator.js"
