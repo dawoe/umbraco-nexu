@@ -6,6 +6,8 @@
 
             var oldDelete = $scope.delete;
 
+            var oldUnpublish = $scope.unpublish;
+
             var dialog = {
                 view: "/App_Plugins/Nexu/views/listview-dialog.html",               
                 close: function () {
@@ -14,22 +16,25 @@
             };
 
             $scope.delete = function () {
+                openDialog("general_delete", oldDelete);
+            };
 
-                
-                relationCheckResource.checkLinkedItems($scope.selection).then(function(data) {
+            $scope.unpublish = function() {
+                openDialog("content_unpublish", oldUnpublish);
+            }
+
+            function openDialog(titleKey, callBack) {
+                relationCheckResource.checkLinkedItems($scope.selection).then(function (data) {
                     if (data.length > 0) {
-                        localizationService.localize("general_delete").then(value => {
+                        localizationService.localize(titleKey).then(value => {
                             dialog.title = value;
                             dialog.items = data;
                             overlayService.open(dialog);
                         });
                     } else {
-                        oldDelete();
+                        callBack();
                     }
-                });                             
-
-            };
-
-            
+                });  
+            }
             
         }]);
