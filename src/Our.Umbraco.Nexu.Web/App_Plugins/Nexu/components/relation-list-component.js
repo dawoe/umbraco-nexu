@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-    function RelationListComponentController($scope, editorService, languageResource, navigationService, overlayService) {
+    function RelationListComponentController($scope, editorService, languageResource, navigationService, overlayService, localizationService) {
 		var vm = this;
 		
         vm.listitems = [];
@@ -83,13 +83,13 @@
                 var relation = this.relations[i];
 
                 for (var j = 0; j < relation.Properties.length; j++) {
-                    var status = 'Unpublished';
+                    var status = 'content_unpublished';
 
                     if (relation.IsTrashed) {
-                        status = 'Recycle bin';
+                        status = 'contentpicker_trashed';
                     }
                     else if (relation.IsPublished) {
-                        status = 'Published';
+                        status = 'content_published';
                     }
 
                     vm.listitems.push({
