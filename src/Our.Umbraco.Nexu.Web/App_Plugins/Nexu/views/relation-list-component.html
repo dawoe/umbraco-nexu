@@ -1,6 +1,6 @@
 ﻿<div>
     <p>
-    The current item is linked from one of the items below. Unpublishing or deleting this item will cause your site to have broken links or images
+        <localize key="nexu_relationListIntro"></localize>
     </p>
 </div>
 
@@ -8,19 +8,19 @@
     <div class="umb-table-head">
         <div class="umb-table-row">
             <div class="umb-table-cell not-fixed">
-                Item
+                <localize key="general_content"></localize>
             </div>
             <div class="umb-table-cell">
-                Property
+                <localize key="general_field"></localize>
             </div>
             <div class="umb-table-cell">
-                Group
+                <localize key="general_group"></localize>
             </div>
             <div class="umb-table-cell">
-                Status
+                <localize key="general_status"></localize>
             </div>
             <div class="umb-table-cell" ng-if="vm.showLanguageColumn">
-                Language
+                <localize key="general_language"></localize>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
                 {{item.tabname}}
             </div>
             <div class="umb-table-cell">
-                {{item.status}}
+                <localize key="{{item.status}}"></localize>               
             </div>
             <div class="umb-table-cell" ng-if="vm.showLanguageColumn">
                 <span ng-bind="vm.getLanguageLabel(item.language)"></span>
