@@ -75,5 +75,19 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, this.entityRelationService.GetUsedItemsFromList(listUdis));
         }
+
+        [HttpGet]
+        public HttpResponseMessage CheckDescendants(string udi)
+        {
+            var result = false;
+            GuidUdi guidUdi;
+
+            if (GuidUdi.TryParse(udi, out guidUdi))
+            {
+               result = this.entityRelationService.CheckLinksInDescendants(guidUdi);
+            }
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, result);
+        }
     }
 }

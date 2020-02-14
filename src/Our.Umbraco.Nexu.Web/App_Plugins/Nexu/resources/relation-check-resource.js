@@ -7,7 +7,8 @@
 
         var resource = {
             getIncomingLinks: getIncomingLinks,
-            checkLinkedItems: checkLinkedItems
+            checkLinkedItems: checkLinkedItems,
+            checkDescendants : checkDescendants,
         };
 
         return resource;
@@ -32,6 +33,14 @@
                 'Failed to checked linked items'
             );
         }
+
+        function checkDescendants(udi) {
+
+            return umbRequestHelper.resourcePromise(
+                $http.get(apiUrl + 'CheckDescendants?udi=' + udi),
+                'Failed to check descendants'
+            );
+        };
 
     }
 
