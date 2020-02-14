@@ -13,7 +13,7 @@
         function init() {
             service.checkRelations(editorState.current.udi).then(function (data) {
                 $scope.model.disableSubmitButton = false;
-                vm.relations = data;
+                vm.relations = data.relations;
                 vm.loading = false;
             });
 
