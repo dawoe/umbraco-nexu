@@ -7,6 +7,7 @@
 
         vm.loading = true;
         vm.relations = [];
+        vm.descendantsHaveLinks = false;
         vm.showLanguageColumn = false;
         $scope.model.disableSubmitButton = true;
 
@@ -14,6 +15,7 @@
             service.checkRelations(editorState.current.udi).then(function (data) {
                 $scope.model.disableSubmitButton = false;
                 vm.relations = data.relations;
+                vm.descendantsHaveLinks = data.descendantsUsed;
                 vm.loading = false;
             });
 

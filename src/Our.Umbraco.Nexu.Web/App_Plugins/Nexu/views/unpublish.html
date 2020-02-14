@@ -1,14 +1,18 @@
 ﻿<div ng-controller="Our.Umbraco.Nexu.Controllers.UnpublishController as vm">
-    
+
     <umb-load-indicator ng-if="vm.loading">
     </umb-load-indicator>
-    
+
     <div ng-if="!vm.loading && vm.relations.length > 0">
         <nexu-relation-list relations="vm.relations" />
     </div>
 
+    <div ng-if="!vm.loading && vm.descendantsHaveLinks" class="umb-alert">
+        One of the underlying items is in use
+    </div>
+
     <!-- 1 language -->
-    <div ng-if="vm.variants.length === 1 && !vm.loading" >
+    <div ng-if="vm.variants.length === 1 && !vm.loading">
         <p><localize key="prompt_confirmUnpublish"></localize></p>
     </div>
 
