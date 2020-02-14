@@ -8,6 +8,10 @@
             <nexu-relation-list relations="links" show-language="showlanguage" items-per-page="itemsPerPage" />
         </div>
 
+        <div ng-if="descendantsHaveLinks" class="umb-alert">
+            One of the underlying items is in use
+        </div>
+
         <p class="abstract">
             <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong>?
         </p>

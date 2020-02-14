@@ -17,6 +17,7 @@
 
             service.checkRelations($scope.currentNode.udi).then(function (result) {
                 $scope.links = result.relations;
+                $scope.descendantsHaveLinks = result.descendantsUsed;
 
                 $scope.isLoading = false;
 
