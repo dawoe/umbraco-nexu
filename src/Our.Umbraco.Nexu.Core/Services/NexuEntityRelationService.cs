@@ -213,5 +213,29 @@
 
             return nexuRelationDisplayModels;
         }
+
+        public bool CheckLinksInDescendants(GuidUdi rootId)
+        {
+            var content = this.contentService.GetById(rootId.Guid);
+
+            if(content != null)
+            {
+                var descendants = this.contentService.GetPagedDescendants(content.Id, 0, int.MaxValue, out long totalRecords).ToList();
+
+                if (descendants.Any())
+                {
+                    var udis = descendants.Select(x => (Udi)x.GetUdi()).ToList();
+
+                    var relations = this.relationRepository.GetUsedItemsFromList(udis);
+
+                    if (relations.Any())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

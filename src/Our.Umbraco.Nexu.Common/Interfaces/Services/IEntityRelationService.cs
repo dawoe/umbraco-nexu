@@ -24,5 +24,7 @@
 
 
         IList<NexuRelationDisplayModel> GetUsedItemsFromList(IList<Udi> udis);
+
+        bool CheckLinksInDescendants(GuidUdi rootId);
     }
 }
