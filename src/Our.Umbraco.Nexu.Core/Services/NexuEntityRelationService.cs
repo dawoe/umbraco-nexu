@@ -216,11 +216,45 @@
 
         public bool CheckLinksInDescendants(GuidUdi rootId)
         {
+            if(rootId.EntityType == "media")
+            {
+                return CheckMediaDescendants(rootId);
+            }
+
+            return CheckContentDescendants(rootId);
+        }
+
+        private bool CheckContentDescendants(GuidUdi rootId)
+        {
             var content = this.contentService.GetById(rootId.Guid);
 
-            if(content != null)
+            if (content != null)
             {
                 var descendants = this.contentService.GetPagedDescendants(content.Id, 0, int.MaxValue, out long totalRecords).ToList();
+
+                if (descendants.Any())
+                {
+                    var udis = descendants.Select(x => (Udi)x.GetUdi()).ToList();
+
+                    var relations = this.relationRepository.GetUsedItemsFromList(udis);
+
+                    if (relations.Any())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckMediaDescendants(GuidUdi rootId)
+        {
+            var media = this.mediaService.GetById(rootId.Guid);
+
+            if (media != null)
+            {
+                var descendants = this.mediaService.GetPagedDescendants(media.Id, 0, int.MaxValue, out long totalRecords).ToList();
 
                 if (descendants.Any())
                 {
