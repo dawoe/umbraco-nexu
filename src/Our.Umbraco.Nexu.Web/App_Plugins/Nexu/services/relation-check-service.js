@@ -13,8 +13,25 @@
 
             var deferred = $q.defer();
 
+            var result = {
+                relations  :[],
+                descendantsUsed : false
+            };
+
             resource.getIncomingLinks(udi).then(function (data) {
-                    deferred.resolve(data);
+
+                if (data.length > 0) {
+                    result.relations = data;
+                    deferred.resolve(result);
+                }
+                else {
+                    resource.checkDescendants(udi).then(function (data) {
+                        result.descendantsUsed = data;
+                        deferred.resolve(result);
+                    })
+                }
+                    
+                   
                 },
                 function () {
                     deferred.reject();
