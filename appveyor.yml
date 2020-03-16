@@ -9,7 +9,7 @@ branches:
     - master
 
 init:
-  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta 
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm 
 
 assembly_info:
   patch: true
