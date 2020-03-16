@@ -1,7 +1,7 @@
 image: Visual Studio 2017
 
 # Version format
-version: 2.0.0.{build}
+version: 2.1.0.{build}
 
 branches:
   only:
@@ -9,7 +9,7 @@ branches:
     - master
 
 init:
-  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm 
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta 
 
 assembly_info:
   patch: true
