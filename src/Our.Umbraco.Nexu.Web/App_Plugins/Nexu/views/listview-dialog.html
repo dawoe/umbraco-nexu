@@ -1,0 +1,43 @@
+﻿<div ng-controller="Our.Umbraco.Nexu.Controllers.ListViewDialogController as vm">
+    <p>
+        {{vm.intro}}
+    </p>
+    <div class="umb-table nexu-table" ng-if="vm.relations">
+        <div class="umb-table-head">
+            <div class="umb-table-row">
+                <div class="umb-table-cell not-fixed">
+                    <localize key="general_content"></localize>
+                </div>              
+                <div class="umb-table-cell">
+                    <localize key="general_language"></localize>
+                </div>
+            </div>
+        </div>
+
+        <div class="umb-table-body">
+
+            <div class="umb-table-row" ng-repeat="item in vm.pagedListItems" ng-click="vm.openContent(item)">
+                <div class="umb-table-cell not-fixed">
+                    {{item.Name}}
+                </div>                
+                <div class="umb-table-cell" >
+                    <span ng-bind="vm.getLanguageLabel(item.Culture)"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="umb-table-footer" ng-if="vm.totalPages > 1">
+            <div class="umb-table-row">
+                <div class="umb-table-cell not-fixed">
+                    <umb-pagination
+                        page-number="vm.currentPage"
+                        total-pages="vm.totalPages"
+                        on-next="vm.nextPage"
+                        on-prev="vm.prevPage"
+                        on-go-to-page="vm.goToPage">
+                    </umb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

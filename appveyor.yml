@@ -1,30 +1,39 @@
-environment:
-  my_email:
-    secure: R7dZ4m7gCp+NdEN+sUnfI9NsdMh/lvBNhdqsAGO/CWg=
-
-os: Visual Studio 2015
+image: Visual Studio 2017
 
 # Version format
-version: 1.7.5.{build}
-
-cache:
-  - Source\packages -> **\packages.config   # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+version: 2.0.0.{build}
 
 branches:
   only:
-    - develop-v7
+    - develop
     - master
-    
-# UMBRACO_PACKAGE_PRERELEASE_SUFFIX if a rtm release build this should be blank, otherwise if empty will default to alpha
-# example UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta
+
 init:
-  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=rtm  
+  - set UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta 
 
-test: 
-    assemblies:
-    - '**\Our.Umbraco.Nexu.*.Tests.dll'
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
 
-build_script:
+cache:
+  - src\packages -> **\packages.config   # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+
+platform: Any CPU
+
+configuration: Release
+
+before_build:
+    - nuget restore src
+
+build:
+  parallel: true                  
+  project: src\Our.Umbraco.Nexu.sln
+  verbosity: minimal
+
+after_build:
   - cd Packaging
   - build-appveyor.bat
 
@@ -42,7 +51,7 @@ deploy:
       secure: xuhyqGpLpjeK0tUansB6IVWy89Fw+yqGqCmCpVuAY1fnDjfYrxA/gVGNBh8oU0JA
     artifact: /.*\.nupkg/
     on:
-      branch: develop-v7
+      branch: develop
       
  # GitHub Deployment for releases
   - provider: GitHub
@@ -64,3 +73,4 @@ deploy:
     on:
       branch: master
       appveyor_repo_tag: true
+

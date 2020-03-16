@@ -19,17 +19,3 @@
 
 The documentation for this package can be found [here](docs/index.md)
 
-## Known issues ##
-At the moment there is a issue with bulk delete and unpublish actions in listviews. The issue has been logged. Until we find a fix it's best to disable this actions on the list views
-
-## Special thanks ##
-
-[Jeavon Leopold](https://twitter.com/crumpled_jeavon) for his help in setting up the build automation. Sorry for bugging you on Slack :-)
-
-And of course all the [contributors](https://github.com/dawoe/umbraco-nexu/graphs/contributors)
-
-## Support this package ##
-
-If you like this package and use it in your website, consider becoming a patreon to support ongoing maintenance
-
-[https://www.patreon.com/dawoe](https://t.co/TBsvTMnOLB)

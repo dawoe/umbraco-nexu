@@ -1,7 +1,0 @@
-﻿<div ng-controller="Our.Umbraco.Nexu.UnPublishConfirmationController" class="unpublish-confirmation">
-    <nexu-links links="links" link-clicked="hide" title="nexu_linksTitleContent"></nexu-links> 
-    <nexu-descendants-warning ng-if="descendantsHaveLinks"></nexu-descendants-warning>
-    <p><localize key="nexu_unpublishConfirmation">Are you sure you wish to unpublish</localize></p>    
-    <button ng-if="allowUnPublish" class="btn btn-warning" ng-click="publish(notification)"><localize key="general_ok">Ok</localize></button>
-    <button class="btn " ng-click="cancel(notification)"><localize key="general_cancel">Cancel</localize></button>
-</div>

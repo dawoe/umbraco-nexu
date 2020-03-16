@@ -28,20 +28,7 @@
   <Languages />
   <DataTypes />
 
-	<Actions>
-		<Action runat="install"  
-			alias="addDashboardSection" 
-			dashboardAlias="Our.Umbraco.Nexu">
-			 <section>
-				<areas>
-				  <area>developer</area>
-				</areas>
-				<tab caption="Nexu">
-				  <control>/App_Plugins/Nexu/views/dashboard.html</control>
-				</tab>
-			 </section>
-		 </Action>
-	</Actions>
+	<Actions/>
 	
 	<control />
 

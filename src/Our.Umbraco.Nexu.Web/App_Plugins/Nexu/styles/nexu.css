@@ -1,0 +1,7 @@
+﻿.nexu-table {
+    box-shadow: none !important;
+}
+
+    .nexu-table .umb-table-row {
+        cursor: pointer;
+    }

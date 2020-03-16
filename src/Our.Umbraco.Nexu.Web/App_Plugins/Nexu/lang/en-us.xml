@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<language>
+  <area alias="dashboardTabs">
+    <key alias="Our.Umbraco.Nexu.RebuildDashboard">Nexu</key>
+  </area>
+  <area alias="nexuDashboard">
+    <key alias="rebuildBoxTitle">Rebuild relations</key>
+    <key alias="rebuildBoxDescription">Rebuild entire relations database. Depending on the number of content items this may take a while.</key>
+    <key alias="rebuildButtonLabel">Rebuild</key>
+    <key alias="rebuildIdleStatusLabel">Idle</key>
+    <key alias="rebuildProcessingStatusLabelFormat">Currently processing item %0%. %1% total items processed</key>
+  </area>
+  <area alias="nexu">
+    <key alias="listviewDeleteIntro">The following items you are trying to delete are in use by other content.</key>
+    <key alias="listviewUnpublishIntro">The following items you are trying to unpublish are in use by other content.</key>
+    <key alias="relationListIntro">The current item is linked from one of the items below. Unpublishing or deleting this item will cause your site to have broken links or images.</key>
+    <key alias="descendantsWarning">One of the underlying items is in use. Deleting or unpublishing this page can cause broken links,pages or images on your website</key>
+  </area>
+</language>
