@@ -22,4 +22,10 @@
                 $scope.isLoading = false;
 
             });
+
+            $scope.$watch('success', function (newValue, oldValue) {
+                if (newValue === true) {
+                    $scope.close();
+                }
+            });
         }]);
