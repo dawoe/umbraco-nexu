@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTextParser.cs" />
+    <Compile Include="Community\SEOCheckerParser.cs" />
     <Compile Include="Core\ContentPickerParser.cs" />
     <Compile Include="Core\GridParser.cs" />
     <Compile Include="Core\MediaPickerParser.cs" />

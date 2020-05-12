@@ -191,6 +191,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Community\SEOCheckerParserTests.cs" />
     <Compile Include="Core\ContentPickerParserTests.cs" />
     <Compile Include="Core\GridParserTests.cs" />
     <Compile Include="Core\MediaPickerParserTests.cs" />
