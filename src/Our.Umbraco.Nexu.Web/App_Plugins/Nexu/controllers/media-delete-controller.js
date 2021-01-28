@@ -5,5 +5,5 @@
 
         // inherit base delete controller        
         angular.extend(this, $controller('Our.Umbraco.Nexu.BaseDeleteController', { $scope: $scope }));
-        
+
     }]);

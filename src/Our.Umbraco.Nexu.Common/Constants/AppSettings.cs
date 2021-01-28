@@ -13,6 +13,6 @@
         /// <summary>
         /// Prevent unpublish app setting
         /// </summary>
-        public const string PreventUnpublish = "nexu:PreventUnPublish";
+        public const string PreventUnpublish = "nexu:PreventUnpublish";
     }
 }
