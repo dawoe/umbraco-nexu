@@ -8,7 +8,7 @@
             <nexu-relation-list relations="links" show-language="showlanguage" items-per-page="itemsPerPage" />
         </div>
 
-        <p class="abstract">
+        <p class="abstract" ng-if="!preventDelete">
             <localize key="defaultdialogs_confirmdelete">Are you sure you want to delete</localize> <strong>{{currentNode.name}}</strong>?
         </p>
 
@@ -16,13 +16,14 @@
             <localize key="nexu_descendantsWarning"></localize>
         </div>
 
-        <div class="umb-alert umb-alert--warning">
+        <div class="umb-alert umb-alert--warning" ng-if="!preventDelete">
             <localize key="defaultdialogs_variantdeletewarning">This will delete the node and all its languages. If you only want to delete one language go and unpublish it instead.</localize>
         </div>
 
-        <umb-confirm on-confirm="performDelete" confirm-button-style="danger" on-cancel="cancel"></umb-confirm>
 
+        <umb-confirm ng-if="!preventDelete" on-confirm="performDelete" confirm-button-style="danger" on-cancel="cancel"></umb-confirm>
 
+        <umb-confirm ng-if="preventDelete" confirm-button-style="danger" on-cancel="cancel"></umb-confirm>
 
 
     </div>

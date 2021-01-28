@@ -13,9 +13,16 @@
 
         function init() {
             service.checkRelations(editorState.current.udi).then(function (data) {
-                $scope.model.disableSubmitButton = false;
                 vm.relations = data.relations;
                 vm.descendantsHaveLinks = data.descendantsUsed;
+                $scope.model.disableSubmitButton = false;
+
+                if (Umbraco.Sys.ServerVariables.Nexu.PreventUnPublish) {
+                    if (vm.relations.length > 0 || vm.descendantsHaveLinks) {
+                        $scope.model.disableSubmitButton = true;
+                    }
+                }
+
                 vm.loading = false;
             });
 

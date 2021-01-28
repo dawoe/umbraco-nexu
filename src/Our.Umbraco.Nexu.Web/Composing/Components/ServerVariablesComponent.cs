@@ -1,4 +1,6 @@
-﻿namespace Our.Umbraco.Nexu.Web.Composing.Components
+﻿using Our.Umbraco.Nexu.Common;
+
+namespace Our.Umbraco.Nexu.Web.Composing.Components
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -51,6 +53,8 @@
 
             urlDictionairy.Add("RebuildApi", urlHelper.GetUmbracoApiServiceBaseUrl<RebuildApiController>(c => c.GetRebuildStatus()));
             urlDictionairy.Add("RelationCheckApi", urlHelper.GetUmbracoApiServiceBaseUrl<RelationCheckApiController>(c => c.GetIncomingLinks(null)));
+            urlDictionairy.Add("PreventDelete", NexuContext.Current.PreventDelete);
+            urlDictionairy.Add("PreventUnPublish", NexuContext.Current.PreventUnPublish);
 
             if (!e.Keys.Contains("Nexu"))
             {

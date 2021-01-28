@@ -145,6 +145,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AppSettings.cs" />
     <Compile Include="Constants\DatabaseConstants.cs" />
     <Compile Include="Constants\RelationTypes.cs" />
     <Compile Include="Interfaces\Repositories\IRelationRepository.cs" />

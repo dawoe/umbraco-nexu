@@ -8,8 +8,8 @@
                 angular.extend(this, $controller('Umbraco.Editors.Content.DeleteController', { $scope: $scope }));
             }
 
-           
-            $scope.links = {};
+            $scope.preventDelete = false;
+           $scope.links = {};
             $scope.descendantsHaveLinks = false;
             $scope.isLoading = true;
             $scope.showlanguage = true;
@@ -18,6 +18,12 @@
             service.checkRelations($scope.currentNode.udi).then(function (result) {
                 $scope.links = result.relations;
                 $scope.descendantsHaveLinks = result.descendantsUsed;
+
+                if (Umbraco.Sys.ServerVariables.Nexu.PreventDelete) {
+                    if ($scope.links.length > 0 || $scope.descendantsHaveLinks) {
+                        $scope.preventDelete = true;
+                    }
+                }
 
                 $scope.isLoading = false;
 
