@@ -1,4 +1,7 @@
-﻿namespace Our.Umbraco.Nexu.Common
+﻿using System.Configuration;
+using Umbraco.Core;
+
+namespace Our.Umbraco.Nexu.Common
 {
     /// <summary>
     /// Represents the nexu context.
@@ -23,6 +26,8 @@
             this.isProcessing = false;
             this.itemInProgress = string.Empty;
             this.itemsProcessed = 0;
+            this.PreventDelete = this.GetAppSetting<bool>(Constants.AppSettings.PreventDelete, false);
+            this.PreventUnPublish = this.GetAppSetting<bool>(Constants.AppSettings.PreventUnpublish, false);
             instance = this;
         }
 
@@ -83,6 +88,51 @@
                     this.itemsProcessed = value;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether prevent delete.
+        /// </summary>
+        public bool PreventDelete { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether prevent un publish.
+        /// </summary>
+        public bool PreventUnPublish { get; set; }
+
+
+        /// <summary>
+        /// Gets the value of app setting 
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="defaultValue">The default value when the app setting is empty or not found.</param>
+        /// <typeparam name="T">
+        /// The return type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        private T GetAppSetting<T>(string key, T defaultValue)
+        {
+            var value = defaultValue;
+
+            var setting = ConfigurationManager.AppSettings[key];
+
+            if (setting == null)
+            {
+                return value;
+            }
+
+            var attempConvert = setting.TryConvertTo<T>();
+
+            if (attempConvert.Success)
+            {
+                value = attempConvert.Result;
+            }
+
+            return value;
         }
     }
 }
