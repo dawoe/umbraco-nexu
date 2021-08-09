@@ -150,6 +150,7 @@
     <Compile Include="Core\BlockListEditorParser.cs" />
     <Compile Include="Core\ContentPickerParser.cs" />
     <Compile Include="Core\GridParser.cs" />
+    <Compile Include="Core\MediaPicker3.cs" />
     <Compile Include="Core\MediaPickerParser.cs" />
     <Compile Include="Core\MultiNodeTreePickerParser.cs" />
     <Compile Include="Core\MultiUrlPickerParser.cs" />
