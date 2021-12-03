@@ -28,17 +28,25 @@
             foreach (var documentUdi in ParserUtilities.GetDocumentUdiFromText(value).ToList())
             {
                 relatedEntities.Add(new RelatedDocumentEntity
-                                        {
-                                            RelatedEntityUdi = documentUdi
-                                        });
+                {
+                    RelatedEntityUdi = documentUdi
+                });
             }
 
             foreach (var mediaUdi in ParserUtilities.GetMediaUdiFromText(value).ToList())
             {
                 relatedEntities.Add(new RelatedMediaEntity()
-                                        {
-                                            RelatedEntityUdi = mediaUdi
-                                        });
+                {
+                    RelatedEntityUdi = mediaUdi
+                });
+            }
+
+            foreach (var mediaKey in ParserUtilities.GetMediaKeyFromText(value).ToList())
+            {
+                relatedEntities.Add(new RelatedMediaEntity()
+                {
+                    RelatedEntityUdi = mediaKey
+                });
             }
 
             return relatedEntities;

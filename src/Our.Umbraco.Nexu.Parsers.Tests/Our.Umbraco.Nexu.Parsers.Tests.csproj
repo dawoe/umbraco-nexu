@@ -196,6 +196,7 @@
     <Compile Include="Core\GridParserTests.cs" />
     <Compile Include="Core\MediaPickerParserTests.cs" />
     <Compile Include="Core\MultiNodeTreePickerParserTests.cs" />
+    <Compile Include="Core\BlockListContentParserTests.cs" />
     <Compile Include="Core\NestedContentParserTests.cs" />
     <Compile Include="Core\MultiUrlPickerParserTests.cs" />
     <Compile Include="Core\RichTextEditorParserTests.cs" />
