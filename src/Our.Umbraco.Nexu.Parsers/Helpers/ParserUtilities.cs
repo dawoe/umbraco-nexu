@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
-
     using global::Umbraco.Core;
 
     /// <summary>
@@ -37,6 +36,29 @@
         public static IEnumerable<Udi> GetMediaUdiFromText(string text)
         {
             return GetUdiFromText(text, "umb://media/(.{32})");
+        }
+
+        /// <summary>
+        /// Gets all the media keys from a text
+        /// </summary>
+        /// <param name="text">
+        /// The text.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{Udi}"/>.
+        /// </returns>
+        public static IEnumerable<Udi> GetMediaKeyFromText(string text)
+        {
+            var udiList = new List<Udi>();
+
+            var udiMatches = Regex.Matches(text, @"mediaKey\\"": \\""(.{36})");
+
+            foreach (Match match in udiMatches)
+            {
+                udiList.Add(new StringUdi("media", match.Value.Substring(14).Replace("-", "")));
+            }
+
+            return udiList.DistinctBy(x => x.ToString());
         }
 
         /// <summary>
